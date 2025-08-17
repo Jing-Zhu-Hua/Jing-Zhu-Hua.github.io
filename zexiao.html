@@ -90,8 +90,27 @@
       padding: 20px;
       margin-top: 40px;
     }
+
+    /* ====== 移动端优化 ====== */
+    img, table {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      body { font-size: 14px; }
+      header { padding: 20px 10px; }
+      section { margin: 20px 10px; padding: 16px; }
+      .projects {
+        grid-template-columns: 1fr; /* 手机端单列显示项目 */
+        gap: 12px;
+      }
+      .project { padding: 12px; }
+      .sample-img { margin-top: 8px; }
+    }
   </style>
 </head>
+
 <body>
 
   <header>

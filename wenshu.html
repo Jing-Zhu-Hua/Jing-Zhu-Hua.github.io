@@ -88,6 +88,34 @@
       display:inline-block; padding:2px 8px; border:1px solid rgba(255,255,255,.6);
       border-radius:999px; font-size:.85rem; margin-left:8px;
     }
+
+    /* ====== 移动端优化 ====== */
+    img, table {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        font-size: 14px;
+      }
+      header h1 {
+        font-size: 1.5rem;
+      }
+      section {
+        margin: 20px 10px;
+        padding: 16px;
+      }
+      .projects {
+        gap: 12px;
+      }
+      .project {
+        padding: 12px;
+      }
+      .img-wrap {
+        gap: 10px;
+      }
+    }
   </style>
 </head>
 <body>
