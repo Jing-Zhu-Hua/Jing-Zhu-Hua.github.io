@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的个人网站</title>
+  <style>
+   body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  /* 浅蓝渐变 + 细微斜线纹理 */
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.03),
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    linear-gradient(180deg, #1A2A45 0%, #3B5A8A 100%);
+  color: #E0E0E0;
+  line-height: 1.6;
+}
+
+header {
+  background: #2A466C; /* 略浅蓝，头部分层感 */
+  color: #F0F0F0;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+section {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: rgba(42,70,108,0.85); /* 半透明高贵蓝 */
+  border-radius: 12px;
+}
+
+h2 {
+  border-bottom: 2px solid #E0E0E0;
+  padding-bottom: 5px;
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.project {
+  background: #3B5A8A; /* 卡片略亮蓝 */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+footer {
+  background: #2A466C;
+  color: #F0F0F0;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🎋您好，我是Jing竹花</h1>
+    <p>一个热衷于做留学咨询与个人成长扶持的持续学习者</p>
+  </header>
+
+  <section>
+    <h2>关于我</h2>
+    <p>本211diy自申港大、曼大、新国立均拿offer，已留学完毕归来，目前是一名留学工作室的创办者；<br>
+深耕留学行业近5年，为保质每年接收不超过15名学生，熟悉英、港、澳、新、欧等国家的申请全流程；<br>
+年均上岸率为93.3%，平均每位同学拿到2张offer，以下是我的工作成果介绍~</p>
+  </section>
+
+  <section>
+  <h2>作品展示</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>💐择校服务</h3>
+      <p>根据您的需求进行专业遴选；</p>
+    </div>
+    <div class="project">
+      <h3>🎏文书撰写</h3>
+      <p>CV/PS/RL的个性化产出；</p>
+    </div>
+    <div class="project">
+      <h3>🎐Offer案例</h3>
+      <p>过往学生录取信息与评价；</p>
+    </div>
+  </div>
+</section>
+
+
+  <section>
+    <h2>联系方式</h2>
+    <p>📧 邮箱：littlepo_office@163.com</p>
+    <p>📱 微信：PiousBelieverinLove</p>
+  </section>
+
+  <footer>
+    <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
+  </footer>
+
+</body>
+</html>
