@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💐择校服务</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0; padding: 0;
+      /* 深蓝渐变 + 明显斜线纹理 */
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,255,255,0.05),
+          rgba(255,255,255,0.05) 2px,
+          transparent 2px,
+          transparent 25px
+        ),
+        linear-gradient(180deg, #1a2a4f 0%, #2e4b8a 100%);
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    header {
+      background: rgba(40,70,120,0.85);
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    section {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    section:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      border-bottom: 2px solid rgba(255,255,255,0.7);
+      padding-bottom: 5px;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .project {
+      background: rgba(50,90,150,0.85);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .project h3 {
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+    }
+
+    .project:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    }
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .sample-img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    footer {
+      background: rgba(40,70,120,0.85);
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>💐择校服务</h1>
+    <p>Well begun is half done.</p>
+    <p><a href="index.html">返回首页</a></p>
+  </header>
+
+  <section>
+    <h2>🎠服务流程 - Service Procedure</h2>
+    <p>1. 确认申请区域与个数 → 2. 付款 → 3. 于共享文档填写个人信息（院校、绩点、实习等） → 4. 遍历所有学校并对比过往上岸学生background后产出表格 → 5. 学生确认 → 6. 后续辅导</p>
+  </section>
+
+  <section>
+    <h2>🎐价格 - Price</h2>
+    <p>200元/个专业</p>
+  </section>
+
+  <section>
+    <h2>🎏案例示例 - Sample Case</h2>
+    <p>往期学生择校表samples：</p>
+    <img src="example1.jpg" alt="学生案例示例" class="sample-img">
+  </section>
+
+  <footer>
+    <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
+  </footer>
+
+</body>
+</html>
