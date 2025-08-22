@@ -1,136 +1,256 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人网页</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jing_Zhu_Hua_Offcial_Web</title>
 
-    <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(180deg, #a890c0, #6f5ca8); /* 淡紫色渐变 */
-      color: #fff;
-      line-height: 1.6;
-    }
+<style>
+/* ===== 主体样式 ===== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  font-size:14px;
+  line-height:1.6;
+  overflow-x:hidden;
+  background: linear-gradient(180deg,#a890c0 0%,#6f5ca8 100%);
+  position: relative;
+}
 
-    header {
-      background: rgba(90, 65, 120, 0.9);
-      color: #fff;
-      padding: 30px 20px;
-      text-align: center;
-    }
+/* ===== canvas 光点 ===== */
+canvas.bg-canvas {
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none;
+  z-index:0;
+}
 
-    section {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
-      backdrop-filter: blur(8px);
-    }
+/* ===== 顶部 header ===== */
+header{
+  text-align: center;
+  padding: 40px 20px 20px 20px;
+  position: relative;
+  z-index:1;
+}
 
-    h2 {
-      border-bottom: 2px solid #fff;
-      padding-bottom: 5px;
-    }
+header h1{
+  margin:0;
+  font-size:2.4rem;
+  letter-spacing:1px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
 
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
+header p{
+  margin:8px 0;
+  font-size:1rem;
+  line-height:1.5;
+}
 
-    .project {
-      background: rgba(255,255,255,0.1);
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.3s, box-shadow 0.3s;
-      text-align: center;
-    }
+/* 特别强调的句子外框 */
+.highlight{
+  display:inline-block;
+  background: rgba(255,255,255,0.15); /* 仅保留朦胧白底色 */
+  backdrop-filter: blur(4px);
+  padding:8px 16px;
+  border-radius:25px;
+  margin-top:10px;
+  font-weight:normal;
+  font-size:0.7rem;
+  color:#fff;
+  text-shadow: none;
+}
 
-    .project:hover {
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    }
+/* ===== 浮块样式 ===== */
+section{
+  position: relative;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index:1;
+}
 
-    a { text-decoration: none; color: inherit; }
+h2{
+  border-bottom:2px solid #fff;
+  padding-bottom:6px;
+  margin-top:0;
+  font-size:1.2rem; /* 小标题字体缩小 */
+}
 
-    footer {
-      background: rgba(90, 65, 120, 0.9);
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-    }
+/* 作品展示 */
+.projects{
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;
+  margin-top:12px;
+}
 
-    /* 移动端自适应优化 */
-    img, table {
-      max-width: 100%;
-      height: auto;
-    }
+.project{
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.4));
+  padding:10px;
+  height:120px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  transition: transform .3s, box-shadow .3s, background .5s;
+  text-align: center;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-    @media (max-width: 768px) {
-      body {
-        font-size: 14px;
-      }
-      section {
-        margin: 20px 10px;
-        padding: 15px;
-      }
-    }
-    </style>
+.project h3{
+  margin:0 0 6px 0;
+  text-shadow:1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.project p{
+  margin:0;
+  font-size:0.9rem;
+}
+
+/* 悬停效果渐变明显且保持 */
+.project:hover,
+.project:active,
+.project:focus,
+.project.touch-hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.15));
+}
+
+a{ color:#fff; text-decoration:none; }
+
+/* ===== footer ===== */
+footer{
+  text-align: center;
+  padding:16px 10px;
+  margin-top:10px;
+}
+
+img, table { max-width: 100%; height: auto; }
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+  header h1 { font-size: 1.6rem; }
+  section { margin: 12px 10px; padding: 10px; }
+  h2 { font-size:1rem; } /* 移动端小标题更小 */
+  .projects { gap:12px; }
+  .project { padding:8px; height:110px; }
+}
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>🎋您好，我是Jing竹花</h1>
-    <p>一个热衷于做留学咨询与个人成长扶持的持续学习者</p>
-  </header>
+<canvas class="bg-canvas"></canvas>
 
-  <section>
-    <h2>关于我</h2>
-    <p>本211diy自申港大、曼大、新国立均拿offer，已留学完毕归来，目前是一名留学工作室的创办者；<br>
-    深耕留学行业近5年，为保质每年接收不超过15名学生，熟悉英、港、澳、新、欧等国家的申请全流程；<br>
-    年均上岸率为93.3%，平均每位同学拿到2张offer，以下是我的工作流程与成果的介绍~</p>
-  </section>
+<header>
+  <h1>🎋您好，我是Jing竹花</h1>
+  <p>Welcome to my personal web.</p>
+  <p class="highlight">一个热衷于做留学咨询与个人成长扶持的持续学习者</p>
+</header>
 
-  <section>
-    <h2>作品展示</h2>
-    <div class="projects">
-      <a href="zexiao.html">
-        <div class="project">
-          <h3>💐择校服务</h3>
-          <p>根据您的需求进行专业遴选；</p>
-        </div>
-      </a>
-      <a href="wenshu.html">
-        <div class="project">
-          <h3>🎏文书撰写</h3>
-          <p>CV/PS/RL的个性化产出；</p>
-        </div>
-      </a>
-      <a href="offer.html">
-        <div class="project">
-          <h3>🎐Offer案例</h3>
-          <p>过往学生录取信息与评价；</p>
-        </div>
-      </a>
-    </div>
-  </section>
+<section class="about-me">
+  <h2>关于我 - About Me</h2>
+  <p>· 本211diy自申港大、曼大、新国立均拿offer，已留学完毕归来，目前是一名留学工作室的创办者；<br>
+  · 深耕留学行业近5年，为保质每年接收不超过15名学生，熟悉英、港、澳、新、欧等国家的申请全流程；<br>
+  · 年均上岸率为93.3%，平均每位同学拿到2张offer，以下是我的工作流程与成果的介绍~</p>
+</section>
 
-  <section>
-    <h2>联系方式</h2>
-    <p>📧 邮箱：littlepo_office@163.com</p>
-    <p>📱 微信：PiousBelieverinLove</p>
-  </section>
+<section>
+  <h2>作品展示 - Projects Showcase</h2>
+  <div class="projects">
+    <a href="zexiao.html">
+      <div class="project">
+        <h3>💐择校服务</h3>
+        <p>根据您的需求进行专业遴选；</p>
+      </div>
+    </a>
+    <a href="wenshu.html">
+      <div class="project">
+        <h3>🎏文书撰写</h3>
+        <p>CV/PS/RL的个性化产出；</p>
+      </div>
+    </a>
+    <a href="offer.html">
+      <div class="project">
+        <h3>🎐Offer案例</h3>
+        <p>过往学生录取信息与评价；</p>
+      </div>
+    </a>
+  </div>
+</section>
 
-  <footer>
-    <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
-  </footer>
+<section>
+  <h2>联系方式 - Contact Details</h2>
+  <p>📧 邮箱：littlepo_office@163.com</p>
+  <p>📱 微信：PiousBelieverinLove</p>
+</section>
+
+<footer>
+  <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
+</footer>
+
+<script>
+/* ===== 漂浮光点动画 ===== */
+function initFloatingLights(canvasSelector, particleCount=50){
+  const canvases = document.querySelectorAll(canvasSelector);
+  canvases.forEach(canvas=>{
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = canvas.offsetWidth;
+    let h = canvas.height = canvas.offsetHeight;
+    
+    const particles = [];
+    for(let i=0;i<particleCount;i++){
+      particles.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: Math.random()*2+1,
+        dx: (Math.random()-0.5)*0.3,
+        dy: (Math.random()-0.5)*0.3,
+        alpha: Math.random()*0.5+0.1
+      });
+    }
+
+    function animate(){
+      ctx.clearRect(0,0,w,h);
+      particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if(p.x<0||p.x>w) p.dx*=-1;
+        if(p.y<0||p.y>h) p.dy*=-1;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize',()=>{ 
+      w=canvas.width=canvas.offsetWidth; 
+      h=canvas.height=canvas.offsetHeight; 
+    });
+  });
+}
+initFloatingLights('canvas.bg-canvas', 50);
+
+/* ===== 移动端触控悬停 ===== */
+document.querySelectorAll('.project').forEach(el=>{
+  el.addEventListener('touchstart', ()=>{
+    el.classList.add('touch-hover');
+  });
+  el.addEventListener('touchend', ()=>{
+    el.classList.remove('touch-hover');
+  });
+});
+</script>
 
 </body>
 </html>
-

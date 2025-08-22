@@ -1,303 +1,441 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🎏文书撰写</title>
-  <style>
-    body{
-      font-family: Arial, sans-serif;
-      margin:0;padding:0;
-      /* 深蓝渐变 + 明显斜线花纹 */
-      background:
-        repeating-linear-gradient(
-          45deg,
-          rgba(255,255,255,0.03),
-          rgba(255,255,255,0.03) 2px,
-          transparent 2px,
-          transparent 25px
-        ),
-        linear-gradient(180deg,#1A2A45 0%,#3B5A8A 100%);
-      color:#fff; line-height:1.6;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎏文书撰写</title>
 
-    header{
-      background: rgba(30,50,90,0.9);
-      padding:30px 20px; text-align:center;
-    }
-    header h1{ margin:0; font-size:2rem; }
-    header p a{ color:#fff; text-decoration:underline; }
+<style>
+/* ===== 主体样式 ===== */
+body {
+  margin: 0; padding: 0;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  font-size:14px;
+  line-height:1.6;
+  overflow-x:hidden;
+  background: linear-gradient(180deg,#1A2A45 0%,#3B5A8A 100%);
+  position: relative;
+}
 
-    section{
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 24px;
-      background: rgba(42,70,108,0.85); /* 半透明深蓝 */
-      border-radius: 12px;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
+/* ===== canvas 光点 ===== */
+canvas.bg-canvas {
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none;
+  z-index:0;
+}
 
-    h2{
-      border-bottom:2px solid #fff;
-      padding-bottom:6px; margin-top:0;
-    }
+/* ===== 顶部版头 ===== */
+header {
+  position: relative;
+  background: linear-gradient(180deg, rgba(59,90,138,0.85), rgba(26,42,69,0.85));
+  padding: 30px 20px;
+  text-align: center;
+  overflow: hidden;
+}
 
-    .projects{
-      display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
-      gap:20px; margin-top:16px;
-    }
+header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+}
 
-    .project{
-      background: rgba(70,100,180,0.85); /* 略亮深蓝，区分背景 */
-      padding:16px; border-radius:10px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.3);
-      transition: transform .3s, box-shadow .3s;
-    }
-    .project h3{
-      margin:0 0 8px 0;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.6); /* 标题轻微阴影 */
-    }
-    .project:hover{
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-    }
+header .subtitle {
+  margin-top: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
 
-    .project ul{ margin:0 0 8px 18px; }
-    .muted{ opacity:.9; }
+header .tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+}
 
-    .img-wrap{
-      display:grid; gap:14px; margin-top:10px;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-    }
-    .img-wrap img{
-      width:100%; border-radius:8px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.35);
-    }
+header a {
+  color: #fff;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+header a:hover { color: #87CEFA; }
 
-    a{ color:#fff; text-decoration:underline; }
+/* ===== 浮块样式 ===== */
+section{
+  position: relative;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 24px;
+  background: rgba(20,40,70,0.85);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index:1;
+}
 
-    footer{
-      background: rgba(30,50,90,0.9);
-      text-align:center; padding:20px; margin-top:40px;
-    }
+h2{
+  border-bottom:2px solid #fff;
+  padding-bottom:6px; margin-top:0;
+}
 
-    /* 小提示徽章 */
-    .tag{
-      display:inline-block; padding:2px 8px; border:1px solid rgba(255,255,255,.6);
-      border-radius:999px; font-size:.85rem; margin-left:8px;
-    }
+.projects{
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+  gap:20px; margin-top:16px;
+}
 
-    /* ====== 移动端优化 ====== */
-    img, table {
-      max-width: 100%;
-      height: auto;
-    }
+.project{
+  background: rgba(50, 80, 110, 0.7);
+  padding:16px; 
+  border-radius:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  transition: transform .3s, box-shadow .3s, background .3s; /* 增加 background 过渡 */
+}
+.project h3{
+  margin:0 0 8px 0;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+  
+.project:hover{
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, rgba(70,120,180,0.85), rgba(40,80,140,0.85));
+}
 
-    @media (max-width: 768px) {
-      body {
-        font-size: 14px;
-      }
-      header h1 {
-        font-size: 1.5rem;
-      }
-      section {
-        margin: 20px 10px;
-        padding: 16px;
-      }
-      .projects {
-        gap: 12px;
-      }
-      .project {
-        padding: 12px;
-      }
-      .img-wrap {
-        gap: 10px;
-      }
-    }
-  </style>
+.project ul{ margin:0 0 8px 18px; }
+.muted{ opacity:.9; }
+
+.img-wrap{
+  display:grid; gap:14px; margin-top:10px;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+}
+.img-wrap img{
+  width:100%; border-radius:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.35);
+}
+
+a{ color:#fff; text-decoration:underline; }
+
+/* ===== 底部 footer ===== */
+footer {
+  position: relative;
+  background: linear-gradient(180deg, rgba(59,90,138,0.85), rgba(26,42,69,0.85));
+  text-align: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.tag{
+  display:inline-block; padding:2px 8px; border:1px solid rgba(255,255,255,.6);
+  border-radius:999px; font-size:.85rem; margin-left:8px;
+}
+
+img, table { max-width: 100%; height: auto; }
+
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+  header h1 { font-size: 1.5rem; }
+  section { margin: 20px 10px; padding: 16px; }
+  .projects { gap: 12px; }
+  .project { padding: 12px; }
+  .img-wrap { gap: 10px; }
+}
+
+/* ===== 轮播样式 ===== */
+.slider-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  z-index: 2; /* 保证轮播显示在光点上层 */
+}
+
+.slider-wrapper {
+  display:flex;
+  transition: transform 0.5s ease;
+}
+
+.slider-wrapper img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  display:block;
+  margin: 0 auto;
+  border-radius: 12px;
+  cursor:pointer;
+}
+
+.nav-btn {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:28px; height:28px;
+  background: rgba(20,40,70,0.6); 
+  color:#fff;
+  border:none; border-radius:50%;
+  font-size:1.1rem;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  transition: all 0.3s ease; z-index:3;
+}
+.nav-btn:hover { background: rgba(40,70,120,0.8); transform: translateY(-50%) scale(1.2); }
+.prev { left:10px; } .next { right:10px; }
+
+.dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display:flex; gap:6px;
+}
+.dot {
+  width:8px; height:8px;
+  border-radius:50%;
+  background: rgba(20,40,70,0.5);
+  cursor:pointer;
+  transition: all 0.3s;
+}
+.dot.active { background:#87CEFA; transform:scale(1.2); }
+#img-modal {
+  position: fixed; z-index:999; left:0; top:0;
+  width:100%; height:100%; display:none;
+  background-color: rgba(0,0,0,0.85);
+  justify-content:center; align-items:center;
+}
+#img-modal img { max-width:90%; max-height:90%; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.7); }
+#close-modal { position:absolute; top:20px; right:30px; font-size:3rem; color:#fff; cursor:pointer; }
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>🎏文书撰写</h1>
-    <p>Words are my way of experiencing the world. <br>  <br><span class="tag">一对一个性化书写</span></p>
-    <p><a href="index.html">返回首页</a></p>
-  </header>
+<!-- 主背景光点 -->
+<canvas class="bg-canvas"></canvas>
 
-  <!-- 服务内容 -->
-  <section>
-    <h2>服务内容 - Service Content </h2>
-    <div class="projects">
-      <div class="project">
-        <h3>📄 简历 - Curriculum Vitae</h3>
-        <ul>
-          <li>加强专业相关度、深化术语、量化成果</li>
-          <li>统一结构与版式，关键信息前置</li>
-          <li>中英双语润色，ATS友好</li>
-        </ul>
-        <p class="muted">交付：深化思路（Word/Google Docs）+ PDF 定稿</p>
-      </div>
+<header>
+  <h1>🎏文书撰写</h1>
+  <p class="subtitle">
+    Words are my way of experiencing the world.
+    <br>
+    <span class="tag">一对一个性化书写</span>
+  </p>
+  <p><a href="index.html">返回首页</a></p>
+  <canvas class="bg-canvas"></canvas>
+</header>
 
-      <div class="project">
-        <h3>🔖 个人陈述 - Personal Statement</h3>
-        <ul>
-          <li>拆解申请专业的课程描述并标记重点</li>
-          <li>Brain Storm一对一访谈挖掘素材，梳理Storyline</li>
-          <li>差异化思考+亮点塑造，避免模板化</li>
-        </ul>
-        <p class="muted">交付：Xmind写作逻辑思维导图 + PDF定稿</p>
-      </div>
-
-      <div class="project">
-        <h3>📮 推荐信 - Reference Letter</h3>
-        <ul>
-          <li>定位推荐人关系、职责与佐证材料</li>
-          <li>匹配专业要求、refresh候选亮点</li>
-          <li>措辞规范、避免敏感与重复</li>
-        </ul>
-        <p class="muted">交付：写作思路（Word/Google Docs）+ PDF 定稿</p>
-      </div>
+<section>
+  <h2>服务内容 - Service Content </h2>
+  <div class="projects">
+    <div class="project">
+      <h3>📄 简历 - Curriculum Vitae</h3>
+      <ul>
+        <li>加强专业相关度、深化术语、量化成果</li>
+        <li>统一结构与版式，关键信息前置</li>
+        <li>中英双语润色，ATS友好</li>
+      </ul>
+      <p class="muted">交付：深化思路（Word/Google Docs）+ PDF 定稿</p>
     </div>
-  </section>
 
-  <!-- 流程与价格 -->
-  <section>
-    <h2>流程与价格 - Workflow & Pricing</h2>
-    <div class="projects">
-      <div class="project">
-        <h3>🧩 服务流程</h3>
-        <p>1. 确定专业 → 2. 付款 → 3.拆解专业课程项目并规整为共享文档，对重点进行highlight → 4. 深度访谈与资料收集 → 5. 初稿撰写 → 6. 学生提出修改建议 → 7. 定稿与翻译规整</p>
-      </div>
-
-      <div class="project">
-        <h3>💸 价格区间</h3>
-        <ul>
-          <li>CV：<b>¥1200</b> /份</li>
-          <li>PS：<b>¥2.5-3k</b> /篇（同方向可取交集点写，每多交集一篇+500r）</li>
-          <li>RL：<b>¥800</b> /封</li>
-          <li>打包套餐：<b>¥2500</b>（CV+RL*2）</li>
-        </ul>
-        <p class="muted">* 实际价格以复杂度与周期为准</p>
-      </div>
-
-      <div class="project">
-        <h3>⏱️ 时间与协作</h3>
-        <ul>
-          <li>普通周期：2–7 天 / 件（含修改）</li>
-          <li>急单：可加急安排（视档期）</li>
-          <li>协作：微信 + 腾讯共享文档实时跟进</li>
-        </ul>
-      </div>
+    <div class="project">
+      <h3>🔖 个人陈述 - Personal Statement</h3>
+      <ul>
+        <li>拆解申请专业的课程描述并标记重点</li>
+        <li>Brain Storm一对一访谈挖掘素材，梳理Storyline</li>
+        <li>差异化思考+亮点塑造，避免模板化</li>
+      </ul>
+      <p class="muted">交付：Xmind写作逻辑思维导图 + PDF定稿</p>
     </div>
-  </section>
 
-  <!-- 示例与图片位 -->
+    <div class="project">
+      <h3>📮 推荐信 - Reference Letter</h3>
+      <ul>
+        <li>定位推荐人关系、职责与佐证材料</li>
+        <li>匹配专业要求、refresh候选亮点</li>
+        <li>措辞规范、避免敏感与重复</li>
+      </ul>
+      <p class="muted">交付：写作思路（Word/Google Docs）+ PDF 定稿</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>流程与价格 - Workflow & Pricing</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>🧩 服务流程</h3>
+      <p>1. 确定专业 → 2. 付款 → 3.拆解专业课程项目并规整为共享文档，对重点进行highlight → 4. 深度访谈与资料收集 → 5. 初稿撰写 → 6. 学生提出修改建议 → 7. 定稿与翻译规整</p>
+    </div>
+
+    <div class="project">
+      <h3>💸 价格区间</h3>
+      <ul>
+        <li>CV：<b>¥1200</b> /份</li>
+        <li>PS：<b>¥2.5-3k</b> /篇（同方向可取交集点写，每多交集一篇+500r）</li>
+        <li>RL：<b>¥800</b> /封</li>
+        <li>打包套餐：<b>¥2500</b>（CV+RL*2）</li>
+      </ul>
+      <p class="muted">* 实际价格以复杂度与周期为准</p>
+    </div>
+
+    <div class="project">
+      <h3>⏱️ 时间与协作</h3>
+      <ul>
+        <li>普通周期：3–7 天 / 件（含修改）</li>
+        <li>急单：可加急安排（视档期）</li>
+        <li>协作：微信 + 腾讯共享文档实时跟进</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section>
   <h2>文书节选 - Writing Sample</h2>
-  <div class="img-wrap">
-    <img src="my_ps.jpg" alt="CV 样例" class="preview-img">
+  <div class="slider-container">
+    <div class="slider-wrapper" id="slider">
+      <img src="my_ps.jpg" alt="CV 样例">
+      <img src="my_cv.jpg" alt="PS 样例">
+      <img src="my_rl.jpg" alt="RL 样例">
+    </div>
+    <button class="nav-btn prev" id="prevBtn">‹</button>
+    <button class="nav-btn next" id="nextBtn">›</button>
+    <div class="dots" id="dots"></div>
   </div>
 
-  <!-- 放大预览容器 -->
-  <div id="img-modal" style="display:none;">
+  <div id="img-modal">
     <span id="close-modal">&times;</span>
     <img id="modal-img" src="" alt="">
   </div>
 </section>
 
-<style>
-  /* 放大容器 */
-  #img-modal {
-    position: fixed;
-    z-index: 999;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+<section>
+  <h2>常见问答 - FAQ</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>📌 Q：会不会与ta人撞稿？</h3>
+      <p>100%不会，所有文书内容基于您的真实经历一对一定制，绝不会套用模板复写，我将把写作思路一同给您；</p>
+    </div>
+    <div class="project">
+      <h3>📌 Q：英文润色的标准？</h3>
+      <p>遵循学术与招生语域，确保语法、用词与连贯性，必要时会参考文献以书写；</p>
+    </div>
+    <div class="project">
+      <h3>📌 Q：隐私如何保障？</h3>
+      <p>您的所有资料仅用于本次申请撰写，不做外部分享或训练用途，请您放心。</p>
+    </div>
+  </div>
+</section>
 
-  #img-modal img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-  }
+<section>
+  <h2>联系方式 - Contact Details</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>📧 E-mail</h3>
+      <p>littlepo_office@163.com</p>
+    </div>
+    <div class="project">
+      <h3>📱 Wechat</h3>
+      <p>PiousBelieverinLove</p>
+    </div>
+    <div class="project">
+      <h3>📮 提交资料</h3>
+      <p>建议以 PDF/Word 形式发送现有的个人相关资料，便于快速评估与报价。</p>
+    </div>
+  </div>
+</section>
 
-  #close-modal {
-    position: absolute;
-    top: 20px; right: 30px;
-    font-size: 3rem;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  /* 鼠标悬停提示 */
-  .preview-img { cursor: pointer; transition: transform .3s; }
-  .preview-img:hover { transform: scale(1.05); }
-</style>
+<footer>
+  <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
+  <canvas class="bg-canvas"></canvas>
+</footer>
 
 <script>
-  const modal = document.getElementById('img-modal');
-  const modalImg = document.getElementById('modal-img');
-  const closeBtn = document.getElementById('close-modal');
+/* ===== 漂浮光点统一管理 ===== */
+function initFloatingLights(canvasSelector, particleCount=40){
+  const canvases = document.querySelectorAll(canvasSelector);
+  canvases.forEach(canvas=>{
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = canvas.offsetWidth;
+    let h = canvas.height = canvas.offsetHeight;
+    
+    const particles = [];
+    for(let i=0;i<particleCount;i++){
+      particles.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: Math.random()*3+1,
+        dx: (Math.random()-0.5)*0.4,
+        dy: (Math.random()-0.5)*0.4,
+        alpha: Math.random()*0.5+0.1
+      });
+    }
 
-  document.querySelectorAll('.preview-img').forEach(img => {
-    img.addEventListener('click', () => {
-      modal.style.display = 'flex';
-      modalImg.src = img.src;
-      modalImg.alt = img.alt;
+    function animate(){
+      ctx.clearRect(0,0,w,h);
+      particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if(p.x<0||p.x>w) p.dx*=-1;
+        if(p.y<0||p.y>h) p.dy*=-1;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize',()=>{ 
+      w=canvas.width=canvas.offsetWidth; 
+      h=canvas.height=canvas.offsetHeight; 
     });
   });
+}
 
-  closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
-  modal.addEventListener('click', e => { if(e.target === modal) modal.style.display = 'none'; });
+// 初始化全部光点
+initFloatingLights('canvas.bg-canvas', 40);
+
+/* ===== 轮播 JS ===== */
+const slider = document.getElementById('slider');
+const slides = slider.querySelectorAll('img');
+let index = 0;
+
+const dotsContainer = document.getElementById('dots');
+slides.forEach((_, i)=>{
+  const dot = document.createElement('div');
+  dot.className='dot'+(i===0?' active':'');
+  dot.addEventListener('click',()=>{ goToSlide(i); });
+  dotsContainer.appendChild(dot);
+});
+
+function updateDots(){
+  const dots = dotsContainer.querySelectorAll('.dot');
+  dots.forEach((d,i)=>d.classList.toggle('active', i===index));
+}
+
+function goToSlide(i){
+  index = i;
+  slider.style.transform = `translateX(${-100*index}%)`;
+  updateDots();
+}
+
+document.getElementById('prevBtn').addEventListener('click',()=>{ goToSlide((index-1+slides.length)%slides.length); });
+document.getElementById('nextBtn').addEventListener('click',()=>{ goToSlide((index+1)%slides.length); });
+
+// 弹窗预览
+const modal = document.getElementById('img-modal');
+const modalImg = document.getElementById('modal-img');
+slides.forEach(img=>{
+  img.addEventListener('click',()=>{ modal.style.display='flex'; modalImg.src=img.src; });
+});
+document.getElementById('close-modal').addEventListener('click',()=>{ modal.style.display='none'; });
 </script>
 
-
-  <!-- 常见问答 -->
-  <section>
-    <h2>常见问答 - FAQ</h2>
-    <div class="projects">
-      <div class="project">
-        <h3>📌 Q：会不会与ta人撞稿？</h3>
-        <p>100%不会，所有文书内容基于您的真实经历一对一定制，绝不会套用模板复写，我将把写作思路一同给您；</p>
-      </div>
-      <div class="project">
-        <h3>📌 Q：英文润色的标准？</h3>
-        <p>遵循学术与招生语域，确保语法、用词与连贯性，必要时会参考文献以书写；</p>
-      </div>
-      <div class="project">
-        <h3>📌 Q：隐私如何保障？</h3>
-        <p>您的所有资料仅用于本次申请撰写，不做外部分享或训练用途，请您放心。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 联系方式/行动按钮 -->
-  <section>
-    <h2>联系方式 - Contact Details</h2>
-    <div class="projects">
-      <div class="project">
-        <h3>📧 E-mail</h3>
-        <p>littlepo_office@163.com</p>
-      </div>
-      <div class="project">
-        <h3>📱 Wechat</h3>
-        <p>PiousBelieverinLove</p>
-      </div>
-      <div class="project">
-        <h3>📮 提交资料</h3>
-        <p>建议以 PDF/Word 形式发送现有的个人相关资料，便于快速评估与报价。</p>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
-  </footer>
 </body>
 </html>
+
