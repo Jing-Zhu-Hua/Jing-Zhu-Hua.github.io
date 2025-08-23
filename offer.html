@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎓 Offer 案例</title>
+<style>
+  body {
+    margin:0; padding:0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #fff;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #364B6B 0%, #3B5A8A 100%);
+    position: relative;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    pointer-events: none;
+    animation: float 15s linear infinite;
+  }
+  @keyframes float {
+    0% {transform: translateY(0) translateX(0);}
+    50% {transform: translateY(-200px) translateX(100px);}
+    100% {transform: translateY(0) translateX(0);}
+  }
+
+  header, footer {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+    background: transparent;
+  }
+
+  header h1 { margin:0; font-size:1.8rem; }
+  .slogan {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.2);
+    color:#fff;
+    font-style: italic;
+    text-shadow: 0 0 8px rgba(255,255,255,0.4);
+  }
+  .tag { display:block; margin-top: 10px; font-weight: bold; }
+
+  .home-btn {
+    display: block;
+    margin: 6px auto 0 auto;
+    color: #fff;
+    text-decoration: underline;
+    font-size: 0.85rem;
+  }
+
+  section {
+    max-width: 800px; /* 原来 1200px -> 小一点 */
+    margin: 20px auto;  /* 上下 margin 减小 */
+    padding: 15px;      /* padding 减小 */
+    background: rgba(42,70,108,0.7);
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    transform: translateY(0);
+    transition: transform 0.5s, box-shadow 0.5s;
+  }
+
+  h2 {
+    border-bottom:2px solid #fff;
+    padding-bottom:6px; margin-top:0;
+    font-size:1.1rem;
+  }
+
+  .cases {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px; /* 缩小 gap 让浮块更紧凑 */
+    margin-top: 10px;
+  }
+  @media screen and (max-width: 768px) {
+    .cases {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .case {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s, opacity 1s;
+    opacity: 0;
+    animation: fadeIn 0.8s forwards;
+  }
+  .case:nth-child(1) { animation-delay: 0.1s; }
+  .case:nth-child(2) { animation-delay: 0.2s; }
+  .case:nth-child(3) { animation-delay: 0.3s; }
+  .case:nth-child(4) { animation-delay: 0.4s; }
+  @keyframes fadeIn {
+    to {opacity:1;}
+  }
+  .case:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.45);
+    background: rgba(255,255,255,0.15);
+  }
+  .case h3 {
+    margin: 6px 0 4px 0;
+    font-size: 0.9rem;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  }
+  .case p {
+    font-size: 0.8rem;
+    color: #e0e6f6;
+    margin: 2px 0;
+  }
+  .case img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+    background: transparent;
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+  
+
+<!-- 光点 -->
+<script>
+  const totalParticles = 100; // 光点数量
+  for(let i=0; i<totalParticles; i++){
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // 随机大小
+    const size = Math.random() * 7 + 3; // 3px ~ 10px
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    
+    // 随机初始位置
+    particle.style.top = Math.random() * 100 + '%';
+    particle.style.left = Math.random() * 100 + '%';
+    
+    // 随机动画时间
+    particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+    
+    document.body.appendChild(particle);
+  }
+</script>
+
+
+
+<header>
+  <h1>🎓 Offer案例展示</h1>
+  <div class="slogan">Desire is the prophet of destiny.</div>
+  <div class="tag">1v1 全陪伴式辅导</div>
+  <a href="index.html" class="home-btn">返回首页</a>
+</header>
+
+<section>
+  <h2>最新录取案例 - Latest Offer Cases</h2>
+  <div class="cases">
+    <div class="case">
+      <img src="offer1.jpg" alt="案例1">
+      <h3>香港理工大学 · 商业分析理学硕士</h3>
+      <h3>PolyU · MSc in Business Analytics</h3>
+      <p>本科背景：一本 / 电子商务 / 81.33 / 6.5 / 2段工作</p>
+    </div>
+
+    <div class="case">
+      <img src="offer2.jpg" alt="案例2">
+      <h3>香港教育大学 · 人工智能与教育技术理学硕士</h3>
+      <h3>EdUHK · MSc in AI and Educational Technology</h3>
+      <p>本科背景：专升本 / 计算机科学与技术 / 2.72(5.0) / CET6-436 / 3段实习</p>
+    </div>
+
+      <div class="case">
+        <img src="offer3.jpg" alt="案例3">
+        <h3>伦敦国王大学 · 数字资产与媒体管理文学硕士</h3>
+        <h3>KCL · MA Digital Asset and Media Management</h3>
+        <p>本科背景：双非一本 / 广播电视 / 88 / 7.0 / 4段实习</p>
+      </div>
+
+   <!-- 案例 4 -->
+      <div class="case">
+        <img src="offer4.jpg" alt="案例4">
+        <h3>伦敦政治经济学院 · 人权与政治理学硕士</h3>
+        <h3>LSE · MSc Human Rights and Politics</h3>
+        <p>本科背景：211 / 国际关系 / 4.11(5.0) / 7.5 / 2段实习 / 1篇刊物</p>
+      </div>
+
+      <!-- 案例 5 -->
+      <div class="case">
+        <img src="offer5.jpg" alt="案例5">
+        <h3>香港科技大学 · 全球中国研究理学硕士</h3>
+        <h3>HKUST · MSc in Global China Studies</h3>
+        <p>本科背景：211 / 行政管理 / 3.88(5.0) / 7.0 / 3段实习</p>
+      </div>
+
+      <!-- 案例 6 -->
+      <div class="case">
+        <img src="offer6.jpg" alt="案例6">
+        <h3>香港中文大学 · 企业传播学社会科学硕士</h3>
+        <h3>CUHK · MSSc in Corporate Communication</h3>
+        <p>本科背景：211 / 传播学 / 3.94(5.0) / 7.0 / 3段实习 / 1篇刊物</p>
+      </div>
+
+      <!-- 案例 7 -->
+      <div class="case">
+        <img src="offer7.jpg" alt="案例7">
+        <h3>隆德大学 · 法学硕士</h3>
+        <h3>Lund University · Master of Laws</h3>
+        <p>本科背景：985 / 法学 / 3.46(4.0) / 7.0 / 2段实习 / 2篇刊物 </p>
+      </div>
+
+      <!-- 案例 8 -->
+      <div class="case">
+        <img src="offer8.jpg" alt="案例8">
+        <h3>悉尼大学 · 电影与影像艺术硕士</h3>
+        <h3>USYD · Master of Film and Screen Arts</h3>
+        <p>本科背景：双非一本 / 视觉传达 / 82.62 / 6.5 / 2年工作经验 / 含作品集</p>
+      </div>
+
+      <!-- 案例 9 -->
+      <div class="case">
+        <img src="offer9.jpg" alt="案例9">
+        <h3>新南威尔士大学 · 信息技术硕士</h3>
+        <h3>UNSW · Master of Information Technology</h3>
+        <p>本科背景：双非一本 / 计算机科学 / 85.2 / 6.5 / 2段实习</p>
+      </div>
+
+      <!-- 案例 10 -->
+      <div class="case">
+        <img src="offer10.jpg" alt="案例10">
+        <h3>昆士兰 · 计算机科学硕士</h3>
+        <h3>UQ · Master of Computer Science</h3>
+        <p>本科背景：4+0 / 信息技术 / 5.0(7.0) / 1段实习</p>
+      </div>
+
+      <!-- 案例 11 -->
+      <div class="case">
+        <img src="offer11.jpg" alt="案例11">
+        <h3>布里斯托大学 · 数字媒体创新文学硕士</h3>
+        <h3>University of Bristol · MA Digital Media Innovation</h3>
+        <p>本科背景：海本 / 时尚管理 / 2:1 / 2段实习</p>
+      </div>
+
+      <!-- 案例 12 -->
+      <div class="case">
+        <img src="offer12.jpg" alt="案例12">
+        <h3>南安普顿大学 · 英语教学文学硕士（TESOL研究）</h3>
+        <h3>Soton · MA English Language Teching (TESOL Studies)</h3>
+        <p>本科背景：双非二本 / 英语 / 84.39 / 7.0 / 2段实习</p>
+      </div>
+
+            <!-- 案例 13 -->
+      <div class="case">
+        <img src="offer13.jpg" alt="案例13">
+        <h3>杜伦大学 · 教育学文学硕士</h3>
+        <h3>Durham University · MA Education</h3>
+        <p>本科背景：双非一本 / 交通工程 / 85.9 / 6.5 / 9年工作经验</p>
+      </div>
+      
+            <!-- 案例 14 -->
+      <div class="case">
+        <img src="offer14.jpg" alt="案例14">
+        <h3>伦敦大学学院 · 跨文化传播文学硕士</h3>
+        <h3>UCL · MA Intercultural Communication</h3>
+        <p>本科背景：211 / 公共关系 / 4.0(5.0) / 7.0 /4段实习</p>
+      </div>
+      
+            <!-- 案例 15 -->
+      <div class="case">
+        <img src="offer15.jpg" alt="案例15">
+        <h3>香港大学</h3>
+        <h3>案例12 学校专业</h3>
+        <p>本科背景：xxx</p>
+      </div>
+      
+            <!-- 案例 16 -->
+      <div class="case">
+        <img src="offer16.jpg" alt="案例16">
+        <h3>香港大学</h3>
+        <h3>案例12 学校专业</h3>
+        <p>本科背景：xxx</p>
+        <p>亮点介绍。</p>
+      </div>
+      
+            <!-- 案例 17 -->
+      <div class="case">
+        <img src="offer17.jpg" alt="案例17">
+        <h3>伯明翰大学 · 数据科学理学硕士</h3>
+        <h3>University of Birmingham · MSc Data Science</h3>
+        <p>本科背景：双非一本 / 信息技术 / 88.2 / 6.5 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 18 -->
+      <div class="case">
+        <img src="offer18.jpg" alt="案例18">
+        <h3>斯德哥尔摩大学 · 战略信息系统管理硕士</h3>
+        <h3>Stockholm University · Master in Strategic Information Systems Management</h3>
+        <p>本科背景：双非二本 / 经济金融 / 81.02 / 6.5 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 19 -->
+      <div class="case">
+        <img src="offer19.jpg" alt="案例19">
+        <h3>伯明翰大学 · 经济学理学硕士</h3>
+        <h3>University of Birmingham · MSc Economics</h3>
+        <p>本科背景：双非二本 / 国际贸易 / 80.9 / 6.5 / 4年工作经验</p>
+      </div>
+      
+            <!-- 案例 20 -->
+      <div class="case">
+        <img src="offer20.jpg" alt="案例20">
+        <h3>金史密斯学院 · 设计学硕士：跨界实践</h3>
+        <h3>Goldsmiths, University of London · MA in Design: Expanded Pracice</h3>
+        <p>本科背景：双非一本 / 艺术学 / 3.15(5.0) / 6.5 / 2段实习 / 含作品集</p>
+      </div>
+      
+            <!-- 案例 21 -->
+      <div class="case">
+        <img src="offer21.jpg" alt="案例21">
+        <h3>香港浸会大学 · </h3>
+        <h3>香港浸会大学 · </h3>
+        <p>本科背景：xxx</p>
+      </div>
+      
+            <!-- 案例 22 -->
+      <div class="case">
+        <img src="offer22.jpg" alt="案例22">
+        <h3>格拉斯哥大学 · 经济与金融数据分析理学硕士 </h3>
+        <h3>University of Glasgow · MSc Data Analytics for Economics and Finance</h3>
+        <p>本科背景：211 / 经济统计学 / 81.29 / 6.5 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 23 -->
+      <div class="case">
+        <img src="offer23.jpg" alt="案例23">
+        <h3>香港城市大学 · </h3>
+        <h3>案例12 学校专业</h3>
+        <p>本科背景：xxx</p>
+      </div>
+      
+            <!-- 案例 24 -->
+      <div class="case">
+        <img src="offer24.jpg" alt="案例24">
+        <h3>谢菲尔德大学 · 新闻学文学硕士</h3>
+        <h3>University of Sheffield · MA in Journalism</h3>
+        <p>本科背景：海本 / 传媒学 / 76 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 25 -->
+      <div class="case">
+        <img src="offer25.jpg" alt="案例25">
+        <h3>悉尼大学 · 城市和区域规划硕士</h3>
+        <h3>USYD · Master of Urbanism(Urban and Regional Planning)</h3>
+        <p>本科背景：211 / 环境设计 / 84.2 / 7.0 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 26 -->
+      <div class="case">
+        <img src="offer26.jpg" alt="案例26">
+        <h3>利兹大学 · 社会、文化与媒体文学硕士</h3>
+        <h3>University of Leeds · MA Society, Culture and Media</h3>
+        <p>本科背景：双非二本 / 社会服务 / 88.89 / 6.5 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 27 -->
+      <div class="case">
+        <img src="offer27.jpg" alt="案例27">
+        <h3>香港大学 · 博物馆研究文学硕士</h3>
+        <h3>HKU · Master of Arts in the field of Museum Studies</h3>
+        <p>本科背景：双非二本 / 文化产业管理 / 89.78 / 7.0 / 2段实习 </p>
+      </div>
+      
+            <!-- 案例 28 -->
+      <div class="case">
+        <img src="offer28.jpg" alt="案例28">
+        <h3>香港岭南大学 · 住房政策与管理硕士</h3>
+        <h3>Lingnan University · Master of Housing Policy and Management</h3>
+        <p>本科背景：双非二本 / 金融管理 / 3.07(5.0) / 6.5 / 2年工作经验</p>
+      </div>
+      
+            <!-- 案例 29 -->
+      <div class="case">
+        <img src="offer29.jpg" alt="案例29">
+        <h3>华威大学 · 性别与国际发展硕士</h3>
+        <h3>University of Warwick · MA Gender and International Development</h3>
+        <p>本科背景：双非一本 / 社会学 / 92.69 / 7.5 / 3段研究经历</p>
+      </div>
+      
+            <!-- 案例 30 -->
+      <div class="case">
+        <img src="offer30.jpg" alt="案例30">
+        <h3>澳门科技大学 · 外国语硕士</h3>
+        <h3>MUST · Master of Arts in Foreign Language Studies</h3>
+        <p>本科背景：民办本科 / 英语 / 85 / 6.0 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 31 -->
+      <div class="case">
+        <img src="offer31.jpg" alt="案例31">
+        <h3>香港城市大学 · 社会工作硕士</h3>
+        <h3>CityU · Master of Social Work</h3>
+        <p>本科背景：211 / 传播与新闻 / 3.82(5.0) / 6.5 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 32 -->
+      <div class="case">
+        <img src="offer32.jpg" alt="案例32">
+        <h3>香港大学 · 非盈利管理社会科学硕士</h3>
+        <h3>HKU · MSocSc Nonprofit Management</h3>
+        <p>本科背景：211 / 行政管理 / 3.88(5.0) / 7.0 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 33 -->
+      <div class="case">
+        <img src="offer33.jpg" alt="案例33">
+        <h3>香港教育大学 · 中文研究（语文教育）文学硕士</h3>
+        <h3>EdUHK · Master of Arts in Chinese Studies (Language Education)</h3>
+        <p>本科背景：双非一本 / 汉语言文学 / 79.88 / 无语言成绩 / 4年工作经验 </p>
+      </div>
+      
+            <!-- 案例 34 -->
+      <div class="case">
+        <img src="offer34.jpg" alt="案例34">
+        <h3>伦敦国王学院 · 金融分析理学硕士</h3>
+        <h3>KCL · MSc Finance Analytics</h3>
+        <p>本科背景：双一流 / 金融会计 / 91.93 / 7.0 / 4段实习</p>
+      </div>
+      
+            <!-- 案例 35 -->
+      <div class="case">
+        <img src="offer35.jpg" alt="案例35">
+        <h3>曼彻斯特大学 · 定量金融理学硕士</h3>
+        <h3>Manchester Uni · Msc Quantitative Finance</h3>
+        <p>本科背景：双一流 / 金融会计 / 91.93 / 7.0 / 4段实习</p>
+      </div>
+      
+            <!-- 案例 36 -->
+      <div class="case">
+        <img src="offer36.jpg" alt="案例36">
+        <h3>香港恒生大学 · 戏剧研究文学硕士</h3>
+        <h3>HSU · Master of Arts in Theatre Studies</h3>
+        <p>本科背景：海本 / 市场营销 / 4.1(7.0) / 1段实习</p>
+      </div>
+      
+            <!-- 案例 37 -->
+      <div class="case">
+        <img src="offer37.jpg" alt="案例37">
+        <h3>昆士兰大学 · 治理与公共政策硕士</h3>
+        <h3>UQ · Master of Governance and Public Policy</h3>
+        <p>本科背景：双非二本 / 83.2 / 经济学 / 7.0 / 2段实习 </p>
+      </div>
+      
+            <!-- 案例 38 -->
+      <div class="case">
+        <img src="offer38.jpg" alt="案例38">
+        <h3>香港大学 · 心理学学士</h3>
+        <h3>HKU · Bachelor of Psychology</h3>
+        <p>本科背景：国际高中 / 其余均未透露</p>
+      </div>
+      
+            <!-- 案例 39 -->
+      <div class="case">
+        <img src="offer39.jpg" alt="案例39">
+        <h3>南洋理工大学 · 媒体与传播硕士</h3>
+        <p>NTU · Master of Media and Communication</p>
+        <p>本科背景：211 / 传播学 / 4.69(5.0) / 7.0 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 40 -->
+      <div class="case">
+        <img src="offer40.jpg" alt="案例40">
+        <h3>利兹大学 · 儿童研究硕士</h3>
+        <h3>University of Leeds · MA Childhood Studies</h3>
+        <p>本科背景：双非二本 / 小学教育 / 85.93 / 6.5 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 41 -->
+      <div class="case">
+        <img src="offer41.jpg" alt="案例41">
+        <h3>香港岭南大学 · 比较公共管理（数字和智能治理）社会科学硕士</h3>
+        <h3>Lingnan University · MSocSc Comparative Public Administration (Digital and Smart Governance)</h3>
+        <p>本科背景：双非一本 / 国际关系 / 78.43 / CET:431/ 2段实习</p>
+      </div>
+      
+            <!-- 案例 42 -->
+      <div class="case">
+        <img src="offer42.jpg" alt="案例42">
+        <h3>莫纳什大学 · 银行与金融硕士</h3>
+        <h3>Monash University · Master of Banking and Finance</h3>
+        <p>本科背景：双非一本 / 会计学 / 82.03 / 6.5 / 3段实习 </p>
+      </div>
+      
+            <!-- 案例 43 -->
+      <div class="case">
+        <img src="offer43.jpg" alt="案例43">
+        <h3>澳洲国立大学 · 遗产旅游管理硕士 </h3>
+        <h3>ANU · Master of Heritage Tourism Management</h3>
+        <p>本科背景：双非二本 / 文化产业管理 / 87.6 / 7.0 / 4段实习</p>
+      </div>
+      
+            <!-- 案例 44 -->
+      <div class="case">
+        <img src="offer44.jpg" alt="案例44">
+        <h3>南安普顿大学 · 时装营销和品牌文学硕士</h3>
+        <h3>University of Southampton · MA Fashion Marketing and Branding</h3>
+        <p>本科背景：双非一本 / 纺织设计 / 89.9 / 6.5 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 45 -->
+      <div class="case">
+        <img src="offer45.jpg" alt="案例45">
+        <h3>香港浸会大学 · 个人健康管理（中医）理学硕士</h3>
+        <h3>HKBU · MSc Personal Health Management (Chinese Medicine) </h3>
+        <p>本科背景：双一流 / 健康服务与管理 / 3.05(5.0) / CET6-531 / 2段实习</p>
+
+      </div>
+      
+            <!-- 案例 46 -->
+      <div class="case">
+        <img src="offer46.jpg" alt="案例46">
+        <h3>香港城市大学 · 健康科学与管理理学硕士</h3>
+        <h3>CityU · MSc Health Sciences and Management</h3>
+        <p>本科背景：双一流 / 健康服务与管理 / 3.05(5.0) / CET6-531 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 47 -->
+      <div class="case">
+        <img src="offer47.jpg" alt="案例47">
+        <h3>昆士兰大学 · 写作、编辑与出版硕士</h3>
+        <h3>UQ · Master of Writing, Editing and Publishing</h3>
+        <p>本科背景：双非二本 / 文化研究 / 81.9 / 7.0 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 48 -->
+      <div class="case">
+        <img src="offer48.jpg" alt="案例48">
+        <h3>香港都会大学 · 创意写作文学硕士</h3>
+        <h3>HKMU ·  Master of Arts in Creative Writing</h3>
+        <p>本科背景：双非二本 / 戏剧、电影和电视文学 / 4.16(5.0) / 无语言成绩 / 6年工作经验</p>
+      </div>
+      
+            <!-- 案例 49 -->
+      <div class="case">
+        <img src="offer49.jpg" alt="案例49">
+        <h3>新加坡国立大学 · 艺术与文化企业文学硕士</h3>
+        <h3>NUS · MA Arts and Cultural Entrepreneurship</h3>
+        <p>本科背景：985 / 创意产业管理 / 3.79(4.0) / 7.5 / 4段实习 / 2个省级竞赛 </p>
+      </div>
+      
+            <!-- 案例 50 -->
+      <div class="case">
+        <img src="offer50.jpg" alt="案例50">
+        <h3>曼彻斯特大学 · 国际时尚营销理学硕士</h3>
+        <h3>Manchester Uni · MSc International Fashion Marketing</h3>
+        <p>本科背景：海本 / 市场营销 / 3.73(4.0) / 3段实习</p>
+      </div>
+      
+            <!-- 案例 51 -->
+      <div class="case">
+        <img src="offer51.jpg" alt="案例51">
+        <h3>香港大学 · 传媒、文化与创意城市理学硕士</h3>
+        <h3>HKU · MSocSc Media, Culture and Creative Cities</h3>
+        <p>本科背景：211 / 广告学 / 3.78(4.0) / 7.0 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 52 -->
+      <div class="case">
+        <img src="offer52.jpg" alt="案例52">
+        <h3>香港中文大学 · 中医硕士</h3>
+        <h3>CUHK · Master of Chinese Medicine</h3>
+        <p>本科背景：PolyU一硕 / 酒店管理 / 3.48（4.0） / 2段工作+自考中医证书</p>
+      </div>
+      
+            <!-- 案例 53 -->
+      <div class="case">
+        <img src="offer53.jpg" alt="案例53">
+        <h3>香港理工大学 · 环境、社会和治理及可持续性理学硕士</h3>
+        <h3>PolyU · Master of Science in ESG and Sustainability</h3>
+        <p>本科背景：2+2 / 会计金融 / 84.11 / 7.0 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 54 -->
+      <div class="case">
+        <img src="offer54.jpg" alt="案例54">
+        <h3>爱丁堡大学 · 银行创新与风险分析理学硕士</h3>
+        <h3>Edinburgh Uni · MSc Banking Innovation and Risk Analytics
+</h3>
+        <p>本科背景：211 / 会计学 / 86.9 / 7.0 / 2段实习 / 国金一枚</p>
+      </div>
+      
+            <!-- 案例 55 -->
+      <div class="case">
+        <img src="offer55.jpg" alt="案例55">
+        <h3>澳洲国立大学 · 国际管理硕士</h3>
+        <h3>ANU · Master of International Management</h3>
+        <p>本科背景：双非二本 / 86.2 / 财务管理 / 6.5 / 4段实习</p>
+      </div>
+      
+            <!-- 案例 56 -->
+      <div class="case">
+        <img src="offer56.jpg" alt="案例56">
+        <h3>香港大学 · 私人银行与资产管理</h3>
+        <h3>HKU · Bachelor of Finance in Asset Management and Private Banking</h3>
+        <p>本科背景：香港高中 / 其余均未透露</p>
+      </div>
+      
+            <!-- 案例 57 -->
+      <div class="case">
+        <img src="offer57.jpg" alt="案例57">
+        <h3>香港中文大学 · 跨文化研究文学硕士</h3>
+        <h3>CUHK · Master of Arts in Intercultural Studies</h3>
+        <p>本科背景：985 / 新闻学 / 3.4(4.0) / 6.5 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 58 -->
+      <div class="case">
+        <img src="offer58.jpg" alt="案例58">
+        <h3>奥胡斯大学 · 文化研究文学硕士</h3>
+        <h3>Aarhus University · Master of Arts in Cultural Studies</h3>
+        <p>本科背景：双非二本 / 文化产业管理 / 87.9 / 6.0 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 59 -->
+      <div class="case">
+        <img src="offer59.jpg" alt="案例59">
+        <h3>杜伦大学 · 市场营销理学硕士</h3>
+        <h3>Durham University · Master of Science in Marketing</h3>
+        <p>本科背景：双非一本 / 电子商务 / 3.48(4.0)  / 3段实习</p>
+      </div>
+      
+            <!-- 案例 60 -->
+      <div class="case">
+        <img src="offer60.jpg" alt="案例60">
+        <h3>香港中文大学 · 社会服务管理文学硕士</h3>
+        <h3>CUHK · MA in Social Service Management</h3>
+        <p>本科背景：双非一本 / 广告学 / 3.6（4.0）/ 6.5 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 61 -->
+      <div class="case">
+        <img src="offer61.jpg" alt="案例61">
+        <h3>香港浸会大学 · 中国文学、语言与文化文学硕士</h3>
+        <h3>HKBU · Master of Arts in Chinese Literature, Language and Culture</h3>
+        <p>本科背景：双非一本 / 媒体与传播 / 82.63 / 无语言 / 2段实习</p>
+      </div>
+      
+            <!-- 案例 62 -->
+      <div class="case">
+        <img src="offer62.jpg" alt="案例62">
+        <h3>谢菲尔德大学 · 战略市场营销与品牌理学硕士</h3>
+        <h3>Sheffield Uni · MSc Strategic Marketing and Branding</h3>
+        <p>本科背景：海外本科 / 数字营销和商业传播 / 4.2(7.0) / 4段实习</p>
+      </div>
+      
+            <!-- 案例 63 -->
+      <div class="case">
+        <img src="offer63.jpg" alt="案例63">
+        <h3>新加坡国立大学 · 国际事务硕士</h3>
+        <h3>NUS · Master of International Affairs</h3>
+        <p>本科背景：985 / 国际关系 / 3.8（4.0）/ 7.5 / 4段实习 / 科研刊文1篇</p>
+      </div>
+      
+            <!-- 案例 64 -->
+      <div class="case">
+        <img src="offer64.jpg" alt="案例64">
+        <h3>香港浸会大学 · 咨询学社会科学硕士</h3>
+        <h3>HKBU · Master of Social Sciences in Counselling</h3>
+        <p>本科背景：双非二本 / 应用心理学 / 88.13 / 6.0 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 65 -->
+      <div class="case">
+        <img src="offer65.jpg" alt="案例65">
+        <h3>香港教育大学 · 音乐教育文学硕士</h3>
+        <h3>EdUHK · Master of Arts in Music Education</h3>
+        <p>本科背景：双非一本 / 音乐学（钢琴专业）/ 85.5 / 6.0 / 2段工作</p>
+      </div>
+      
+            <!-- 案例 66 -->
+      <div class="case">
+        <img src="offer66.jpg" alt="案例66">
+        <h3>香港浸会大学 · 音乐学文学硕士</h3>
+        <h3>HKBU · Master of Arts in Musicology</h3>
+        <p>本科背景：双非一本 / 音乐学（钢琴专业）/ 85.5 / 6.0 / 2段工作</p>
+      </div>
+      
+            <!-- 案例 67 -->
+      <div class="case">
+        <img src="offer67.jpg" alt="案例67">
+        <h3>澳门科技大学 · 国际仲裁硕士</h3>
+        <h3>MUST · Master of International Arbitration</h3>
+        <p>本科背景：双非二本 / 法学 / 81.43 / CET4：482 / 3段实习</p>
+      </div>
+      
+            <!-- 案例 68 -->
+      <div class="case">
+        <img src="offer68.jpg" alt="案例68">
+        <h3>澳门大学 · 历史学文学硕士</h3>
+        <h3>University of Macau · Master of Arts in History</h3>
+        <p>本科背景：海外本科 / 西班牙语 / 82 / 6.5 / 2段实习</p>
+      </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Littlepo_offcial Web | Designed by Jing.
+</footer>
+</body>
+</html>
