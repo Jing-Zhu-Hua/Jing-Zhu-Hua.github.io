@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💐常见问题 - FAQ</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #222;
+    font-size: 14px;
+    line-height: 1.6;
+    background: linear-gradient(180deg,#F3C6DA 0%, #D29AC6 100%); /* 加深粉色 */
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* 背景动态光点 */
+  body::before {
+    content: "";
+    position: fixed;
+    top:0; left:0;
+    width:200%; height:200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 2px, transparent 3px) repeat;
+    background-size: 150px 150px;
+    animation: stars 40s linear infinite;
+    z-index:0;
+  }
+
+  @keyframes stars {
+    from { transform: translate(0,0); }
+    to   { transform: translate(-150px,-150px); }
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    position: relative;
+    z-index:1;
+  }
+  header h1 {
+    font-size: 2rem;
+    margin: 0;
+    text-shadow: 1px 1px 4px rgba(255,255,255,0.6);
+  }
+
+  .tagline {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 16px;
+    font-size: 0.9rem;
+    color: #222;
+    background: rgba(255,255,255,0.4);
+    border-radius: 25px;
+    backdrop-filter: blur(4px);
+  }
+
+  header p a {
+    color: #222;
+    text-decoration: underline;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.6);
+  }
+
+  main {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index:1;
+  }
+
+  .faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* 每个问题之间间距 */
+  }
+
+  /* FAQ项样式 */
+  .faq-item {
+    padding: 14px 20px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.7); /* 淡白色卡片 */
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .faq-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  }
+
+  .faq-item h2 {
+    margin: 0;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.6);
+  }
+
+  .faq-item h2::after {
+    content: '+';
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item.open h2::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 500px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,0.2); /* 分隔线 */
+    margin-top: 10px;
+  }
+
+  .faq-answer p {
+    margin: 6px 0;
+    line-height: 1.5;
+    color: #222;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.6);
+  }
+
+  footer {
+    text-align: center;
+    padding: 16px 10px;
+    margin-top: 40px;
+    text-shadow: 0 0 3px rgba(255,255,255,0.8);
+    color: #222;
+  }
+
+  @media (max-width: 768px) {
+    body { font-size: 13px; }
+    header h1 { font-size: 1.6rem; }
+  }
+  @media (max-width: 480px) {
+    header h1 { font-size: 1.4rem; }
+    main { padding: 0 12px; }
+    .faq-item { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💐常见问题 - FAQ</h1>
+  <p class="tagline">Answers You Need, thoughtfully Provided.</p>
+  <p><a href="index.html">返回首页</a></p>
+</header>
+
+<main>
+  <div class="faq-container">
+    <div class="faq-item">
+      <h2>Q1：如何预约模拟面试？</h2>
+      <div class="faq-answer">
+        <p>请提前至少3天联系我，提供申请的专业和您的可用时间，即可安排模拟面试服务。</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h2>Q2：面试集适合哪些专业？</h2>
+      <div class="faq-answer">
+        <p>面试集主要包含通用题和专业题，基本适用于同方向的大部分专业。</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h2>Q3：购买面试集后是否提供辅导？</h2>
+      <div class="faq-answer">
+        <p>面试集为自用材料，如需辅导，需单独预约模拟面试服务。</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h2>Q4：面试集如何使用效果最好？</h2>
+      <div class="faq-answer">
+        <p>建议先阅读解析，再按步骤演练问题，结合自我表达进行优化，而非完全背诵。</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h2>Q5：模拟面试需要准备哪些材料？</h2>
+      <div class="faq-answer">
+        <p>请提前准备好个人简历、成绩单、申请材料及可能被问到的专业问题列表。</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
+</footer>
+
+<script>
+  // FAQ 折叠展开逻辑
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+  });
+</script>
+
+</body>
+</html>

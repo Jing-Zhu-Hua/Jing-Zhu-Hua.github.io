@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📋面试辅导</title>
+  <style>
+    .tagline {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 14px;
+      font-size: 0.9rem;
+      color: #fff;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      font-size:14px;
+      line-height:1.6;
+      overflow-x:hidden;
+      background: linear-gradient(180deg,#C8A2C8 0%,#5D3A7D 100%);
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: radial-gradient(circle at 25% 30%, rgba(255,255,255,0.05), transparent 60%),
+                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08), transparent 60%);
+      animation: bgMove 12s ease-in-out infinite alternate;
+      z-index:0;
+    }
+    @keyframes bgMove {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-30px,20px) scale(1.1); }
+    }
+
+    canvas.bg-canvas {
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px 20px;
+      position: relative;
+      z-index:1;
+    }
+    header h1 {
+      margin:0;
+      font-size:2.2rem;
+      letter-spacing:1px;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    }
+    header p {
+      margin:6px 0;
+      font-size:1rem;
+    }
+    header a {
+      color:#fff;
+      text-decoration: underline;
+    }
+
+    section {
+      position: relative;
+      max-width: 850px;
+      margin: 20px auto;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      z-index:1;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s ease-out forwards;
+    }
+    section:nth-of-type(1) { animation-delay: 0.2s; }
+    section:nth-of-type(2) { animation-delay: 0.4s; }
+    section:nth-of-type(3) { animation-delay: 0.6s; }
+    section:nth-of-type(4) { animation-delay: 0.8s; }
+    section:nth-of-type(5) { animation-delay: 1s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    section:hover {
+      transform: translateY(-12px) scale(1.04);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+      background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.18));
+    }
+
+    h2 {
+      border-bottom: 2px solid #fff;
+      padding-bottom: 6px;
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    /* 面试集行间距稍微紧凑 */
+    .interview-set p {
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    /* 价格段落行间距稍宽 */
+    .price p {
+      line-height: 1.8;
+    }
+
+    .sample-case img {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    ul.faq li {
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    ul.faq {
+      padding-left: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px 10px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      body { font-size: 13px; line-height: 1.5; }
+      header h1 { font-size: 1.4rem; line-height: 1.2; }
+      header p { font-size: 0.9rem; }
+      section { margin: 16px 14px; padding: 12px; }
+      h2 { font-size: 1rem; margin-bottom: 8px; }
+    }
+    @media (max-width: 480px) {
+      header h1 { font-size: 1.2rem; }
+      .tagline { font-size: 0.75rem; padding: 5px 10px; }
+      section { margin: 12px 10px; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas class="bg-canvas"></canvas>
+
+<header>
+  <h1>📋面试辅导</h1>
+  <p class="tagline">Prepare. Practice. Perfect.</p>
+  <p><a href="index.html">返回首页</a></p>
+</header>
+
+<section>
+  <h2>👥模拟面试 - Mock Interview</h2>
+  <p>1. 提前确认专业与面试时间 → 2. 收集并分析学生资料与申请材料 → 3. （结合过往上岸同学透露的真实面试信息）设计针对性的面试问题清单 → 4. 进行模拟面试练习 → 5. 实时反馈表现与改进建议 → 6. 强化薄弱环节 → 7. 分析可能追问与压力问题 → 8. 总结提升策略</p>
+</section>
+
+<section class="interview-set">
+  <h2>📚面试集 - Interview Set</h2>
+  <p>· 面试集中英结合，将根据过往上岸学生透露的信息，整理您可能面临的问题和详细解析；</p>
+  <p>· 每套都将结合不同学校和专业的特点，让您能有针对性地练习面试；</p>
+  <p>· 您可以自己按步骤演练每一个问题，参考解析再优化表达和逻辑，并不需要完全背诵，目的在于提供泛化思路，避免面试时的哑口无言。</p>
+</section>
+
+<section class="price">
+  <h2>🎐价格 - Price</h2>
+  <p><strong>模拟面试：</strong>¥300/h<br><strong>面试集：</strong>¥1200/套</p>
+</section>
+
+<section class="sample-case">
+  <h2>🎋案例示例 - Sample Case</h2>
+  <p>往期辅导学生面试集示例：</p>
+  <div class="case-image">
+    <img src="interview-example.jpg" alt="Sample Case">
+  </div>
+</section>
+
+<section>
+  <h2>💐常见问题 - FAQ</h2>
+  <ul class="faq">
+  <li><strong>Q：模拟面试如何预约？</strong><br>
+      <strong>A：</strong>请提前至少3天联系我，提供申请的专业和您的可用时间即可安排；</li>
+  <li><strong>Q：面试集适合哪些专业？</strong><br>
+      <strong>A：</strong>面试集主要由通用题和专业题两大部分组合，基本同方向的专业均可使用；</li>
+  <li><strong>Q：购买面试集后是否有辅导？</strong><br>
+      <strong>A：</strong>面试集为自用材料，如需辅导需单独预约模拟面试服务。</li>
+</ul>
+</section>
+
+<footer>
+  <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
+</footer>
+
+<script>
+function initFloatingLights(canvasSelector, particleCount=50){
+  const canvases = document.querySelectorAll(canvasSelector);
+  canvases.forEach(canvas=>{
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = canvas.offsetWidth;
+    let h = canvas.height = canvas.offsetHeight;
+    
+    const particles = [];
+    for(let i=0;i<particleCount;i++){
+      particles.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: Math.random()*2+1,
+        dx: (Math.random()-0.5)*0.3,
+        dy: (Math.random()-0.5)*0.3,
+        alpha: Math.random()*0.5+0.1
+      });
+    }
+
+    function animate(){
+      ctx.clearRect(0,0,w,h);
+      particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if(p.x<0||p.x>w) p.dx*=-1;
+        if(p.y<0||p.y>h) p.dy*=-1;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize',()=>{ 
+      w=canvas.width=canvas.offsetWidth; 
+      h=canvas.height=canvas.offsetHeight; 
+    });
+  });
+}
+initFloatingLights('canvas.bg-canvas', 50);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📮投递服务</title>
+  <style>
+    .tagline {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 14px;
+      font-size: 0.9rem;
+      color: #fff;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ===== 主体样式 ===== */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      font-size:14px;
+      line-height:1.6;
+      overflow-x:hidden;
+      background: linear-gradient(180deg,#BFD9FF 0%,#0f1c33 100%);
+      position: relative;
+    }
+
+    /* ===== 背景动态渐变 ===== */
+    body::before {
+      content: "";
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: radial-gradient(circle at 25% 30%, rgba(255,255,255,0.05), transparent 60%),
+                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08), transparent 60%);
+      animation: bgMove 12s ease-in-out infinite alternate;
+      z-index:0;
+    }
+    @keyframes bgMove {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-30px,20px) scale(1.1); }
+    }
+
+    /* ===== canvas 光点 ===== */
+    canvas.bg-canvas {
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    /* ===== header ===== */
+    header {
+      text-align: center;
+      padding: 40px 20px 20px 20px;
+      position: relative;
+      z-index:1;
+    }
+    header h1 {
+      margin:0;
+      font-size:2.2rem;
+      letter-spacing:1px;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    }
+    header p {
+      margin:6px 0;
+      font-size:1rem;
+    }
+    header a {
+      color:#fff;
+      text-decoration: underline;
+    }
+
+    /* ===== 浮块 ===== */
+    section {
+      position: relative;
+      max-width: 850px;
+      margin: 20px auto;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      z-index:1;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s ease-out forwards;
+    }
+    section:nth-of-type(1) { animation-delay: 0.2s; }
+    section:nth-of-type(2) { animation-delay: 0.4s; }
+    section:nth-of-type(3) { animation-delay: 0.6s; }
+    section:nth-of-type(4) { animation-delay: 0.8s; }
+    section:nth-of-type(5) { animation-delay: 1s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    section:hover {
+  transform: translateY(-12px) scale(1.04);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.18));
+}
+
+    h2 {
+      border-bottom: 2px solid #fff;
+      padding-bottom: 6px;
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    /* ===== 独特优势行间距 & 悬停效果 ===== */
+    section:nth-of-type(3) ul li {
+      margin-bottom: 10px;  /* 行间距略宽 */
+      line-height: 1.2;
+    }
+    section:nth-of-type(3):hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+      background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15));
+    }
+
+    /* ===== 案例示例板块悬停效果 ===== */
+    .sample-case {
+      position: relative;
+      max-width: 850px;
+      margin: 20px auto;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      z-index:1;
+
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s ease-out forwards;
+    }
+    .sample-case:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+      background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15));
+    }
+
+    /* ===== FAQ 每个 Q&A 行间距 & 悬停效果 ===== */
+    ul.faq li {
+      margin-bottom: 12px;  /* 略宽行间距 */
+      line-height: 1.5;
+    }
+    section:nth-of-type(5):hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+      background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15));
+    }
+
+    /* FAQ 样式 */
+    ul.faq {
+      padding-left: 20px;
+    }
+
+    /* ===== footer ===== */
+    footer {
+      text-align: center;
+      padding: 16px 10px;
+      margin-top: 20px;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 768px) {
+      body { font-size: 13px; line-height: 1.5; }
+      header h1 { font-size: 1.4rem; line-height: 1.2; }
+      header p { font-size: 0.9rem; }
+      section { margin: 16px 14px; padding: 12px; }
+      h2 { font-size: 1rem; margin-bottom: 8px; }
+    }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 1.2rem; }
+      .tagline { font-size: 0.75rem; padding: 5px 10px; }
+      section { margin: 12px 10px; padding: 10px; }
+    }
+
+  </style>
+</head>
+<body>
+
+<canvas class="bg-canvas"></canvas>
+
+<header>
+  <h1>📮投递服务</h1>
+  <p class="tagline">Your effort pays off — delivered flawlessly.</p>
+  <p><a href="index.html">返回首页</a></p>
+</header>
+
+<section>
+  <h2>🎠服务流程 - Service Procedure</h2>
+  <p>1. 提前确认开放投递日期 → 2. 系统注册与开通 → 3. 材料收集与核查 → 4. 网申系统填写 → 5. 文件上传 → 6. 缴纳申请费 → 7. 确认与定期跟进检查(如补充校方所需材料等) → 8. 解读offer/con/waiting list/拒信 → 9. 依据实际情况接受offer/写love letter</p>
+</section>
+
+<section>
+  <h2>🎐价格 - Price</h2>
+  <p>¥ 300-500/个专业（含全过程把控与跟进）</p>
+</section>
+
+<section>
+  <h2>🎍独特优势 - Unique Strengths</h2>
+  <ul>
+    <li>按照每所学校不同的投递竞争度规划个性化的delivery timeline，争取更高的上岸率；</li>
+    <li>投递前double check甚至triple check，确保无低级错误;</li>
+    <li>账号密码共享，学生可随时自行查看进度;</li>
+    <li>在必要时，可直接联系到admission officer (仅部分学校)，帮助澄清或补充申请细节，提高获offer概率；</li>
+    <li>遇到系统异常时，快速预案处理。</li>
+  </ul>
+</section>
+
+<section class="sample-case">
+  <h2>🎋案例示例 - Sample Case</h2>
+  <p>往期学生材料收集list示例：</p>
+  <div class="case-image">
+    <img src="toudi_example.jpg" alt="Sample Case" style="width:100%; border-radius:12px;">
+  </div>
+</section> 
+
+<section>
+  <h2>💐常见问题 - FAQ</h2>
+  <ul class="faq">
+    <li><strong>Q：</strong>如果材料不齐怎么办？<br> <strong>A：</strong>我会提醒并协助补齐，同时先投递已准备好的学校；</li>
+    <li><strong>Q：</strong>投递完成后多久能收到确认通知？<br> <strong>A：</strong>通常 1–2 个工作日内，学校会给予邮件回执；</li>
+    <li><strong>Q：</strong>能否一次性投多所学校？<br> <strong>A：</strong>可以的，我会分批安排，为你规划最合适的投递时间。</li>
+  </ul>
+</section>
+
+<footer>
+  <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
+</footer>
+
+<script>
+/* ===== 漂浮光点动画 ===== */
+function initFloatingLights(canvasSelector, particleCount=50){
+  const canvases = document.querySelectorAll(canvasSelector);
+  canvases.forEach(canvas=>{
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = canvas.offsetWidth;
+    let h = canvas.height = canvas.offsetHeight;
+    
+    const particles = [];
+    for(let i=0;i<particleCount;i++){
+      particles.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: Math.random()*2+1,
+        dx: (Math.random()-0.5)*0.3,
+        dy: (Math.random()-0.5)*0.3,
+        alpha: Math.random()*0.5+0.1
+      });
+    }
+
+    function animate(){
+      ctx.clearRect(0,0,w,h);
+      particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if(p.x<0||p.x>w) p.dx*=-1;
+        if(p.y<0||p.y>h) p.dy*=-1;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize',()=>{ 
+      w=canvas.width=canvas.offsetWidth; 
+      h=canvas.height=canvas.offsetHeight; 
+    });
+  });
+}
+initFloatingLights('canvas.bg-canvas', 50);
+</script>
+
+</body>
+</html>
