@@ -83,11 +83,13 @@ section{
   animation: fadeUp 1s ease-out forwards;
 }
 
-/* 阶梯浮现延迟 */
+/* 阶梯浮现延迟（按页面上的 section 顺序）*/
 section:nth-of-type(1) { animation-delay: 0.2s; }
 section:nth-of-type(2) { animation-delay: 0.5s; }
 section:nth-of-type(3) { animation-delay: 0.8s; }
 section:nth-of-type(4) { animation-delay: 1.1s; }
+section:nth-of-type(5) { animation-delay: 1.4s; }
+section:nth-of-type(6) { animation-delay: 1.7s; }
 
 @keyframes fadeUp {
   to {
@@ -103,12 +105,16 @@ h2{
   font-size:1.2rem;
 }
 
-/* 作品展示 */
+/* 作品展示（固定三列，确保“面试服务”从第二行开始） */
 .projects{
   display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns: 1fr;
   gap:14px;
   margin-top:12px;
+}
+
+@media (min-width: 768px) {
+  .projects{ grid-template-columns: repeat(3, 1fr); }
 }
 
 .project{
@@ -158,40 +164,12 @@ img, table { max-width: 100%; height: auto; }
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
   body { font-size: 13px; line-height: 1.5; }
-  
-  header h1 { 
-    font-size: 1.4rem; 
-    line-height: 1.2; 
-  }
-  
-  header p { 
-    font-size: 0.9rem;
-  }
-  
-  section { 
-    margin: 16px 14px;
-    padding: 12px; 
-  }
-  
-  h2 { 
-    font-size: 1rem; 
-    margin-bottom: 8px; 
-  }
-
-  .projects { 
-    grid-template-columns: 1fr;
-    gap: 14px; 
-  }
-
-  .project { 
-    height: auto; 
-    padding: 12px; 
-  }
-
-  .highlight {
-    font-size: 0.75rem;
-    padding: 6px 12px;
-  }
+  header h1 { font-size: 1.4rem; line-height: 1.2; }
+  header p { font-size: 0.9rem; }
+  section { margin: 16px 14px; padding: 12px; }
+  h2 { font-size: 1rem; margin-bottom: 8px; }
+  .project { height: auto; padding: 12px; }
+  .highlight { font-size: 0.75rem; padding: 6px 12px; }
 }
 
 @media (max-width: 480px) {
@@ -214,13 +192,14 @@ img, table { max-width: 100%; height: auto; }
 <section class="about-me">
   <h2>关于我 - About Me</h2>
   <p>· 本211diy自申港大、曼大、新国立均拿offer，已留学完毕归来，目前是一名留学工作室的创办者；<br>
-  · 深耕留学行业近5年，为保质每年接收不超过15名学生，熟悉英、港、澳、新、欧等国家的申请全流程；<br>
+  · 深耕留学行业近5年，为保质每年接收不超过20名学生，熟悉英、港、澳、新、欧等国家的申请全流程；<br>
   · 年均上岸率为93.3%，平均每位同学拿到2张offer，以下是我的工作流程与成果的介绍~</p>
 </section>
 
 <section>
   <h2>作品展示 - Projects Showcase</h2>
   <div class="projects">
+    <!-- 第一行：1-3 -->
     <a href="zexiao.html">
       <div class="project">
         <h3>💐择校服务</h3>
@@ -233,10 +212,30 @@ img, table { max-width: 100%; height: auto; }
         <p>CV/PS/RL的个性化产出；</p>
       </div>
     </a>
+    <a href="toudi.html">
+      <div class="project">
+        <h3>📮投递服务</h3>
+        <p>全流程网申及材料投递指导；</p>
+      </div>
+    </a>
+
+    <!-- 第二行：4-6（确保从这里开始换行）-->
+    <a href="mianshi.html">
+      <div class="project">
+        <h3>🔖面试指导</h3>
+        <p>面试集与模拟面试；</p>
+      </div>
+    </a>
     <a href="offer.html">
       <div class="project">
         <h3>🎐Offer案例</h3>
         <p>过往学生录取信息与评价；</p>
+      </div>
+    </a>
+    <a href="faq.html">
+      <div class="project">
+        <h3>❓常见问题</h3>
+        <p>高频疑问与解答；</p>
       </div>
     </a>
   </div>
