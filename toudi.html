@@ -14,6 +14,7 @@
       background: rgba(255,255,255,0.2);
       border-radius: 20px;
       backdrop-filter: blur(4px);
+      position: relative;
     }
 
     /* ===== 主体样式 ===== */
@@ -27,6 +28,7 @@
       overflow-x:hidden;
       background: linear-gradient(180deg,#BFD9FF 0%,#0f1c33 100%);
       position: relative;
+      transition: background 0.4s;
     }
 
     /* ===== 背景动态渐变 ===== */
@@ -66,10 +68,12 @@
       font-size:2.2rem;
       letter-spacing:1px;
       text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+      position: relative;
     }
     header p {
       margin:6px 0;
       font-size:1rem;
+      position: relative;
     }
     header a {
       color:#fff;
@@ -88,7 +92,6 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       z-index:1;
       transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
-
       opacity: 0;
       transform: translateY(20px);
       animation: fadeUp 1s ease-out forwards;
@@ -100,145 +103,170 @@
     section:nth-of-type(5) { animation-delay: 1s; }
 
     @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     section:hover {
-  transform: translateY(-12px) scale(1.04);
-  box-shadow: 0 16px 36px rgba(0,0,0,0.5);
-  background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.18));
-}
+      transform: translateY(-12px) scale(1.04);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+      background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.18));
+    }
 
     h2 {
       border-bottom: 2px solid #fff;
       padding-bottom: 6px;
       margin-top: 0;
       font-size: 1.2rem;
-    }
-
-    /* ===== 独特优势行间距 & 悬停效果 ===== */
-    section:nth-of-type(3) ul li {
-      margin-bottom: 10px;  /* 行间距略宽 */
-      line-height: 1.2;
-    }
-    section:nth-of-type(3):hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.45);
-      background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15));
-    }
-
-    /* ===== 案例示例板块悬停效果 ===== */
-    .sample-case {
       position: relative;
-      max-width: 850px;
-      margin: 20px auto;
-      padding: 16px 20px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 12px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      z-index:1;
-
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1s ease-out forwards;
-    }
-    .sample-case:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.45);
-      background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15));
     }
 
-    /* ===== FAQ 每个 Q&A 行间距 & 悬停效果 ===== */
-    ul.faq li {
-      margin-bottom: 12px;  /* 略宽行间距 */
-      line-height: 1.5;
-    }
-    section:nth-of-type(5):hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.45);
-      background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15));
-    }
+    section:nth-of-type(3) ul li { margin-bottom: 10px; line-height: 1.2; }
+    section:nth-of-type(3):hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 10px 24px rgba(0,0,0,0.45); background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15)); }
+    .sample-case:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 10px 24px rgba(0,0,0,0.45); background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15)); }
+    ul.faq { padding-left: 20px; }
+    ul.faq li { margin-bottom: 12px; line-height: 1.5; }
+    section:nth-of-type(5):hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 10px 24px rgba(0,0,0,0.45); background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.15)); }
 
-    /* FAQ 样式 */
-    ul.faq {
-      padding-left: 20px;
-    }
+    /* footer */
+    footer { text-align: center; padding: 16px 10px; margin-top: 20px; }
 
-    /* ===== footer ===== */
-    footer {
-      text-align: center;
-      padding: 16px 10px;
-      margin-top: 20px;
-    }
-
-    /* ===== 响应式 ===== */
-    @media (max-width: 768px) {
+    /* 响应式 */
+    @media (max-width: 768px){
       body { font-size: 13px; line-height: 1.5; }
       header h1 { font-size: 1.4rem; line-height: 1.2; }
       header p { font-size: 0.9rem; }
       section { margin: 16px 14px; padding: 12px; }
       h2 { font-size: 1rem; margin-bottom: 8px; }
     }
-
-    @media (max-width: 480px) {
+    @media (max-width: 480px){
       header h1 { font-size: 1.2rem; }
       .tagline { font-size: 0.75rem; padding: 5px 10px; }
       section { margin: 12px 10px; padding: 10px; }
     }
 
+    /* ===== 语言切换相关 ===== */
+    .lang-text { display:none; }
+    body.lang-zh .lang-zh { display:block; }
+    body.lang-en .lang-en { display:block; }
+
+    .lang-switch { position:absolute; top:15px; right:20px; z-index:2; }
+    .lang-switch span { cursor:pointer; padding:0 5px; font-weight:bold; }
+    .lang-switch span.active { text-decoration: underline; }
+
   </style>
 </head>
-<body>
+<body class="lang-zh">
 
 <canvas class="bg-canvas"></canvas>
 
 <header>
-  <h1>📮投递服务</h1>
-  <p class="tagline">Your effort pays off — delivered flawlessly.</p>
-  <p><a href="index.html">返回首页</a></p>
+  <div class="lang-switch">
+    <span id="btn-zh" class="active">中文</span> | 
+    <span id="btn-en">EN</span>
+  </div>
+  <h1>
+    <span class="lang-text lang-zh">📮 投递服务</span>
+    <span class="lang-text lang-en">📮 Application Submission</span>
+  </h1>
+  <p class="tagline">
+    <span class="lang-text lang-zh">Your effort pays off — delivered flawlessly.</span>
+    <span class="lang-text lang-en">Your effort pays off — delivered flawlessly.</span>
+  </p>
+  <p>
+    <span class="lang-text lang-zh"><a href="index.html">返回首页</a></span>
+    <span class="lang-text lang-en"><a href="index.html">Back to Home</a></span>
+  </p>
 </header>
 
-<section>
-  <h2>🎠服务流程 - Service Procedure</h2>
-  <p>1. 提前确认开放投递日期 → 2. 系统注册与开通 → 3. 材料收集与核查 → 4. 网申系统填写 → 5. 文件上传 → 6. 缴纳申请费 → 7. 确认与定期跟进检查(如补充校方所需材料等) → 8. 解读offer/con/waiting list/拒信 → 9. 依据实际情况接受offer/写love letter</p>
-</section>
+<!-- 中文内容 -->
+<div id="cn" class="container-lang" aria-hidden="false">
+  <section>
+    <h2>🎠服务流程</h2>
+    <p>1. 提前确认开放投递日期 → 2. 系统注册与开通 → 3. 材料收集与核查 → 4. 网申系统填写 → 5. 文件上传 → 6. 缴纳申请费 → 7. 确认与定期跟进检查(如补充校方所需材料等) → 8. 解读offer/con/waiting list/拒信 → 9. 依据实际情况接受offer/写love letter</p>
+  </section>
 
-<section>
-  <h2>🎐价格 - Price</h2>
-  <p>¥ 300-500/个专业（含全过程把控与跟进）</p>
-</section>
+  <section>
+    <h2>🎐价格</h2>
+    <p>¥ 300-500/个专业（含全过程把控与跟进）</p>
+  </section>
 
-<section>
-  <h2>🎍独特优势 - Unique Strengths</h2>
-  <ul>
-    <li>按照每所学校不同的投递竞争度规划个性化的delivery timeline，争取更高的上岸率；</li>
-    <li>投递前double check甚至triple check，确保无低级错误;</li>
-    <li>账号密码共享，学生可随时自行查看进度;</li>
-    <li>在必要时，可直接联系到admission officer (仅部分学校)，帮助澄清或补充申请细节，提高获offer概率；</li>
-    <li>遇到系统异常时，快速预案处理。</li>
-  </ul>
-</section>
+  <section>
+    <h2>🎍独特优势</h2>
+    <ul>
+      <li>按照每所学校不同的投递竞争度规划个性化的delivery timeline，争取更高的上岸率</li>
+      <li>投递前double check甚至triple check，确保无低级错误</li>
+      <li>账号密码共享，学生可随时自行查看进度</li>
+      <li>在必要时，可直接联系到admission officer (仅部分学校)，帮助澄清或补充申请细节，提高获offer概率</li>
+      <li>遇到系统异常时，快速预案处理</li>
+    </ul>
+  </section>
 
-<section class="sample-case">
-  <h2>🎋案例示例 - Sample Case</h2>
-  <p>往期学生材料收集list示例：</p>
-  <div class="case-image">
-    <img src="toudi_example.jpg" alt="Sample Case" style="width:100%; border-radius:12px;">
-  </div>
-</section> 
+  <section class="sample-case">
+    <h2>🎋案例示例</h2>
+    <p>往期学生材料收集list示例：</p>
+    <div class="case-image">
+      <img src="toudi_example.jpg" alt="Sample Case" style="width:100%; border-radius:12px;">
+    </div>
+  </section> 
 
-<section>
-  <h2>💐常见问题 - FAQ</h2>
-  <ul class="faq">
-    <li><strong>Q：</strong>如果材料不齐怎么办？<br> <strong>A：</strong>我会提醒并协助补齐，同时先投递已准备好的学校；</li>
-    <li><strong>Q：</strong>投递完成后多久能收到确认通知？<br> <strong>A：</strong>通常 1–2 个工作日内，学校会给予邮件回执；</li>
-    <li><strong>Q：</strong>能否一次性投多所学校？<br> <strong>A：</strong>可以的，我会分批安排，为你规划最合适的投递时间。</li>
-  </ul>
-</section>
+  <section>
+    <h2>💐常见问题</h2>
+    <ul class="faq">
+      <li><strong>Q：</strong>如果材料不齐怎么办？<br> 
+          <strong>A：</strong>我会提醒并协助补齐，同时先投递已准备好的学校；
+      </li>
+      <li><strong>Q：</strong>投递完成后多久能收到确认通知？<br> 
+          <strong>A：</strong>通常 1–2 个工作日内，学校会给予邮件回执；
+      </li>
+      <li><strong>Q：</strong>能否一次性投多所学校？<br> 
+          <strong>A：</strong>可以的，我会分批安排，为你规划最合适的投递时间。
+      </li>
+    </ul>
+  </section>
+</div>
+<!-- 英文内容 -->
+<div id="en" class="container-lang" aria-hidden="true" style="display:none;">
+  <section>
+    <h2>🎠Service Procedure</h2>
+    <p>1. Confirm submission dates → 2. Register in system → 3. Collect & review materials → 4. Fill online forms → 5. Upload documents → 6. Pay fees → 7. Confirm & follow up (supplement school-required docs) → 8. Review offer/con/waitlist/rejection → 9. Accept offer or write love letter accordingly</p>
+  </section>
+
+  <section>
+    <h2>🎐Price</h2>
+    <p>¥ 300-500 per major (full process supervision & follow-up)</p>
+  </section>
+
+  <section>
+    <h2>🎍Unique Strengths</h2>
+    <ul>
+      <li>Plan personalized delivery timeline based on each school's competitiveness for higher acceptance rate</li>
+      <li>Double or triple check before submission to avoid low-level mistakes</li>
+      <li>Share account info so students can check progress anytime</li>
+      <li>Contact admission officers directly if needed (some schools) to clarify or supplement application details for higher chance of offer</li>
+      <li>Quick contingency handling during system exceptions</li>
+    </ul>
+  </section>
+
+  <section class="sample-case">
+    <h2>🎋Sample Case</h2>
+    <p>Example of previous students' material collection list:</p>
+    <div class="case-image">
+      <img src="toudi_example.jpg" alt="Sample Case" style="width:100%; border-radius:12px;">
+    </div>
+  </section>
+
+  <section>
+    <h2>💐FAQ</h2>
+    <ul class="faq">
+      <li><strong>Q：</strong>What if materials are incomplete?<br> 
+          <strong>A：</strong>I will remind and assist in completing them, meanwhile submit ready schools first;</li>
+      <li><strong>Q：</strong>How long to receive confirmation after submission?<br> 
+          <strong>A：</strong>Usually within 1–2 working days, school sends email receipt;</li>
+      <li><strong>Q：</strong>Can I submit to multiple schools at once?<br> 
+          <strong>A：</strong>Yes, submissions are arranged in batches for optimal schedule.</li>
+    </ul>
+  </section>
+</div>
 
 <footer>
   <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
@@ -287,6 +315,26 @@ function initFloatingLights(canvasSelector, particleCount=50){
   });
 }
 initFloatingLights('canvas.bg-canvas', 50);
+
+/* ===== 语言切换 ===== */
+const btnEn = document.getElementById('btn-en');
+const btnZh = document.getElementById('btn-zh');
+
+btnEn.addEventListener('click', ()=>{
+  document.body.classList.remove('lang-zh');
+  document.body.classList.add('lang-en');
+  btnEn.classList.add('active'); btnZh.classList.remove('active');
+  document.getElementById('cn').style.display='none';
+  document.getElementById('en').style.display='block';
+});
+
+btnZh.addEventListener('click', ()=>{
+  document.body.classList.remove('lang-en');
+  document.body.classList.add('lang-zh');
+  btnZh.classList.add('active'); btnEn.classList.remove('active');
+  document.getElementById('en').style.display='none';
+  document.getElementById('cn').style.display='block';
+});
 </script>
 
 </body>

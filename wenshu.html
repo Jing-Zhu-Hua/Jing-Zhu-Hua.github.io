@@ -6,16 +6,21 @@
 <title>🎏文书撰写</title>
 
 <style>
+/* ===== 全局重置，避免默认 margin 导致分界线 ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 /* ===== 主体样式 ===== */
-body {
-  margin: 0; padding: 0;
+html, body {
+  height: 100%;
   font-family: Arial, sans-serif;
   color: #fff;
   font-size:14px;
-  line-height:1.6;
+  line-height:1.7;
   overflow-x:hidden;
   background: linear-gradient(180deg,#1A2A45 0%,#3B5A8A 100%);
   position: relative;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
 /* ===== canvas 光点 ===== */
@@ -30,23 +35,27 @@ canvas.bg-canvas {
 /* ===== 顶部版头 ===== */
 header {
   position: relative;
-  background: linear-gradient(180deg, rgba(59,90,138,0.85), rgba(26,42,69,0.85));
+  /* 去掉背景色，完全透明，融入 body 渐变 */
+  background: transparent;
   padding: 30px 20px;
   text-align: center;
-  overflow: hidden;
+  overflow: visible;
+  z-index:3;
+  border: none;
 }
 
 header h1 {
-  margin: 0;
+  margin: 0 0 12px 0;        /* 增加标题与副标题间距 */
   font-size: 2.4rem;
   letter-spacing: 1px;
   text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
 }
 
 header .subtitle {
-  margin-top: 10px;
+  margin-top: 0;
+  margin-bottom: 14px;       /* 增加副标题与返回首页间距 */
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.8;
 }
 
 header .tag {
@@ -55,8 +64,8 @@ header .tag {
   border-radius: 12px;
   font-size: 0.85rem;
   margin-top: 8px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
 }
 
 header a {
@@ -66,7 +75,35 @@ header a {
 }
 header a:hover { color: #87CEFA; }
 
-/* ===== 浮块样式 ===== */
+/* 右上角语言切换（中文 | EN） */
+.lang-switch {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: 0.95rem;
+  color: #fff;
+  z-index:4;
+  user-select: none;
+}
+.lang-switch span {
+  margin: 0 6px;
+  cursor: pointer;
+  opacity: 0.95;
+}
+.lang-switch span.active {
+  text-decoration: underline;
+  color: #87CEFA;
+  font-weight: 700;
+}
+
+/* ===== 主体容器（用于过渡） ===== */
+.container-lang {
+  position: relative;
+  z-index:2;
+  transition: opacity 0.36s ease, transform 0.36s ease;
+}
+
+/* ===== 浮块样式（和你原来一致） ===== */
 section{
   position: relative;
   max-width: 1000px;
@@ -105,7 +142,7 @@ h2{
 
 .project{
   background: rgba(50, 80, 110, 0.7);
-  padding:16px; 
+  padding:16px;
   border-radius:10px;
   box-shadow:0 4px 12px rgba(0,0,0,0.3);
   transition: transform .3s, box-shadow .3s, background .3s;
@@ -114,13 +151,11 @@ h2{
   margin:0 0 8px 0;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
-  
 .project:hover, .project.touch-hover{
   transform: translateY(-8px) scale(1.05);
   box-shadow: 0 12px 30px rgba(0,0,0,0.5);
   background: linear-gradient(135deg, rgba(70,120,180,0.85), rgba(40,80,140,0.85));
 }
-
 .project ul{ margin:0 0 8px 18px; }
 .muted{ opacity:.9; }
 
@@ -135,37 +170,6 @@ h2{
 
 a{ color:#fff; text-decoration:underline; }
 
-/* ===== 底部 footer ===== */
-footer {
-  position: relative;
-  background: linear-gradient(180deg, rgba(59,90,138,0.85), rgba(26,42,69,0.85));
-  text-align: center;
-  padding: 20px;
-  overflow: hidden;
-}
-
-.tag{
-  display:inline-block; padding:2px 8px; border:1px solid rgba(255,255,255,.6);
-  border-radius:999px; font-size:.85rem; margin-left:8px;
-}
-
-img, table { max-width: 100%; height: auto; }
-
-/* ===== 响应式 ===== */
-@media (max-width: 768px) {
-  body { font-size: 14px; }
-  header h1 { font-size: 1.5rem; }
-  section { margin: 20px 10px; padding: 16px; }
-  .projects { gap: 12px; }
-  .project { padding: 12px; }
-  .img-wrap { gap: 10px; }
-}
-
-@media (max-width: 480px) {
-  header h1 { font-size: 1.2rem; }
-  section { margin: 12px 10px; padding: 10px; }
-}
-
 /* ===== 轮播样式 ===== */
 .slider-container {
   position: relative;
@@ -173,7 +177,8 @@ img, table { max-width: 100%; height: auto; }
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-  z-index: 2; 
+  z-index: 2;
+  background: rgba(10,20,40,0.12);
 }
 
 .slider-wrapper {
@@ -195,16 +200,13 @@ img, table { max-width: 100%; height: auto; }
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  width:28px; height:28px;
-  background: rgba(20,40,70,0.6); 
-  color:#fff;
-  border:none; border-radius:50%;
-  font-size:1.1rem;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);
-  transition: all 0.3s ease; z-index:3;
+  width:36px; height:36px;
+  background: rgba(20,40,70,0.6);
+  color:#fff; border:none; border-radius:50%;
+  font-size:1.2rem; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3); z-index:3;
 }
-.nav-btn:hover { background: rgba(40,70,120,0.8); transform: translateY(-50%) scale(1.2); }
+.nav-btn:hover { background: rgba(40,70,120,0.8); transform: translateY(-50%) scale(1.06); }
 .prev { left:10px; } .next { right:10px; }
 
 .dots {
@@ -214,17 +216,12 @@ img, table { max-width: 100%; height: auto; }
   transform: translateX(-50%);
   display:flex; gap:6px;
 }
-.dot {
-  width:8px; height:8px;
-  border-radius:50%;
-  background: rgba(20,40,70,0.5);
-  cursor:pointer;
-  transition: all 0.3s;
-}
+.dot { width:8px; height:8px; border-radius:50%; background: rgba(20,40,70,0.5); cursor:pointer; transition: all 0.3s; }
 .dot.active { background:#87CEFA; transform:scale(1.2); }
 
+/* modal */
 #img-modal {
-  position: fixed; z-index:999; left:0; top:0;
+  position: fixed; z-index:9999; left:0; top:0;
   width:100%; height:100%; display:none;
   background-color: rgba(0,0,0,0.85);
   justify-content:center; align-items:center;
@@ -232,6 +229,37 @@ img, table { max-width: 100%; height: auto; }
 #img-modal img { max-width:90%; max-height:90%; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.7); }
 #close-modal { position:absolute; top:20px; right:30px; font-size:3rem; color:#fff; cursor:pointer; }
 
+/* ===== footer ===== */
+footer {
+  position: relative;
+  /* 同样去掉背景色，完全透明 */
+  background: transparent;
+  text-align: center;
+  padding: 20px;
+  overflow: hidden;
+  z-index:3;
+}
+
+.tag{
+  display:inline-block; padding:2px 8px; border:1px solid rgba(255,255,255,.6);
+  border-radius:999px; font-size:.85rem; margin-left:8px;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+  header h1 { font-size: 1.6rem; }
+  section { padding: 16px; }
+  .projects { gap: 12px; }
+  .project { padding: 12px; }
+  .img-wrap { gap: 10px; }
+  .lang-switch { top: 12px; right: 12px; }
+}
+
+@media (max-width: 480px) {
+  header h1 { font-size: 1.2rem; }
+  section { margin: 12px 10px; padding: 10px; }
+}
 </style>
 </head>
 <body>
@@ -239,15 +267,24 @@ img, table { max-width: 100%; height: auto; }
 <canvas class="bg-canvas"></canvas>
 
 <header>
-  <h1>🎏文书撰写</h1>
-  <p class="subtitle">
+  <h1 id="hdr-title">🎏文书撰写</h1>
+  <p class="subtitle" id="hdr-sub">
     Words are my way of experiencing the world.
     <br>
-    <span class="tag">一对一个性化书写</span>
+    <span class="tag" id="hdr-tag">一对一个性化书写</span>
   </p>
-  <p><a href="index.html">返回首页</a></p>
+  <p><a href="index.html" id="hdr-home">返回首页</a></p>
+
+  <div class="lang-switch" aria-hidden="false">
+    <span id="lang-zh" class="active" role="button">中文</span>
+    <span id="lang-sep">|</span>
+    <span id="lang-en" role="button">EN</span>
+  </div>
 </header>
 
+<!-- 中文版本（你原始的中文内容一字不删 — 我直接把你给的完整中文 HTML 放在这里） -->
+<div id="cn" class="container-lang" aria-hidden="false">
+  <!-- 以下内容为用户原始中文 HTML（保持原样） -->
 <section>
   <h2>服务内容 - Service Content </h2>
   <div class="projects">
@@ -316,19 +353,19 @@ img, table { max-width: 100%; height: auto; }
 <section>
   <h2>文书节选 - Writing Sample</h2>
   <div class="slider-container">
-    <div class="slider-wrapper" id="slider">
+    <div class="slider-wrapper" id="slider_cn">
       <img src="my_ps.jpg" alt="CV 样例">
       <img src="my_cv.jpg" alt="PS 样例">
       <img src="my_rl.jpg" alt="RL 样例">
     </div>
-    <button class="nav-btn prev" id="prevBtn">‹</button>
-    <button class="nav-btn next" id="nextBtn">›</button>
-    <div class="dots" id="dots"></div>
+    <button class="nav-btn prev" id="prevBtn_cn">‹</button>
+    <button class="nav-btn next" id="nextBtn_cn">›</button>
+    <div class="dots" id="dots_cn"></div>
   </div>
 
-  <div id="img-modal">
-    <span id="close-modal">&times;</span>
-    <img id="modal-img" src="" alt="">
+  <div id="img-modal_cn" class="img-modal" style="display:none;">
+    <span id="close-modal_cn">&times;</span>
+    <img id="modal-img_cn" src="" alt="">
   </div>
 </section>
 
@@ -367,21 +404,147 @@ img, table { max-width: 100%; height: auto; }
     </div>
   </div>
 </section>
+</div>
+<!-- end cn -->
+
+<!-- 英文版本（all translated — 完整） -->
+<div id="en" class="container-lang" aria-hidden="true" style="display:none;">
+<section>
+  <h2>Service Content</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>📄 Curriculum Vitae</h3>
+      <ul>
+        <li>Enhance professional relevance, refine terminology, and quantify achievements</li>
+        <li>Unify structure and formatting; prioritize key information</li>
+        <li>Bilingual polishing (Chinese & English), ATS-friendly</li>
+      </ul>
+      <p class="muted">Deliverables: Refined concept (Word/Google Docs) + Final PDF</p>
+    </div>
+
+    <div class="project">
+      <h3>🔖 Personal Statement</h3>
+      <ul>
+        <li>Analyze target program course descriptions and mark essential points</li>
+        <li>One-on-one brainstorming interviews to mine material and shape a clear storyline</li>
+        <li>Differentiate your narrative and craft highlights to avoid templated text</li>
+      </ul>
+      <p class="muted">Deliverables: Xmind writing logic map + Final PDF</p>
+    </div>
+
+    <div class="project">
+      <h3>📮 Reference Letter</h3>
+      <ul>
+        <li>Identify referee relationship, responsibilities and supporting evidence</li>
+        <li>Match program requirements and refresh candidate highlights</li>
+        <li>Polished wording to avoid repetition and sensitive phrasing</li>
+      </ul>
+      <p class="muted">Deliverables: Writing plan (Word/Google Docs) + Final PDF</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Workflow & Pricing</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>🧩 Service Workflow</h3>
+      <p>1. Confirm program → 2. Payment → 3. Break down program courses & projects and organize into a shared doc, highlight key points → 4. In-depth interview & materials collection → 5. Draft writing → 6. Applicant requests revisions → 7. Finalization & translation</p>
+    </div>
+
+    <div class="project">
+      <h3>💸 Price Range</h3>
+      <ul>
+        <li>CV: <b>¥1200</b> /piece</li>
+        <li>PS: <b>¥2.5-3k</b> /essay (for overlapping directions we can extract intersections; each additional intersection +¥500)</li>
+        <li>RL: <b>¥800</b> /letter</li>
+        <li>Package: <b>¥2500</b> (CV + 2 RLs)</li>
+      </ul>
+      <p class="muted">* Actual price depends on complexity and lead time</p>
+    </div>
+
+    <div class="project">
+      <h3>⏱️ Timeline & Collaboration</h3>
+      <ul>
+        <li>Standard: 3–7 days / item (includes revisions)</li>
+        <li>Expedited: available depending on schedule</li>
+        <li>Collaboration: WeChat + Tencent Docs for real-time follow-up</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Writing Sample</h2>
+  <div class="slider-container">
+    <div class="slider-wrapper" id="slider_en">
+      <img src="my_ps.jpg" alt="PS sample">
+      <img src="my_cv.jpg" alt="CV sample">
+      <img src="my_rl.jpg" alt="RL sample">
+    </div>
+    <button class="nav-btn prev" id="prevBtn_en">‹</button>
+    <button class="nav-btn next" id="nextBtn_en">›</button>
+    <div class="dots" id="dots_en"></div>
+  </div>
+
+  <div id="img-modal_en" class="img-modal" style="display:none;">
+    <span id="close-modal_en">&times;</span>
+    <img id="modal-img_en" src="" alt="">
+  </div>
+</section>
+
+<section>
+  <h2>FAQ</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>📌 Q: Will my essays collide with others' submissions?</h3>
+      <p>Never. All documents are customized 1:1 based on your real experiences — templates are never reused. I will provide the writing rationale as well.</p>
+    </div>
+    <div class="project">
+      <h3>📌 Q: What are the standards for English polishing?</h3>
+      <p>We follow academic and admissions language register to ensure grammar, diction, and coherence. References are used when necessary.</p>
+    </div>
+    <div class="project">
+      <h3>📌 Q: How is privacy protected?</h3>
+      <p>All your materials are used only for this application and will not be shared externally or used for training. Please rest assured.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Contact Details</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>📧 E-mail</h3>
+      <p>littlepo_office@163.com</p>
+    </div>
+    <div class="project">
+      <h3>📱 WeChat</h3>
+      <p>PiousBelieverinLove</p>
+    </div>
+    <div class="project">
+      <h3>📮 Submit Materials</h3>
+      <p>Please send existing personal materials in PDF/Word format for a quick assessment and quotation.</p>
+    </div>
+  </div>
+</section>
+</div>
+<!-- end en -->
 
 <footer>
-  <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
+  <p id="footer-text">© 2025 Littlepo_offcial Web | Designed by Jing.</p>
   <canvas class="bg-canvas"></canvas>
 </footer>
 
 <script>
-/* ===== 漂浮光点统一管理 ===== */
+/* ===== 漂浮光点统一管理（保持原逻辑） ===== */
 function initFloatingLights(canvasSelector, particleCount=40){
   const canvases = document.querySelectorAll(canvasSelector);
   canvases.forEach(canvas=>{
     const ctx = canvas.getContext('2d');
     let w = canvas.width = canvas.offsetWidth;
     let h = canvas.height = canvas.offsetHeight;
-    
+
     const particles = [];
     for(let i=0;i<particleCount;i++){
       particles.push({
@@ -417,47 +580,155 @@ function initFloatingLights(canvasSelector, particleCount=40){
 }
 initFloatingLights('canvas.bg-canvas', 40);
 
-/* ===== 轮播 JS ===== */
-const slider = document.getElementById('slider');
-const slides = slider.querySelectorAll('img');
-let index = 0;
-const dotsContainer = document.getElementById('dots');
-slides.forEach((_, i)=>{
-  const dot = document.createElement('div');
-  dot.className='dot'+(i===0?' active':'');
-  dot.addEventListener('click',()=>{ goToSlide(i); });
-  dotsContainer.appendChild(dot);
-});
+/* ===== 通用轮播初始化函数（支持多个容器） ===== */
+function initSlider(wrapperId, prevId, nextId, dotsId){
+  const wrapper = document.getElementById(wrapperId);
+  if(!wrapper) return;
+  const slides = wrapper.querySelectorAll('img');
+  let idx = 0;
+  const dotsContainer = document.getElementById(dotsId);
 
-function updateDots(){
-  const dots = dotsContainer.querySelectorAll('.dot');
-  dots.forEach((d,i)=>d.classList.toggle('active', i===index));
-}
-
-function goToSlide(i){
-  index = i;
-  slider.style.transform = `translateX(-${i*100}%)`;
-  updateDots();
-}
-
-document.getElementById('prevBtn').onclick = ()=>{ goToSlide((index-1+slides.length)%slides.length); };
-document.getElementById('nextBtn').onclick = ()=>{ goToSlide((index+1)%slides.length); };
-
-/* ===== 图片弹窗 ===== */
-slides.forEach(img=>{
-  img.addEventListener('click',()=>{
-    const modal = document.getElementById('img-modal');
-    const modalImg = document.getElementById('modal-img');
-    modal.style.display='flex';
-    modalImg.src = img.src;
+  // create dots
+  slides.forEach((_, i)=>{
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i===0 ? ' active' : '');
+    dot.addEventListener('click', ()=> goTo(i));
+    if(dotsContainer) dotsContainer.appendChild(dot);
   });
-});
-document.getElementById('close-modal').onclick = ()=>{ document.getElementById('img-modal').style.display='none'; };
 
-/* ===== 移动端触控 ===== */
-document.querySelectorAll('.project').forEach(el=>{
-  el.addEventListener('touchstart',()=>el.classList.add('touch-hover'));
-  el.addEventListener('touchend',()=>el.classList.remove('touch-hover'));
+  function updateDots(){
+    if(!dotsContainer) return;
+    const dots = dotsContainer.querySelectorAll('.dot');
+    dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+  }
+
+  function goTo(i){
+    idx = i;
+    wrapper.style.transform = `translateX(-${i*100}%)`;
+    updateDots();
+  }
+
+  // prev/next
+  const prevBtn = document.getElementById(prevId);
+  const nextBtn = document.getElementById(nextId);
+  if(prevBtn) prevBtn.addEventListener('click', ()=> goTo((idx - 1 + slides.length) % slides.length));
+  if(nextBtn) nextBtn.addEventListener('click', ()=> goTo((idx + 1) % slides.length));
+
+  // image click -> shared modal
+  slides.forEach(img=>{
+    img.addEventListener('click', ()=>{
+      openSharedModal(img.src, img.alt);
+    });
+  });
+}
+
+/* shared modal (single modal reused) */
+function openSharedModal(src, alt){
+  // choose existing modal element (cn or en): prefer common one, create on the fly if needed
+  // We'll use a global modal with id="global-img-modal"
+  let globalModal = document.getElementById('global-img-modal');
+  if(!globalModal){
+    globalModal = document.createElement('div');
+    globalModal.id = 'global-img-modal';
+    globalModal.style.position = 'fixed';
+    globalModal.style.zIndex = '99999';
+    globalModal.style.left = '0';
+    globalModal.style.top = '0';
+    globalModal.style.width = '100%';
+    globalModal.style.height = '100%';
+    globalModal.style.display = 'flex';
+    globalModal.style.justifyContent = 'center';
+    globalModal.style.alignItems = 'center';
+    globalModal.style.backgroundColor = 'rgba(0,0,0,0.85)';
+    globalModal.innerHTML = '<span id="global-close-modal" style="position:absolute;top:20px;right:30px;font-size:3rem;color:#fff;cursor:pointer;">&times;</span><img id="global-modal-img" src="" alt="" style="max-width:90%;max-height:90%;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.7);">';
+    document.body.appendChild(globalModal);
+    document.getElementById('global-close-modal').addEventListener('click', ()=> {
+      globalModal.style.display = 'none';
+    });
+  }
+  const imgEl = document.getElementById('global-modal-img');
+  imgEl.src = src;
+  imgEl.alt = alt || '';
+  globalModal.style.display = 'flex';
+}
+
+/* init both sliders (cn and en) */
+initSlider('slider_cn', 'prevBtn_cn', 'nextBtn_cn', 'dots_cn');
+initSlider('slider_en', 'prevBtn_en', 'nextBtn_en', 'dots_en');
+
+/* ===== 语言切换逻辑（带淡入淡出过渡） ===== */
+const btnZh = document.getElementById('lang-zh');
+const btnEn = document.getElementById('lang-en');
+const sep = document.getElementById('lang-sep');
+const cnDiv = document.getElementById('cn');
+const enDiv = document.getElementById('en');
+const hdrTitle = document.getElementById('hdr-title');
+const hdrSub = document.getElementById('hdr-sub');
+const hdrTag = document.getElementById('hdr-tag');
+const hdrHome = document.getElementById('hdr-home');
+
+function setActiveLangUI(lang){
+  if(lang==='zh'){
+    btnZh.classList.add('active');
+    btnEn.classList.remove('active');
+  } else {
+    btnEn.classList.add('active');
+    btnZh.classList.remove('active');
+  }
+}
+
+/* smooth switch with fade */
+function switchLang(lang){
+  // if already in that lang, return
+  if(lang==='zh' && cnDiv.style.display !== 'none') return;
+  if(lang==='en' && enDiv.style.display !== 'none') return;
+
+  // fade out visible
+  const from = (lang==='en') ? cnDiv : enDiv;
+  const to = (lang==='en') ? enDiv : cnDiv;
+
+  // update header immediate text for accessibility & clarity
+  if(lang==='en'){
+    hdrTitle.innerText = '🎏 Document Writing';
+    hdrSub.innerHTML = 'Words are my way of experiencing the world.<br><span class="tag">One-to-One Customized Writing</span>';
+    hdrHome.innerText = 'Back to Home';
+  } else {
+    hdrTitle.innerText = '🎏文书撰写';
+    hdrSub.innerHTML = 'Words are my way of experiencing the world.<br><span class="tag">一对一个性化书写</span>';
+    hdrHome.innerText = '返回首页';
+  }
+
+  // fade out
+  from.style.opacity = '1';
+  from.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+  from.style.opacity = '0';
+  from.style.transform = 'translateY(6px)';
+
+  setTimeout(()=>{
+    from.style.display = 'none';
+    // show target
+    to.style.display = 'block';
+    to.style.opacity = '0';
+    to.style.transform = 'translateY(6px)';
+    // reflow
+    void to.offsetWidth;
+    to.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+    to.style.opacity = '1';
+    to.style.transform = 'translateY(0)';
+
+    setActiveLangUI(lang);
+  }, 300);
+}
+
+/* attach events */
+btnZh.addEventListener('click', ()=> switchLang('zh'));
+btnEn.addEventListener('click', ()=> switchLang('en'));
+
+/* 初始触发动画（保留原动画节奏） */
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('section').forEach((s, i)=>{
+    s.style.animationDelay = (0.18 + i*0.12) + 's';
+  });
 });
 </script>
 

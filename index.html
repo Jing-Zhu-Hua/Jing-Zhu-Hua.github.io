@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jing_Zhu_Hua_Offcial_Web</title>
+<title>Jing_Zhu_Hua_Official_Web</title>
 
 <style>
 /* ===== 主体样式 ===== */
@@ -19,6 +19,7 @@ body {
               radial-gradient(circle at top left, rgba(255,255,255,0.2), transparent 60%);
   background-blend-mode: overlay;
   position: relative;
+  transition: background 0.3s;
 }
 
 /* ===== canvas 光点 ===== */
@@ -30,28 +31,36 @@ canvas.bg-canvas {
   z-index:0;
 }
 
-/* ===== 顶部 header ===== */
+/* ===== 顶部 header（居中自适应） ===== */
 header{
   text-align: center;
   padding: 40px 20px 20px 20px;
   position: relative;
   z-index:1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header h1{
-  margin:0;
-  font-size:2.4rem;
+  margin:0 0 8px 0;
+  font-size:clamp(1.6rem, 4vw, 2.4rem);
   letter-spacing:1px;
   text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 header p{
-  margin:8px 0;
-  font-size:1rem;
+  margin:0 0 10px 0;
+  font-size:clamp(0.9rem, 2.5vw, 1rem);
   line-height:1.5;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.3s, transform 0.3s;
 }
 
-/* 特别强调的句子外框 */
 .highlight{
   display:inline-block;
   background: rgba(255,255,255,0.15);
@@ -60,9 +69,29 @@ header p{
   border-radius:25px;
   margin-top:10px;
   font-weight:normal;
-  font-size:0.7rem;
+  font-size:clamp(0.65rem, 2vw, 0.75rem);
   color:#fff;
   text-shadow: none;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* 语言切换按钮 */
+.lang-switch {
+  position:absolute;
+  top:20px;
+  right:20px;
+  z-index:2;
+  font-size:0.9rem;
+}
+.lang-switch span {
+  cursor:pointer;
+  padding:0 5px;
+  font-weight:bold;
+}
+.lang-switch span.active {
+  text-decoration: underline;
 }
 
 /* ===== 浮块样式 ===== */
@@ -71,19 +100,16 @@ section{
   max-width: 900px;
   margin: 20px auto;
   padding: 12px 18px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.22);
   border-radius: 12px;
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   z-index:1;
-
-  /* 出场动画 */
   opacity: 0;
   transform: translateY(20px);
   animation: fadeUp 1s ease-out forwards;
 }
 
-/* 阶梯浮现延迟（按页面上的 section 顺序）*/
 section:nth-of-type(1) { animation-delay: 0.2s; }
 section:nth-of-type(2) { animation-delay: 0.5s; }
 section:nth-of-type(3) { animation-delay: 0.8s; }
@@ -105,7 +131,7 @@ h2{
   font-size:1.2rem;
 }
 
-/* 作品展示（固定三列，确保“面试服务”从第二行开始） */
+/* 作品展示 */
 .projects{
   display:grid;
   grid-template-columns: 1fr;
@@ -140,7 +166,6 @@ h2{
   font-size:0.9rem;
 }
 
-/* 悬停保持放大感 */
 .project:hover,
 .project:active,
 .project:focus,
@@ -152,7 +177,6 @@ h2{
 
 a{ color:#fff; text-decoration:none; }
 
-/* ===== footer ===== */
 footer{
   text-align: center;
   padding:16px 10px;
@@ -164,12 +188,12 @@ img, table { max-width: 100%; height: auto; }
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
   body { font-size: 13px; line-height: 1.5; }
-  header h1 { font-size: 1.4rem; line-height: 1.2; }
-  header p { font-size: 0.9rem; }
+  header h1 { font-size: clamp(1.4rem, 5vw, 2.0rem); }
+  header p { font-size: clamp(0.85rem, 3vw, 1rem); }
   section { margin: 16px 14px; padding: 12px; }
   h2 { font-size: 1rem; margin-bottom: 8px; }
   .project { height: auto; padding: 12px; }
-  .highlight { font-size: 0.75rem; padding: 6px 12px; }
+  .highlight { font-size: clamp(0.6rem, 2vw, 0.75rem); padding: 6px 12px; }
 }
 
 @media (max-width: 480px) {
@@ -177,6 +201,10 @@ img, table { max-width: 100%; height: auto; }
   .highlight { font-size: 0.7rem; }
   section { margin: 12px 10px; padding: 10px; }
 }
+
+/* ===== 丝滑语言切换 ===== */
+.container-lang { display:none; }
+.container-lang.active { display:block; opacity:1; transition: opacity 0.3s; }
 </style>
 </head>
 <body>
@@ -184,68 +212,75 @@ img, table { max-width: 100%; height: auto; }
 <canvas class="bg-canvas"></canvas>
 
 <header>
-  <h1>🎋您好，我是Jing竹花</h1>
-  <p>Welcome to my personal web.</p>
-  <p class="highlight">一个热衷于做留学咨询与个人成长扶持的持续学习者</p>
+  <div class="lang-switch">
+    <span id="btn-zh" class="active">中文</span> | 
+    <span id="btn-en">EN</span>
+  </div>
+
+  <h1 id="header-title">🎋您好，我是Jing竹花</h1>
+  <p id="header-subtitle">Welcome to my personal web.</p>
+  <p id="header-highlight" class="highlight">一个热衷于做留学咨询与个人成长扶持的持续学习者</p>
 </header>
 
-<section class="about-me">
-  <h2>关于我 - About Me</h2>
-  <p>· 本211diy自申港大、曼大、新国立均拿offer，已留学完毕归来，目前是一名留学工作室的创办者；<br>
-  · 深耕留学行业近5年，为保质每年接收不超过20名学生，熟悉英、港、澳、新、欧等国家的申请全流程；<br>
-  · 年均上岸率为93.3%，平均每位同学拿到2张offer，以下是我的工作流程与成果的介绍~</p>
-</section>
+<!-- 中文 container -->
+<div id="cn" class="container-lang active" aria-hidden="false">
+  <section class="about-me">
+    <h2>关于我 - About Me</h2>
+    <p>
+      · 本211diy自申港大、曼大、新国立均拿offer，已留学完毕归来，目前是一名留学工作室的创办者；<br>
+      · 深耕留学行业近5年，为保质每年接收不超过30名学生，熟悉英、港、澳、新、欧等国家的申请全流程；<br>
+      · 年均上岸率为93.3%，平均每位同学拿到2张offer，以下是我的工作流程与成果的介绍~ 
+    </p>
+  </section>
 
-<section>
-  <h2>作品展示 - Projects Showcase</h2>
-  <div class="projects">
-    <!-- 第一行：1-3 -->
-    <a href="zexiao.html">
-      <div class="project">
-        <h3>💐择校服务</h3>
-        <p>根据您的需求进行专业遴选；</p>
-      </div>
-    </a>
-    <a href="wenshu.html">
-      <div class="project">
-        <h3>🎏文书撰写</h3>
-        <p>CV/PS/RL的个性化产出；</p>
-      </div>
-    </a>
-    <a href="toudi.html">
-      <div class="project">
-        <h3>📮投递服务</h3>
-        <p>全流程网申及材料投递指导；</p>
-      </div>
-    </a>
+  <section>
+    <h2>作品展示 - Projects Showcase</h2>
+    <div class="projects">
+      <a href="zexiao.html"><div class="project"><h3>💐择校服务</h3><p>根据您的需求进行专业遴选；</p></div></a>
+      <a href="wenshu.html"><div class="project"><h3>🎏文书撰写</h3><p>CV/PS/RL的个性化产出；</p></div></a>
+      <a href="toudi.html"><div class="project"><h3>📮投递服务</h3><p>全流程网申及材料投递指导；</p></div></a>
+      <a href="mianshi.html"><div class="project"><h3>🔖面试指导</h3><p>面试集与模拟面试；</p></div></a>
+      <a href="offer.html"><div class="project"><h3>🎐Offer案例</h3><p>过往学生录取信息与评价；</p></div></a>
+      <a href="faq.html"><div class="project"><h3>❓常见问题</h3><p>高频疑问与解答；</p></div></a>
+    </div>
+  </section>
 
-    <!-- 第二行：4-6（确保从这里开始换行）-->
-    <a href="mianshi.html">
-      <div class="project">
-        <h3>🔖面试指导</h3>
-        <p>面试集与模拟面试；</p>
-      </div>
-    </a>
-    <a href="offer.html">
-      <div class="project">
-        <h3>🎐Offer案例</h3>
-        <p>过往学生录取信息与评价；</p>
-      </div>
-    </a>
-    <a href="faq.html">
-      <div class="project">
-        <h3>❓常见问题</h3>
-        <p>高频疑问与解答；</p>
-      </div>
-    </a>
-  </div>
-</section>
+  <section>
+    <h2>联系方式 - Contact Details</h2>
+    <p>📧 邮箱：littlepo_office@163.com</p>
+    <p>📱 微信：PiousBelieverinLove</p>
+  </section>
+</div>
 
-<section>
-  <h2>联系方式 - Contact Details</h2>
-  <p>📧 邮箱：littlepo_office@163.com</p>
-  <p>📱 微信：PiousBelieverinLove</p>
-</section>
+<!-- 英文 container -->
+<div id="en" class="container-lang" aria-hidden="true">
+  <section class="about-me">
+    <h2>About Me</h2>
+    <p>
+      · Self-applied and received offers from HKU, Manchester, and NUS; now founder of a study abroad consulting studio.<br>
+      · Nearly 5 years of experience in the study abroad industry, accepting no more than 30 students per year to ensure quality, familiar with UK, HK, AU, SG, EU application processes.<br>
+      · Annual acceptance rate 93.3%, average 2 offers per student. Below are my work process and results.
+    </p>
+  </section>
+
+  <section>
+    <h2>Projects Showcase</h2>
+    <div class="projects">
+      <a href="zexiao.html"><div class="project"><h3>💐School Selection Service</h3><p>Professional selection based on your needs</p></div></a>
+      <a href="wenshu.html"><div class="project"><h3>🎏Document Writing</h3><p>Personalized CV/PS/RL production</p></div></a>
+      <a href="toudi.html"><div class="project"><h3>📮Application Submission</h3><p>Full-process online application guidance</p></div></a>
+      <a href="mianshi.html"><div class="project"><h3>🔖Interview Guidance</h3><p>Interview collections and mock sessions</p></div></a>
+      <a href="offer.html"><div class="project"><h3>🎐Offer Cases</h3><p>Previous students' admissions and reviews</p></div></a>
+      <a href="faq.html"><div class="project"><h3>❓FAQ</h3><p>Frequently asked questions and answers</p></div></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Contact Details</h2>
+    <p>📧 Email: littlepo_office@163.com</p>
+    <p>📱 WeChat: PiousBelieverinLove</p>
+  </section>
+</div>
 
 <footer>
   <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
@@ -259,7 +294,6 @@ function initFloatingLights(canvasSelector, particleCount=50){
     const ctx = canvas.getContext('2d');
     let w = canvas.width = canvas.offsetWidth;
     let h = canvas.height = canvas.offsetHeight;
-    
     const particles = [];
     for(let i=0;i<particleCount;i++){
       particles.push({
@@ -271,7 +305,6 @@ function initFloatingLights(canvasSelector, particleCount=50){
         alpha: Math.random()*0.5+0.1
       });
     }
-
     function animate(){
       ctx.clearRect(0,0,w,h);
       particles.forEach(p=>{
@@ -279,31 +312,88 @@ function initFloatingLights(canvasSelector, particleCount=50){
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
         ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
         ctx.fill();
-        p.x += p.dx; p.y += p.dy;
+        p.x+=p.dx; p.y+=p.dy;
         if(p.x<0||p.x>w) p.dx*=-1;
         if(p.y<0||p.y>h) p.dy*=-1;
       });
       requestAnimationFrame(animate);
     }
     animate();
-
-    window.addEventListener('resize',()=>{ 
-      w=canvas.width=canvas.offsetWidth; 
-      h=canvas.height=canvas.offsetHeight; 
+    window.addEventListener('resize',()=>{
+      w=canvas.width=canvas.offsetWidth;
+      h=canvas.height=canvas.offsetHeight;
     });
   });
 }
 initFloatingLights('canvas.bg-canvas', 50);
 
-/* ===== 移动端触控悬停 ===== */
-document.querySelectorAll('.project').forEach(el=>{
-  el.addEventListener('touchstart', ()=>{
-    el.classList.add('touch-hover');
+/* ===== 丝滑语言切换 ===== */
+const btnZh = document.getElementById('btn-zh');
+const btnEn = document.getElementById('btn-en');
+const cnDiv = document.getElementById('cn');
+const enDiv = document.getElementById('en');
+
+const headerTitle = document.getElementById('header-title');
+const headerSubtitle = document.getElementById('header-subtitle');
+const headerHighlight = document.getElementById('header-highlight');
+
+function switchLang(lang){
+  if(lang==='zh' && cnDiv.classList.contains('active')) return;
+  if(lang==='en' && enDiv.classList.contains('active')) return;
+
+  const from = lang==='en' ? cnDiv : enDiv;
+  const to = lang==='en' ? enDiv : cnDiv;
+
+  // Header 淡出
+  [headerTitle, headerSubtitle, headerHighlight].forEach(el=>{
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(6px)';
   });
-  el.addEventListener('touchend', ()=>{
-    el.classList.remove('touch-hover');
-  });
-});
+
+  from.style.transition = 'opacity .28s ease, transform .28s ease';
+  from.style.opacity = '0';
+  from.style.transform = 'translateY(6px)';
+
+  setTimeout(()=>{
+    from.classList.remove('active');
+    from.style.display = 'none';
+
+    to.style.display = 'block';
+    to.classList.add('active');
+    to.style.opacity = '0';
+    to.style.transform = 'translateY(6px)';
+    void to.offsetWidth; // trigger reflow
+    to.style.transition = 'opacity .28s ease, transform .28s ease';
+    to.style.opacity = '1';
+    to.style.transform = 'translateY(0)';
+
+    btnZh.classList.toggle('active', lang==='zh');
+    btnEn.classList.toggle('active', lang==='en');
+
+    // Header 更新文案
+    if(lang==='zh'){
+      headerTitle.textContent = '🎋您好，我是Jing竹花';
+      headerSubtitle.textContent = 'Welcome to my personal web.';
+      headerHighlight.textContent = '一个热衷于做留学咨询与个人成长扶持的持续学习者';
+    } else {
+      headerTitle.textContent = '🎋Hello, I am Jing Zhuhua';
+      headerSubtitle.textContent = 'Welcome to my personal web.';
+      headerHighlight.textContent = 'A continuous learner passionate about study abroad consulting and personal growth support';
+    }
+
+    // Header 淡入
+    setTimeout(()=>{
+      [headerTitle, headerSubtitle, headerHighlight].forEach(el=>{
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      });
+    },50);
+
+  },300);
+}
+
+btnZh.addEventListener('click', ()=> switchLang('zh'));
+btnEn.addEventListener('click', ()=> switchLang('en'));
 </script>
 
 </body>

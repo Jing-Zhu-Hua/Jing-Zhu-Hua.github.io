@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>📋面试辅导</title>
   <style>
+    /* ===== 原有样式保持不动 ===== */
     .tagline {
       display: inline-block;
       margin-top: 10px;
@@ -15,7 +16,6 @@
       border-radius: 20px;
       backdrop-filter: blur(4px);
     }
-
     body {
       margin: 0;
       padding: 0;
@@ -26,8 +26,8 @@
       overflow-x:hidden;
       background: linear-gradient(180deg,#C8A2C8 0%,#5D3A7D 100%);
       position: relative;
+      transition: opacity 0.4s ease;
     }
-
     body::before {
       content: "";
       position: fixed;
@@ -42,7 +42,6 @@
       0%   { transform: translate(0,0) scale(1); }
       100% { transform: translate(-30px,20px) scale(1.1); }
     }
-
     canvas.bg-canvas {
       position: absolute;
       top:0; left:0;
@@ -50,7 +49,6 @@
       pointer-events:none;
       z-index:0;
     }
-
     header {
       text-align: center;
       padding: 40px 20px 20px 20px;
@@ -71,7 +69,6 @@
       color:#fff;
       text-decoration: underline;
     }
-
     section {
       position: relative;
       max-width: 850px;
@@ -82,7 +79,7 @@
       backdrop-filter: blur(8px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       z-index:1;
-      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease, opacity 0.35s ease;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeUp 1s ease-out forwards;
@@ -92,62 +89,33 @@
     section:nth-of-type(3) { animation-delay: 0.6s; }
     section:nth-of-type(4) { animation-delay: 0.8s; }
     section:nth-of-type(5) { animation-delay: 1s; }
-
     @keyframes fadeUp {
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-
     section:hover {
       transform: translateY(-12px) scale(1.04);
       box-shadow: 0 16px 36px rgba(0,0,0,0.5);
       background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.18));
     }
-
     h2 {
       border-bottom: 2px solid #fff;
       padding-bottom: 6px;
       margin-top: 0;
       font-size: 1.2rem;
     }
-
     ul li {
       margin-bottom: 10px;
       line-height: 1.2;
     }
-
-    /* 面试集行间距稍微紧凑 */
-    .interview-set p {
-      margin-bottom: 6px;
-      line-height: 1.3;
-    }
-
-    /* 价格段落行间距稍宽 */
-    .price p {
-      line-height: 1.8;
-    }
-
-    .sample-case img {
-      width: 100%;
-      border-radius: 12px;
-    }
-
-    ul.faq li {
-      margin-bottom: 12px;
-      line-height: 1.5;
-    }
-    ul.faq {
-      padding-left: 20px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 16px 10px;
-      margin-top: 20px;
-    }
-
+    .interview-set p { margin-bottom: 6px; line-height: 1.3; }
+    .price p { line-height: 1.8; }
+    .sample-case img { width: 100%; border-radius: 12px; }
+    ul.faq li { margin-bottom: 12px; line-height: 1.5; }
+    ul.faq { padding-left: 20px; }
+    footer { text-align: center; padding: 16px 10px; margin-top: 20px; }
     @media (max-width: 768px) {
       body { font-size: 13px; line-height: 1.5; }
       header h1 { font-size: 1.4rem; line-height: 1.2; }
@@ -160,6 +128,22 @@
       .tagline { font-size: 0.75rem; padding: 5px 10px; }
       section { margin: 12px 10px; padding: 10px; }
     }
+
+    /* ===== 语言切换 ===== */
+    .lang-switch {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 2;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .lang-switch span {
+      margin: 0 6px;
+      text-decoration: none; /* 去掉下划线 */
+    }
+    .lang-section { display: none; }
+    .lang-section.active { display: block; }
   </style>
 </head>
 <body>
@@ -167,47 +151,94 @@
 <canvas class="bg-canvas"></canvas>
 
 <header>
-  <h1>📋面试辅导</h1>
-  <p class="tagline">Prepare. Practice. Perfect.</p>
-  <p><a href="index.html">返回首页</a></p>
+  <div class="lang-switch">
+    <span id="zh-btn">中文</span> | <span id="en-btn">EN</span>
+  </div>
+  
+  <h1 id="page-title">📋面试辅导</h1>
+  <p class="tagline" id="tagline-text">Prepare. Practice. Perfect.</p>
+  <p><a href="index.html" id="home-link">返回首页</a></p>
 </header>
 
-<section>
-  <h2>👥模拟面试 - Mock Interview</h2>
-  <p>1. 提前确认专业与面试时间 → 2. 收集并分析学生资料与申请材料 → 3. （结合过往上岸同学透露的真实面试信息）设计针对性的面试问题清单 → 4. 进行模拟面试练习 → 5. 实时反馈表现与改进建议 → 6. 强化薄弱环节 → 7. 分析可能追问与压力问题 → 8. 总结提升策略</p>
-</section>
+<!-- 中文内容 -->
+<div class="lang-section active" id="zh">
+  <section>
+    <h2>👥模拟面试 - Mock Interview</h2>
+    <p>1. 提前确认专业与面试时间 → 2. 收集并分析学生资料与申请材料 → 3. （结合过往上岸同学透露的真实面试信息）设计针对性的面试问题清单 → 4. 进行模拟面试练习 → 5. 实时反馈表现与改进建议 → 6. 强化薄弱环节 → 7. 分析可能追问与压力问题 → 8. 总结提升策略</p>
+  </section>
 
-<section class="interview-set">
-  <h2>📚面试集 - Interview Set</h2>
-  <p>· 面试集中英结合，将根据过往上岸学生透露的信息，整理您可能面临的问题和详细解析；</p>
-  <p>· 每套都将结合不同学校和专业的特点，让您能有针对性地练习面试；</p>
-  <p>· 您可以自己按步骤演练每一个问题，参考解析再优化表达和逻辑，并不需要完全背诵，目的在于提供泛化思路，避免面试时的哑口无言。</p>
-</section>
+  <section class="interview-set">
+    <h2>📚面试集 - Interview Set</h2>
+    <p>· 面试集中英结合，将根据过往上岸学生透露的信息，整理您可能面临的问题和详细解析；</p>
+    <p>· 每套都将结合不同学校和专业的特点，让您能有针对性地练习面试；</p>
+    <p>· 您可以自己按步骤演练每一个问题，参考解析再优化表达和逻辑，并不需要完全背诵，目的在于提供泛化思路，避免面试时的哑口无言。</p>
+  </section>
 
-<section class="price">
-  <h2>🎐价格 - Price</h2>
-  <p><strong>模拟面试：</strong>¥300/h<br><strong>面试集：</strong>¥1200/套</p>
-</section>
+  <section class="price">
+    <h2>🎐价格 - Price</h2>
+    <p><strong>模拟面试：</strong>¥300/h<br><strong>面试集：</strong>¥1200/套</p>
+  </section>
 
-<section class="sample-case">
-  <h2>🎋案例示例 - Sample Case</h2>
-  <p>往期辅导学生面试集示例：</p>
-  <div class="case-image">
-    <img src="interview-example.jpg" alt="Sample Case">
-  </div>
-</section>
+  <section class="sample-case">
+    <h2>🎋案例示例 - Sample Case</h2>
+    <p>往期辅导学生面试集示例：</p>
+    <div class="case-image">
+      <img src="interview-example.jpg" alt="Sample Case">
+    </div>
+  </section>
 
-<section>
-  <h2>💐常见问题 - FAQ</h2>
-  <ul class="faq">
-  <li><strong>Q：模拟面试如何预约？</strong><br>
-      <strong>A：</strong>请提前至少3天联系我，提供申请的专业和您的可用时间即可安排；</li>
-  <li><strong>Q：面试集适合哪些专业？</strong><br>
-      <strong>A：</strong>面试集主要由通用题和专业题两大部分组合，基本同方向的专业均可使用；</li>
-  <li><strong>Q：购买面试集后是否有辅导？</strong><br>
-      <strong>A：</strong>面试集为自用材料，如需辅导需单独预约模拟面试服务。</li>
-</ul>
-</section>
+  <section>
+    <h2>💐常见问题 - FAQ</h2>
+    <ul class="faq">
+      <li><strong>Q：模拟面试如何预约？</strong><br>
+          <strong>A：</strong>请提前至少3天联系我，提供申请的专业和您的可用时间即可安排；</li>
+      <li><strong>Q：面试集适合哪些专业？</strong><br>
+          <strong>A：</strong>面试集主要由通用题和专业题两大部分组合，基本同方向的专业均可使用；</li>
+      <li><strong>Q：购买面试集后是否有辅导？</strong><br>
+          <strong>A：</strong>面试集为自用材料，如需辅导需单独预约模拟面试服务。</li>
+    </ul>
+  </section>
+</div>
+
+<!-- 英文内容 -->
+<div class="lang-section" id="en">
+  <section>
+    <h2>👥Mock Interview</h2>
+    <p>1. Confirm your major and interview schedule → 2. Collect and analyze student documents and application materials → 3. Design targeted interview question list based on previous students' real experience → 4. Conduct mock interview practice → 5. Provide real-time feedback and suggestions → 6. Strengthen weak points → 7. Analyze potential follow-up and stress questions → 8. Summarize improvement strategies</p>
+  </section>
+
+  <section class="interview-set">
+    <h2>📚Interview Set</h2>
+    <p>· The interview set combines Chinese and English, organizing potential questions and detailed explanations based on past successful students;</p>
+    <p>· Each set is tailored to different schools and majors, allowing focused practice;</p>
+    <p>· You can practice each question step by step, refer to the explanations, and optimize your expression and logic. No need to memorize everything, aim is to provide general thinking framework to avoid blanking out during interview.</p>
+  </section>
+
+  <section class="price">
+    <h2>🎐Price</h2>
+    <p><strong>Mock Interview:</strong> ¥300/h<br><strong>Interview Set:</strong> ¥1200/set</p>
+  </section>
+
+  <section class="sample-case">
+    <h2>🎋Sample Case</h2>
+    <p>Examples from previous students' interview sets:</p>
+    <div class="case-image">
+      <img src="interview-example.jpg" alt="Sample Case">
+    </div>
+  </section>
+
+  <section>
+    <h2>💐FAQ</h2>
+    <ul class="faq">
+      <li><strong>Q: How to book a mock interview?</strong><br>
+          <strong>A:</strong> Please contact me at least 3 days in advance and provide your major and available time;</li>
+      <li><strong>Q: Which majors are suitable for the interview set?</strong><br>
+                    <strong>A:</strong> The interview set consists of general and major-specific questions. It can be used for most related majors;</li>
+      <li><strong>Q: Is there coaching after purchasing the interview set?</strong><br>
+          <strong>A:</strong> The interview set is for self-study. Coaching requires a separate mock interview appointment.</li>
+    </ul>
+  </section>
+</div>
 
 <footer>
   <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
@@ -255,6 +286,41 @@ function initFloatingLights(canvasSelector, particleCount=50){
   });
 }
 initFloatingLights('canvas.bg-canvas', 50);
+
+/* ===== 语言切换带渐隐渐显效果 ===== */
+const zhBtn = document.getElementById('zh-btn');
+const enBtn = document.getElementById('en-btn');
+const zhSection = document.getElementById('zh');
+const enSection = document.getElementById('en');
+
+const pageTitle = document.getElementById('page-title');
+const homeLink = document.getElementById('home-link');
+const taglineText = document.getElementById('tagline-text');
+
+function fadeTextChange(element, newText){
+  element.style.transition = 'opacity 0.3s ease';
+  element.style.opacity = 0;
+  setTimeout(()=>{
+    element.textContent = newText;
+    element.style.opacity = 1;
+  }, 300);
+}
+
+zhBtn.addEventListener('click',()=>{
+  zhSection.classList.add('active');
+  enSection.classList.remove('active');
+  fadeTextChange(pageTitle, '📋面试辅导');
+  fadeTextChange(homeLink, '返回首页');
+  fadeTextChange(taglineText, 'Prepare. Practice. Perfect.');
+});
+
+enBtn.addEventListener('click',()=>{
+  enSection.classList.add('active');
+  zhSection.classList.remove('active');
+  fadeTextChange(pageTitle, '📋Interview Coaching');
+  fadeTextChange(homeLink, 'Back to Home');
+  fadeTextChange(taglineText, 'Prepare. Practice. Perfect.');
+});
 </script>
 
 </body>

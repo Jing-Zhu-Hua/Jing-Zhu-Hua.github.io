@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💐择校服务</title>
+  <title>💐择校服务 / School Selection Service</title>
   <style>
     .tagline {
       display: inline-block;
@@ -16,7 +16,6 @@
       backdrop-filter: blur(4px);
     }
 
-    /* ===== 主体样式 ===== */
     body {
       margin: 0;
       padding: 0;
@@ -27,9 +26,9 @@
       overflow-x:hidden;
       background: linear-gradient(180deg,#4f6fa8 0%,#1a2a4f 100%);
       position: relative;
+      transition: background 0.3s;
     }
 
-    /* ===== 背景动态渐变 ===== */
     body::before {
       content: "";
       position: fixed;
@@ -45,7 +44,6 @@
       100% { transform: translate(-30px,20px) scale(1.1); }
     }
 
-    /* ===== canvas 光点 ===== */
     canvas.bg-canvas {
       position: absolute;
       top:0; left:0;
@@ -54,7 +52,6 @@
       z-index:0;
     }
 
-    /* ===== header ===== */
     header {
       text-align: center;
       padding: 40px 20px 20px 20px;
@@ -67,16 +64,9 @@
       letter-spacing:1px;
       text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
     }
-    header p {
-      margin:6px 0;
-      font-size:1rem;
-    }
-    header a {
-      color:#fff;
-      text-decoration: underline;
-    }
+    header p { margin:6px 0; font-size:1rem; }
+    header a { color:#fff; text-decoration: underline; }
 
-    /* ===== 浮块 ===== */
     section {
       position: relative;
       max-width: 850px;
@@ -87,8 +77,6 @@
       backdrop-filter: blur(8px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       z-index:1;
-
-      /* 出场动画 */
       opacity: 0;
       transform: translateY(20px);
       animation: fadeUp 1s ease-out forwards;
@@ -98,10 +86,7 @@
     section:nth-of-type(3) { animation-delay: 0.8s; }
 
     @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     section:hover {
@@ -110,126 +95,185 @@
       background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.12));
     }
 
-    h2 {
-      border-bottom: 2px solid #fff;
-      padding-bottom: 6px;
-      margin-top: 0;
-      font-size: 1.2rem;
-    }
+    h2 { border-bottom: 2px solid #fff; padding-bottom: 6px; margin-top: 0; font-size: 1.2rem; }
 
-    /* 示例图片 */
     .sample-img {
       width: 100%;
       border-radius: 12px;
       margin-top: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-
       opacity: 0;
       transform: translateY(10px);
       animation: imgFade 1s ease forwards 1.2s;
     }
-    @keyframes imgFade {
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes imgFade { to { opacity:1; transform:translateY(0); } }
 
-    /* ===== footer ===== */
-    footer {
-      text-align: center;
-      padding: 16px 10px;
-      margin-top: 20px;
-    }
+    footer { text-align: center; padding: 16px 10px; margin-top: 20px; }
 
-    img, table { max-width: 100%; height: auto; }
+    img, table { max-width:100%; height:auto; }
 
-    /* ===== 响应式 ===== */
     @media (max-width: 768px) {
       body { font-size: 13px; line-height: 1.5; }
-      header h1 { font-size: 1.4rem; line-height: 1.2; }
-      header p { font-size: 0.9rem; }
-      section { margin: 16px 14px; padding: 12px; }
-      h2 { font-size: 1rem; margin-bottom: 8px; }
+      header h1 { font-size: 1.4rem; line-height:1.2; }
+      header p { font-size:0.9rem; }
+      section { margin:16px 14px; padding:12px; }
+      h2 { font-size:1rem; margin-bottom:8px; }
+    }
+    @media (max-width:480px) {
+      header h1 { font-size:1.2rem; }
+      .tagline { font-size:0.75rem; padding:5px 10px; }
+      section { margin:12px 10px; padding:10px; }
     }
 
-    @media (max-width: 480px) {
-      header h1 { font-size: 1.2rem; }
-      .tagline { font-size: 0.75rem; padding: 5px 10px; }
-      section { margin: 12px 10px; padding: 10px; }
-    }
+    /* ===== 语言切换 ===== */
+    .lang-text { display:none; }
+    body.lang-zh .lang-zh { display:block; }
+    body.lang-en .lang-en { display:block; }
+
+    .lang-switch { position:absolute; top:15px; right:20px; z-index:2; }
+    .lang-switch span { cursor:pointer; padding:0 5px; font-weight:bold; }
+    .lang-switch span.active { text-decoration: underline; }
   </style>
 </head>
-<body>
+<body class="lang-zh">
 
 <canvas class="bg-canvas"></canvas>
 
 <header>
-  <h1>💐择校服务</h1>
-  <p class="tagline">Well begun is half done.</p>
-  <p><a href="index.html">返回首页</a></p>
+  <div class="lang-switch">
+    <span id="btn-zh" class="active">中文</span> | 
+    <span id="btn-en">EN</span>
+  </div>
+  <h1>
+    <span class="lang-text lang-zh">💐择校服务</span>
+    <span class="lang-text lang-en">💐School Selection Service</span>
+  </h1>
+  <p class="tagline">
+    <span class="lang-text lang-zh">Well begun is half done.</span>
+    <span class="lang-text lang-en">Well begun is half done.</span>
+  </p>
+  <p>
+    <span class="lang-text lang-zh"><a href="index.html">返回首页</a></span>
+    <span class="lang-text lang-en"><a href="index.html">Back to Home</a></span>
+  </p>
 </header>
 
+<!-- 中文内容 -->
+<div id="cn" class="container-lang" aria-hidden="false">
 <section>
-  <h2>🎠服务流程 - Service Procedure</h2>
+  <h2>🎠服务流程</h2>
   <p>1. 确认申请区域与个数 → 2. 付款 → 3. 于共享文档填写个人信息（院校、绩点、实习等） → 4. 遍历所有学校并对比过往上岸学生background后产出表格 → 5. 学生确认 → 6. 后续辅导</p>
 </section>
 
 <section>
-  <h2>🎐价格 - Price</h2>
+  <h2>🎐价格</h2>
   <p>¥ 200/个专业</p>
 </section>
 
 <section>
-  <h2>🎏案例示例 - Sample Case</h2>
+  <h2>🎏案例示例</h2>
   <p>往期学生择校表 samples：</p>
   <img src="example1.jpg" alt="学生案例示例" class="sample-img">
 </section>
+</div>
+<!-- end cn -->
+
+<!-- 英文内容 -->
+<div id="en" class="container-lang" aria-hidden="true" style="display:none;">
+<section>
+  <h2>🎠Service Procedure</h2>
+  <p>1. Confirm application areas & number → 2. Payment → 3. Fill personal info in shared doc (school, GPA, internship, etc.) → 4. Compare past students' background for each school & produce table → 5. Student confirms → 6. Follow-up guidance</p>
+</section>
+
+<section>
+  <h2>🎐Price</h2>
+  <p>¥ 200 per major</p>
+</section>
+
+<section>
+  <h2>🎏Sample Case</h2>
+  <p>Example of previous students' selection tables:</p>
+  <img src="example1.jpg" alt="Sample case" class="sample-img">
+</section>
+</div>
+<!-- end en -->
 
 <footer>
   <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
 </footer>
 
 <script>
-/* ===== 漂浮光点动画 ===== */
+/* 漂浮光点动画 */
 function initFloatingLights(canvasSelector, particleCount=50){
   const canvases = document.querySelectorAll(canvasSelector);
   canvases.forEach(canvas=>{
     const ctx = canvas.getContext('2d');
     let w = canvas.width = canvas.offsetWidth;
     let h = canvas.height = canvas.offsetHeight;
-    
     const particles = [];
     for(let i=0;i<particleCount;i++){
-      particles.push({
-        x: Math.random()*w,
-        y: Math.random()*h,
-        r: Math.random()*2+1,
-        dx: (Math.random()-0.5)*0.3,
-        dy: (Math.random()-0.5)*0.3,
-        alpha: Math.random()*0.5+0.1
-      });
+      particles.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*2+1, dx:(Math.random()-0.5)*0.3, dy:(Math.random()-0.5)*0.3, alpha:Math.random()*0.5+0.1});
     }
-
     function animate(){
       ctx.clearRect(0,0,w,h);
       particles.forEach(p=>{
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+        ctx.fillStyle=`rgba(255,255,255,${p.alpha})`;
         ctx.fill();
-        p.x += p.dx; p.y += p.dy;
+        p.x+=p.dx; p.y+=p.dy;
         if(p.x<0||p.x>w) p.dx*=-1;
         if(p.y<0||p.y>h) p.dy*=-1;
       });
       requestAnimationFrame(animate);
     }
     animate();
-
-    window.addEventListener('resize',()=>{ 
-      w=canvas.width=canvas.offsetWidth; 
-      h=canvas.height=canvas.offsetHeight; 
-    });
+    window.addEventListener('resize',()=>{ w=canvas.width=canvas.offsetWidth; h=canvas.height=canvas.offsetHeight; });
   });
 }
 initFloatingLights('canvas.bg-canvas', 50);
+
+/* ===== 丝滑语言切换 ===== */
+const btnZh = document.getElementById('btn-zh');
+const btnEn = document.getElementById('btn-en');
+const cnDiv = document.getElementById('cn');
+const enDiv = document.getElementById('en');
+
+function setActiveLangUI(lang){
+  btnZh.classList.toggle('active', lang==='zh');
+  btnEn.classList.toggle('active', lang==='en');
+}
+
+function switchLang(lang){
+  if(lang==='zh' && cnDiv.style.display!=='none') return;
+  if(lang==='en' && enDiv.style.display!=='none') return;
+
+  const from = lang==='en' ? cnDiv : enDiv;
+  const to   = lang==='en' ? enDiv : cnDiv;
+
+  /* 淡出当前 */
+  from.style.transition = 'opacity .28s ease, transform .28s ease';
+  from.style.opacity = '0';
+  from.style.transform = 'translateY(6px)';
+
+  setTimeout(()=>{
+    from.style.display = 'none';
+
+    /* 淡入目标 */
+    to.style.display = 'block';
+    to.style.opacity = '0';
+    to.style.transform = 'translateY(6px)';
+    void to.offsetWidth;          // 触发重排
+    to.style.transition = 'opacity .28s ease, transform .28s ease';
+    to.style.opacity = '1';
+    to.style.transform = 'translateY(0)';
+
+    setActiveLangUI(lang);
+  }, 300);
+}
+
+btnZh.addEventListener('click', ()=> switchLang('zh'));
+btnEn.addEventListener('click', ()=> switchLang('en'));
 </script>
 
 </body>
