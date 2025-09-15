@@ -83,7 +83,7 @@ header p{
   top:20px;
   right:20px;
   z-index:2;
-  font-size:0.9rem;
+  font-size:0.7rem;
 }
 .lang-switch span {
   cursor:pointer;
@@ -139,14 +139,18 @@ h2{
   margin-top:12px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
+  .projects{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 900px) {
   .projects{ grid-template-columns: repeat(3, 1fr); }
 }
 
 .project{
   background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.4));
   padding:10px;
-  height:120px;
+  height:auto;
+  min-height:120px;
   border-radius:12px;
   box-shadow:0 4px 12px rgba(0,0,0,0.25);
   transition: transform .3s, box-shadow .3s, background .5s;
@@ -186,20 +190,21 @@ footer{
 img, table { max-width: 100%; height: auto; }
 
 /* ===== 响应式 ===== */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   body { font-size: 13px; line-height: 1.5; }
   header h1 { font-size: clamp(1.4rem, 5vw, 2.0rem); }
   header p { font-size: clamp(0.85rem, 3vw, 1rem); }
-  section { margin: 16px 14px; padding: 12px; }
+  section { margin: 18px 14px; padding: 12px; }
   h2 { font-size: 1rem; margin-bottom: 8px; }
-  .project { height: auto; padding: 12px; }
   .highlight { font-size: clamp(0.6rem, 2vw, 0.75rem); padding: 6px 12px; }
 }
 
 @media (max-width: 480px) {
   header h1 { font-size: 1.2rem; }
+  header p { font-size: 0.85rem; }
   .highlight { font-size: 0.7rem; }
   section { margin: 12px 10px; padding: 10px; }
+  .projects{ grid-template-columns: 1fr; }
 }
 
 /* ===== 丝滑语言切换 ===== */
