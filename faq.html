@@ -1,321 +1,131 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💐 常见问题 - FAQ</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      color: #fff;
-      background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
-      overflow-x: hidden;
-      font-size: 14px;
-    }
-
-    canvas#bgCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    /* 顶部语言切换 */
-    .lang-toggle {
-      position: absolute;
-      top: 1rem;
-      right: 1.2rem;
-      color: #fff;
-      font-size: 0.9rem;
-      cursor: pointer;
-      z-index: 10;
-    }
-    .lang-toggle span {
-      margin: 0 4px;
-      cursor: pointer;
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-    }
-    .lang-toggle span.active {
-      font-weight: bold;
-      opacity: 1;
-    }
-
-    header {
-      text-align: center;
-      padding: 2.5rem 1rem 1rem;
-      animation: fadeDown 1s ease;
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      margin: 0;
-      font-weight: 700;
-    }
-
-    .tagline {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 4px 12px;
-      font-size: 0.9rem;
-      color: #fff;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      backdrop-filter: blur(6px);
-    }
-
-    .back-home {
-      display: block;
-      margin-top: 12px;
-      font-size: 0.85rem;
-      color: #fff;
-      text-decoration: none;
-      opacity: 0.8;
-      transition: opacity 0.3s;
-    }
-    .back-home:hover {
-      opacity: 1;
-    }
-
-    main {
-      max-width: 800px;
-      margin: 2rem auto 4rem;
-      padding: 0 1rem;
-    }
-
-    .faq {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 0.8rem 1.2rem;
-      margin-bottom: 0.8rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      animation: fadeUp 1s ease;
-      position: relative;
-    }
-    .faq:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
-    }
-    .faq h3 {
-      margin: 0;
-      font-size: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .faq-symbol {
-      position: relative;
-      width: 12px;
-      height: 12px;
-      flex-shrink: 0;
-    }
-    .faq-symbol::before,
-    .faq-symbol::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: 2px;
-      background: #fff;
-      transform: translate(-50%, -50%);
-      transition: transform 0.45s ease-in-out;
-    }
-    .faq-symbol::after {
-      transform: translate(-50%, -50%) rotate(90deg);
-    }
-    .faq.active .faq-symbol::after {
-      transform: translate(-50%, -50%) rotate(0deg);
-    }
-    .faq p {
-      margin: 0.5rem 0 0;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(-6px);
-      transition: max-height 0.45s ease-in-out,
-                  opacity 0.45s ease-in-out,
-                  transform 0.45s ease-in-out,
-                  margin-top 0.45s ease-in-out;
-    }
-    .faq.active p {
-      max-height: 200px;
-      opacity: 1;
-      margin-top: 0.5rem;
-      transform: translateY(0);
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.2rem;
-      font-size: 0.8rem;
-      color: #ddd;
-      background: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(8px);
-    }
-
-    /* 中英文淡入淡出效果 */
-    .lang-content {
-      transition: opacity 0.6s ease;
-      opacity: 0;
-      display: none;
-    }
-    .lang-content.active {
-      opacity: 1;
-      display: block;
-    }
-
-    @keyframes fadeUp {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-    @keyframes fadeDown {
-      from {opacity: 0; transform: translateY(-20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💐 常见问题 - FAQ</title>
+<style>
+/* ====== 仅语言切换相关 ====== */
+.lang-content{
+  position:absolute;          /* 两层重叠 */
+  top:0;left:0;width:100%;
+  opacity:0;
+  pointer-events:none;        /* 淡出时不可点 */
+  transition:opacity .45s cubic-bezier(.4,.6,.2,1);
+}
+.lang-content.active{
+  position:relative;          /* 撑起文档流 */
+  opacity:1;
+  pointer-events:auto;        /* 淡入后可点 */
+}
+/* ====== 其余样式保持上次给你的一致 ====== */
+body{margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif;color:#fff;background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);overflow-x:hidden;font-size:14px;min-height:100vh;display:flex;flex-direction:column}
+canvas#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
+.lang-toggle{position:absolute;top:1rem;right:1.2rem;color:#fff;font-size:.9rem;z-index:10}
+.lang-toggle span{margin:0 4px;cursor:pointer;opacity:.6;transition:opacity .3s ease}
+.lang-toggle span.active{font-weight:700;opacity:1}
+header{text-align:center;padding:2.5rem 1rem 1rem;animation:fadeDown 1s ease}
+header h1{font-size:1.8rem;margin:0;font-weight:700}
+.tagline{display:inline-block;margin-top:8px;padding:4px 12px;font-size:.9rem;color:#fff;background:rgba(255,255,255,.1);border-radius:10px;backdrop-filter:blur(6px)}
+.back-home{display:block;margin-top:12px;font-size:.85rem;color:#fff;text-decoration:none;opacity:.8;transition:opacity .3s}
+.back-home:hover{opacity:1}
+main{max-width:800px;margin:2rem auto 4rem;padding:0 1rem;flex:1}
+.faq{background:rgba(255,255,255,.1);border-radius:14px;padding:.6rem 1rem;margin-bottom:.8rem;backdrop-filter:blur(10px);box-shadow:0 6px 18px rgba(0,0,0,.2);cursor:pointer;transition:transform .2s,box-shadow .2s;animation:fadeUp 1s ease;position:relative}
+.faq:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.3)}
+.faq h3{margin:0;font-size:1rem;display:flex;justify-content:space-between;align-items:center}
+.faq-symbol{position:relative;width:12px;height:12px;flex-shrink:0}
+.faq-symbol::before,.faq-symbol::after{content:"";position:absolute;top:50%;left:50%;width:100%;height:2px;background:#fff;transform:translate(-50%,-50%);transition:transform .45s ease-in-out}
+.faq-symbol::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq.active .faq-symbol::after{transform:translate(-50%,-50%) rotate(0deg)}
+.faq p{margin:0;font-size:.85rem;line-height:1.6;max-height:0;overflow:hidden;opacity:0;transform:translateY(-6px);transition:max-height .45s ease-in-out,opacity .45s ease-in-out,transform .45s ease-in-out,margin-top .45s ease-in-out}
+.faq.active p{max-height:120px;opacity:1;margin-top:.5rem;transform:translateY(0)}
+footer{text-align:center;padding:1.2rem;font-size:.8rem;color:#ddd;background:transparent;backdrop-filter:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+</style>
 </head>
 <body>
-  <canvas id="bgCanvas"></canvas>
+<canvas id="bgCanvas"></canvas>
 
-  <!-- 语言切换按钮 -->
-  <div class="lang-toggle">
-    <span class="lang-btn active" data-lang="cn">中文</span> | 
-    <span class="lang-btn" data-lang="en">EN</span>
-  </div>
+<!-- 语言切换 -->
+<div class="lang-toggle">
+  <span class="lang-btn active" data-lang="cn">中文</span> |
+  <span class="lang-btn" data-lang="en">EN</span>
+</div>
 
-  <!-- 中文内容 -->
-  <div id="cn" class="lang-content active">
-    <header>
-      <h1>💐常见问题</h1>
-      <span class="tagline">Answers You Need, Thoughtfully Provided.</span>
-      <a href="index.html" class="back-home">返回首页</a>
-    </header>
-    <main>
-      <div class="faq"><h3>1. 如何联系？ <span class="faq-symbol"></span></h3><p>您可以通过主页所给的邮箱或微信与我取得联系，我会在24小时内回复您。</p></div>
-      <div class="faq"><h3>2. 服务流程是怎样的？ <span class="faq-symbol"></span></h3><p>我们会先进行初步沟通，待需求明晰后为您量身定制申请方案，确认无误付款后开始全程陪伴式服务。</p></div>
-      <div class="faq"><h3>3. 服务周期一般多久？ <span class="faq-symbol"></span></h3><p>视申请项目的数量或书写需求的不同，服务周期可能从7天到10个月不等。</p></div>
-      <div class="faq"><h3>4. 是否提供后续支持？ <span class="faq-symbol"></span></h3><p>请您放心，我会在服务结束后提供长期跟进与答疑支持，确保您的安心。</p></div>
-      <div class="faq"><h3>5. 费用可以分阶段支付吗？ <span class="faq-symbol"></span></h3><p>实在抱歉，申请服务仅支持一次性付款。</p></div>
-      <div class="faq"><h3>6. 支付方式有哪些？ <span class="faq-symbol"></span></h3><p>微信、支付宝、银行卡转账均可。</p></div>
-      <div class="faq"><h3>7. 我们会签署合同吗？ <span class="faq-symbol"></span></h3><p>会的，所有服务都会通过正式合同明确保障双方的权利与义务，确保申请的透明与规范。</p></div>
-      <div class="faq"><h3>8. 如果临时取消，能退款吗？ <span class="faq-symbol"></span></h3><p>在服务正式开始前取消可部分退款，若服务已启动，则不支持退款。</p></div>
-      <div class="faq"><h3>9. 如果方案不满意，可以修改吗？ <span class="faq-symbol"></span></h3><p>可以的，您可以向我陈述不满意的地方，双方友好交流过后可进行修改。</p></div>
-      <div class="faq"><h3>10. 我的隐私信息会被保护吗？ <span class="faq-symbol"></span></h3><p>请您放心，所有个人信息均会严格保密，仅用于必要的服务环节，不会泄露给任何第三方。</p></div>
-    </main>
-  </div>
+<!-- 中文 -->
+<div id="cn" class="lang-content active">
+  <header>
+    <h1>💐常见问题</h1>
+    <span class="tagline">Answers You Need, Thoughtfully Provided.</span>
+    <a href="index.html" class="back-home">返回首页</a>
+  </header>
+  <main>
+    <div class="faq"><h3>1. 如何联系？ <span class="faq-symbol"></span></h3><p>您可以通过主页所给的邮箱或微信与我取得联系，我会在24小时内回复您。</p></div>
+    <div class="faq"><h3>2. 服务流程是怎样的？ <span class="faq-symbol"></span></h3><p>我们会先进行初步沟通，待需求明晰后为您量身定制申请方案，确认无误付款后开始全程陪伴式服务。</p></div>
+    <div class="faq"><h3>3. 服务周期一般多久？ <span class="faq-symbol"></span></h3><p>视申请项目的数量或书写需求的不同，服务周期可能从7天到10个月不等。</p></div>
+    <div class="faq"><h3>4. 是否提供后续支持？ <span class="faq-symbol"></span></h3><p>请您放心，我会在服务结束后提供长期跟进与答疑支持，确保您的安心。</p></div>
+    <div class="faq"><h3>5. 费用可以分阶段支付吗？ <span class="faq-symbol"></span></h3><p>实在抱歉，申请服务仅支持一次性付款。</p></div>
+    <div class="faq"><h3>6. 支付方式有哪些？ <span class="faq-symbol"></span></h3><p>微信、支付宝、银行卡转账均可。</p></div>
+    <div class="faq"><h3>7. 我们会签署合同吗？ <span class="faq-symbol"></span></h3><p>会的，所有服务都会通过正式合同明确保障双方的权利与义务，确保申请的透明与规范。</p></div>
+    <div class="faq"><h3>8. 如果临时取消，能退款吗？ <span class="faq-symbol"></span></h3><p>在服务正式开始前取消可部分退款，若服务已启动，则不支持退款。</p></div>
+    <div class="faq"><h3>9. 如果方案不满意，可以修改吗？ <span class="faq-symbol"></span></h3><p>可以的，您可以向我陈述不满意的地方，双方友好交流过后可进行修改。</p></div>
+    <div class="faq"><h3>10. 我的隐私信息会被保护吗？ <span class="faq-symbol"></span></h3><p>请您放心，所有个人信息均会严格保密，仅用于必要的服务环节，不会泄露给任何第三方。</p></div>
+  </main>
+</div>
 
-  <!-- 英文内容 -->
-  <div id="en" class="lang-content">
-    <header>
-      <h1>💐 FAQ</h1>
-      <span class="tagline">Answers You Need, Thoughtfully Provided.</span>
-      <a href="index.html" class="back-home">Back to Home</a>
-    </header>
-    <main>
-      <div class="faq"><h3>1. How can I contact you? <span class="faq-symbol"></span></h3><p>You may reach me via the email or WeChat provided on the homepage, and I will reply within 24 hours.</p></div>
-      <div class="faq"><h3>2. What is the service process? <span class="faq-symbol"></span></h3><p>We will first conduct an initial consultation. Once requirements are clear, a tailored plan will be designed. After confirmation and payment, I will provide full-process support.</p></div>
-      <div class="faq"><h3>3. How long is the service cycle? <span class="faq-symbol"></span></h3><p>Depending on the number of applications or writing needs, the cycle may range from 7 days to 10 months.</p></div>
-      <div class="faq"><h3>4. Do you provide follow-up support? <span class="faq-symbol"></span></h3><p>Yes. I will provide long-term support and Q&amp;A after the service ends to ensure your peace of mind.</p></div>
-      <div class="faq"><h3>5. Can the fee be paid in installments? <span class="faq-symbol"></span></h3><p>Sorry, services only support one-time payment.</p></div>
-      <div class="faq"><h3>6. What are the payment methods? <span class="faq-symbol"></span></h3><p>WeChat, Alipay, and bank transfer are accepted.</p></div>
-      <div class="faq"><h3>7. Will we sign a contract? <span class="faq-symbol"></span></h3><p>Yes, all services will be governed by a formal contract to ensure transparency and mutual obligations.</p></div>
-      <div class="faq"><h3>8. Can I get a refund if I cancel midway? <span class="faq-symbol"></span></h3><p>If canceled before the service officially begins, a partial refund is possible. Once started, refunds are not supported.</p></div>
-      <div class="faq"><h3>9. Can the方案 be revised if I am not satisfied? <span class="faq-symbol"></span></h3><p>Yes, you may express your concerns. After friendly discussion, revisions can be made.</p></div>
-      <div class="faq"><h3>10. Will my personal information be protected? <span class="faq-symbol"></span></h3><p>Absolutely. All personal information will be strictly confidential, used only for necessary service steps, and never shared with third parties.</p></div>
-    </main>
-  </div>
+<!-- 英文 -->
+<div id="en" class="lang-content">
+  <header>
+    <h1>💐 FAQ</h1>
+    <span class="tagline">Answers You Need, Thoughtfully Provided.</span>
+    <a href="index.html" class="back-home">Back to Home</a>
+  </header>
+  <main>
+    <div class="faq"><h3>1. How can I contact you? <span class="faq-symbol"></span></h3><p>You may reach me via the email or WeChat provided on the homepage, and I will reply within 24 hours.</p></div>
+    <div class="faq"><h3>2. What is the service process? <span class="faq-symbol"></span></h3><p>We will first conduct an initial consultation. Once requirements are clear, a tailored plan will be designed. After confirmation and payment, I will provide full-process support.</p></div>
+    <div class="faq"><h3>3. How long is the service cycle? <span class="faq-symbol"></span></h3><p>Depending on the number of applications or writing needs, the cycle may range from 7 days to 10 months.</p></div>
+    <div class="faq"><h3>4. Do you provide follow-up support? <span class="faq-symbol"></span></h3><p>Yes. I will provide long-term support and Q&A after the service ends to ensure your peace of mind.</p></div>
+    <div class="faq"><h3>5. Can the fee be paid in installments? <span class="faq-symbol"></span></h3><p>Sorry, services only support one-time payment.</p></div>
+    <div class="faq"><h3>6. What are the payment methods? <span class="faq-symbol"></span></h3><p>WeChat, Alipay, and bank transfer are accepted.</p></div>
+    <div class="faq"><h3>7. Will we sign a contract? <span class="faq-symbol"></span></h3><p>Yes, all services will be governed by a formal contract to ensure transparency and mutual obligations.</p></div>
+    <div class="faq"><h3>8. Can I get a refund if I cancel midway? <span class="faq-symbol"></span></h3><p>If canceled before the service officially begins, a partial refund is possible. Once started, refunds are not supported.</p></div>
+    <div class="faq"><h3>9. Can the plan be revised if I am not satisfied? <span class="faq-symbol"></span></h3><p>Yes, you may express your concerns. After friendly discussion, revisions can be made.</p></div>
+    <div class="faq"><h3>10. Will my personal information be protected? <span class="faq-symbol"></span></h3><p>Absolutely. All personal information will be strictly confidential, used only for necessary service steps, and never shared with third parties.</p></div>
+  </main>
+</div>
 
-  <footer>
-    <p>© 2025 Littlepo_offcial Web | Designed by Jing.</p>
-  </footer>
+<footer>© 2025 Littlepo_offcial Web | Designed by Jing.</footer>
 
-  <script>
-    // FAQ 折叠
-    document.querySelectorAll('.faq').forEach(faq => {
-      faq.addEventListener('click', () => {
-        faq.classList.toggle('active');
-      });
-    });
+<script>
+// FAQ 折叠
+document.querySelectorAll('.faq').forEach(faq=>{
+  faq.addEventListener('click',()=>faq.classList.toggle('active'));
+});
 
-    // 背景光点
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-      }
-      draw() {
-        ctx.fillStyle = "rgba(255,255,255,0.8)";
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-    function initParticles() {
-      particles = [];
-      for (let i = 0; i < 80; i++) {
-        particles.push(new Particle());
-      }
-    }
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {p.update(); p.draw();});
-      requestAnimationFrame(animate);
-    }
-    initParticles();
-    animate();
+// 背景光点
+const canvas=document.getElementById('bgCanvas'),ctx=canvas.getContext('2d');
+let particles=[];
+function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight;}
+addEventListener('resize',resizeCanvas);resizeCanvas();
+class Particle{
+  constructor(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*2+1;this.speedX=(Math.random()-.5)*.5;this.speedY=(Math.random()-.5)*.5;}
+  update(){this.x+=this.speedX;this.y+=this.speedY;if(this.x<0||this.x>canvas.width)this.speedX*=-1;if(this.y<0||this.y>canvas.height)this.speedY*=-1;}
+  draw(){ctx.fillStyle='rgba(255,255,255,.8)';ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();}
+}
+function initParticles(){particles=[];for(let i=0;i<80;i++)particles.push(new Particle);}
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+initParticles();animate();
 
-    // 中英文切换
-    const langBtns = document.querySelectorAll('.lang-btn');
-    const langContents = document.querySelectorAll('.lang-content');
-
-    langBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const lang = btn.getAttribute('data-lang');
-
-        // 更新按钮状态
-        langBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // 切换内容：先淡出，再淡入
-        langContents.forEach(content => {
-          if (content.id === lang) {
-            content.style.display = "block";
-            setTimeout(() => content.classList.add('active'), 50);
-          } else {
-            content.classList.remove('active');
-            setTimeout(() => content.style.display = "none", 600);
-          }
-        });
-      });
-    });
-  </script>
+// 语言切换：只改类名，0.45s 透明度渐变
+const langBtns=document.querySelectorAll('.lang-btn'),langContents=document.querySelectorAll('.lang-content');
+langBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const tgt=btn.dataset.lang;
+    langBtns.forEach(b=>b.classList.toggle('active',b===btn));
+    langContents.forEach(box=>box.classList.toggle('active',box.id===tgt));
+  });
+});
+</script>
 </body>
 </html>
