@@ -202,34 +202,12 @@ img, table { max-width: 100%; height: auto; }
 
 @media (max-width: 480px) {
   header h1 { font-size: 1.2rem; }
-  header p { font-size: 0.8rem; }
+  header p { font-size: 0.85rem; }
   .highlight { font-size: 0.7rem; }
-
-  section {
-    max-width: 90%;   /* 宽度限制为屏幕的90% */
-    margin: 10px auto; 
-    padding: 10px;
-  }
-
-  h2 {
-    font-size: 1rem; 
-    margin-bottom: 6px;
-    padding-bottom: 4px;
-  }
-
-  .projects { 
-    grid-template-columns: 1fr; /* 保持单列 */
-    gap: 10px;
-  }
-
-  .project { 
-    padding: 8px; 
-    font-size: 0.85rem;
-  }
-
-  .lang-switch { font-size: 0.55rem; } /* 中文 | EN 字号更小 */
+  section { margin: 20px 15px; padding: 18px; }
+  .projects{ grid-template-columns: 1fr; }
+  .lang-switch { font-size: 0.55rem; } /* 超小屏进一步缩小 */
 }
-
 
 /* ===== 丝滑语言切换 ===== */
 .container-lang { display:none; }
