@@ -190,21 +190,23 @@ footer{
 img, table { max-width: 100%; height: auto; }
 
 /* ===== 响应式 ===== */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   body { font-size: 13px; line-height: 1.5; }
   header h1 { font-size: clamp(1.4rem, 5vw, 2.0rem); }
   header p { font-size: clamp(0.85rem, 3vw, 1rem); }
-  section { margin: 18px 14px; padding: 12px; }
+  section { margin: 20px 18px; padding: 12px; }
   h2 { font-size: 1rem; margin-bottom: 8px; }
   .highlight { font-size: clamp(0.6rem, 2vw, 0.75rem); padding: 6px 12px; }
+  .lang-switch { font-size: 0.6rem; } /* 手机端语言切换更小 */
 }
 
 @media (max-width: 480px) {
   header h1 { font-size: 1.2rem; }
   header p { font-size: 0.85rem; }
   .highlight { font-size: 0.7rem; }
-  section { margin: 12px 10px; padding: 10px; }
+  section { margin: 18px 14px; padding: 12px; }
   .projects{ grid-template-columns: 1fr; }
+  .lang-switch { font-size: 0.55rem; } /* 超小屏进一步缩小 */
 }
 
 /* ===== 丝滑语言切换 ===== */
