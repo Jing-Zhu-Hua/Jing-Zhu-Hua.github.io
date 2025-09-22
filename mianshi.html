@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>📋面试辅导</title>
   <style>
+    /* ===== 光标效果 ===== */
+    * {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" fill="white" filter="url(%23glow)" opacity="0.95" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/></svg>') 3 3, auto;
+    }
+    a, button, .lang-btn, section {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M9 9h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 13h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 17h4v2h-4z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/></svg>') 10 10, pointer;
+    }
+
     /* ===== 原有样式保持不动 ===== */
     .tagline {
       display: inline-block;
@@ -60,15 +68,35 @@
       font-size:2.2rem;
       letter-spacing:1px;
       text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+      position: relative;
     }
     header p {
       margin:6px 0;
       font-size:1rem;
+      position: relative;
     }
     header a {
       color:#fff;
       text-decoration: underline;
     }
+
+    /* ===== Header 中英文切换动画 ===== */
+    .lang-text {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+    }
+    
+    .lang-text.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    body.lang-zh .lang-zh.show,
+    body.lang-en .lang-en.show {
+      display: block;
+    }
+
     section {
       position: relative;
       max-width: 850px;
@@ -116,55 +144,174 @@
     ul.faq li { margin-bottom: 12px; line-height: 1.5; }
     ul.faq { padding-left: 20px; }
     footer { text-align: center; padding: 16px 10px; margin-top: 20px; }
+
+    /* ===== 服务流程样式 ===== */
+    .process-list {
+      margin-top: 12px;
+    }
+    
+    .process-list ol {
+      padding-left: 20px;
+      counter-reset: step-counter;
+    }
+    
+    .process-list ol li {
+      list-style: none;
+      counter-increment: step-counter;
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 12px;
+      line-height: 1.5;
+    }
+    
+    .process-list ol li::before {
+      content: counter(step-counter) ".";
+      position: absolute;
+      left: -8px;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+    }
+
+    /* ===== 语言切换样式 ===== */
+    .lang-switch {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      z-index: 2;
+      display: flex;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 6px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .lang-btn {
+      padding: 6px 12px;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.7);
+      border: none;
+      background: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .lang-btn.active {
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+    }
+
+    .lang-btn:not(.active):hover {
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ===== 语言切换相关 ===== */
+    .lang-text { display:none; }
+    body.lang-zh .lang-zh { display:block; }
+    body.lang-en .lang-en { display:block; }
+
+    /* ===== 响应式 ===== */
     @media (max-width: 768px) {
       body { font-size: 13px; line-height: 1.5; }
       header h1 { font-size: 1.4rem; line-height: 1.2; }
       header p { font-size: 0.9rem; }
       section { margin: 16px 14px; padding: 12px; }
       h2 { font-size: 1rem; margin-bottom: 8px; }
+      .lang-switch {
+        top: 10px;
+        right: 15px;
+        padding: 4px;
+      }
+      .lang-btn {
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+      .process-container {
+        gap: 8px;
+      }
+      .process-step {
+        padding: 8px 12px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .step-number {
+        margin-bottom: 4px;
+      }
     }
     @media (max-width: 480px) {
       header h1 { font-size: 1.2rem; }
       .tagline { font-size: 0.75rem; padding: 5px 10px; }
       section { margin: 12px 10px; padding: 10px; }
+      .lang-switch {
+        top: 8px;
+        right: 10px;
+        padding: 3px;
+      }
+      .lang-btn {
+        padding: 3px 6px;
+        font-size: 10px;
+      }
+      .process-step {
+        padding: 6px 10px;
+      }
+      .step-number {
+        font-size: 0.8rem;
+      }
     }
 
-    /* ===== 语言切换 ===== */
-    .lang-switch {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 2;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-    .lang-switch span {
-      margin: 0 6px;
-      text-decoration: none; /* 去掉下划线 */
-    }
     .lang-section { display: none; }
     .lang-section.active { display: block; }
   </style>
 </head>
-<body>
+<body class="lang-zh">
 
 <canvas class="bg-canvas"></canvas>
 
 <header>
   <div class="lang-switch">
-    <span id="zh-btn">中文</span> | <span id="en-btn">EN</span>
+    <button id="zh-btn" class="lang-btn active">中文</button>
+    <button id="en-btn" class="lang-btn">EN</button>
   </div>
   
-  <h1 id="page-title">📋面试辅导</h1>
-  <p class="tagline" id="tagline-text">Prepare. Practice. Perfect.</p>
-  <p><a href="index.html" id="home-link">返回首页</a></p>
+  <h1>
+    <span class="lang-text lang-zh show">📋面试辅导</span>
+    <span class="lang-text lang-en">📋Interview Coaching</span>
+  </h1>
+  <p class="tagline">
+    <span class="lang-text lang-zh show">Prepare. Practice. Perfect.</span>
+    <span class="lang-text lang-en">Prepare. Practice. Perfect.</span>
+  </p>
+  <p>
+    <span class="lang-text lang-zh show"><a href="index.html">返回首页</a></span>
+    <span class="lang-text lang-en"><a href="index.html">Back to Home</a></span>
+  </p>
 </header>
 
 <!-- 中文内容 -->
 <div class="lang-section active" id="zh">
   <section>
     <h2>👥模拟面试 - Mock Interview</h2>
-    <p>1. 提前确认专业与面试时间 → 2. 收集并分析学生资料与申请材料 → 3. （结合过往上岸同学透露的真实面试信息）设计针对性的面试问题清单 → 4. 进行模拟面试练习 → 5. 实时反馈表现与改进建议 → 6. 强化薄弱环节 → 7. 分析可能追问与压力问题 → 8. 总结提升策略</p>
+    <div class="process-list">
+      <ol>
+        <li>提前确认专业与面试时间</li>
+        <li>收集并分析学生资料与申请材料</li>
+        <li>结合过往上岸同学透露的真实面试信息，设计针对性的面试问题清单</li>
+        <li>进行模拟面试练习</li>
+        <li>实时反馈表现与改进建议</li>
+        <li>强化薄弱环节</li>
+        <li>分析可能追问与压力问题</li>
+        <li>总结提升策略</li>
+      </ol>
+    </div>
   </section>
 
   <section class="interview-set">
@@ -204,7 +351,18 @@
 <div class="lang-section" id="en">
   <section>
     <h2>👥Mock Interview</h2>
-    <p>1. Confirm your major and interview schedule → 2. Collect and analyze student documents and application materials → 3. Design targeted interview question list based on previous students' real experience → 4. Conduct mock interview practice → 5. Provide real-time feedback and suggestions → 6. Strengthen weak points → 7. Analyze potential follow-up and stress questions → 8. Summarize improvement strategies</p>
+    <div class="process-list">
+      <ol>
+        <li>Confirm your major and interview schedule</li>
+        <li>Collect and analyze student documents and application materials</li>
+        <li>Design targeted interview question list based on previous students' real experience</li>
+        <li>Conduct mock interview practice</li>
+        <li>Provide real-time feedback and suggestions</li>
+        <li>Strengthen weak points</li>
+        <li>Analyze potential follow-up and stress questions</li>
+        <li>Summarize improvement strategies</li>
+      </ol>
+    </div>
   </section>
 
   <section class="interview-set">
@@ -233,7 +391,7 @@
       <li><strong>Q: How to book a mock interview?</strong><br>
           <strong>A:</strong> Please contact me at least 3 days in advance and provide your major and available time;</li>
       <li><strong>Q: Which majors are suitable for the interview set?</strong><br>
-                    <strong>A:</strong> The interview set consists of general and major-specific questions. It can be used for most related majors;</li>
+          <strong>A:</strong> The interview set consists of general and major-specific questions. It can be used for most related majors;</li>
       <li><strong>Q: Is there coaching after purchasing the interview set?</strong><br>
           <strong>A:</strong> The interview set is for self-study. Coaching requires a separate mock interview appointment.</li>
     </ul>
@@ -287,39 +445,57 @@ function initFloatingLights(canvasSelector, particleCount=50){
 }
 initFloatingLights('canvas.bg-canvas', 50);
 
-/* ===== 语言切换带渐隐渐显效果 ===== */
-const zhBtn = document.getElementById('zh-btn');
-const enBtn = document.getElementById('en-btn');
-const zhSection = document.getElementById('zh');
-const enSection = document.getElementById('en');
+/* ===== 语言切换 ===== */
+const btnEn = document.getElementById('en-btn');
+const btnZh = document.getElementById('zh-btn');
 
-const pageTitle = document.getElementById('page-title');
-const homeLink = document.getElementById('home-link');
-const taglineText = document.getElementById('tagline-text');
-
-function fadeTextChange(element, newText){
-  element.style.transition = 'opacity 0.3s ease';
-  element.style.opacity = 0;
-  setTimeout(()=>{
-    element.textContent = newText;
-    element.style.opacity = 1;
-  }, 300);
+function switchLanguage(toLang) {
+  // 先让当前语言文本淡出
+  const currentTexts = document.querySelectorAll('.lang-text.show');
+  currentTexts.forEach(text => {
+    text.classList.remove('show');
+  });
+  
+  // 等待淡出动画完成后切换语言
+  setTimeout(() => {
+    if (toLang === 'en') {
+      document.body.classList.remove('lang-zh');
+      document.body.classList.add('lang-en');
+      btnEn.classList.add('active'); 
+      btnZh.classList.remove('active');
+      document.getElementById('zh').classList.remove('active');
+      document.getElementById('en').classList.add('active');
+      
+      // 让新语言文本淡入
+      setTimeout(() => {
+        const newTexts = document.querySelectorAll('.lang-en');
+        newTexts.forEach(text => text.classList.add('show'));
+      }, 50);
+      
+    } else {
+      document.body.classList.remove('lang-en');
+      document.body.classList.add('lang-zh');
+      btnZh.classList.add('active'); 
+      btnEn.classList.remove('active');
+      document.getElementById('en').classList.remove('active');
+      document.getElementById('zh').classList.add('active');
+      
+      // 让新语言文本淡入
+      setTimeout(() => {
+        const newTexts = document.querySelectorAll('.lang-zh');
+        newTexts.forEach(text => text.classList.add('show'));
+      }, 50);
+    }
+  }, 200);
 }
 
-zhBtn.addEventListener('click',()=>{
-  zhSection.classList.add('active');
-  enSection.classList.remove('active');
-  fadeTextChange(pageTitle, '📋面试辅导');
-  fadeTextChange(homeLink, '返回首页');
-  fadeTextChange(taglineText, 'Prepare. Practice. Perfect.');
-});
+btnEn.addEventListener('click', () => switchLanguage('en'));
+btnZh.addEventListener('click', () => switchLanguage('zh'));
 
-enBtn.addEventListener('click',()=>{
-  enSection.classList.add('active');
-  zhSection.classList.remove('active');
-  fadeTextChange(pageTitle, '📋Interview Coaching');
-  fadeTextChange(homeLink, 'Back to Home');
-  fadeTextChange(taglineText, 'Prepare. Practice. Perfect.');
+// 初始化显示中文
+document.addEventListener('DOMContentLoaded', () => {
+  const zhTexts = document.querySelectorAll('.lang-zh');
+  zhTexts.forEach(text => text.classList.add('show'));
 });
 </script>
 
