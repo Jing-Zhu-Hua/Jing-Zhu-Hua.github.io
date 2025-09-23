@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>💐择校服务 / School Selection Service</title>
   <style>
+    /* ===== 光标效果 ===== */
+    * {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" fill="white" filter="url(%23glow)" opacity="0.95" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/></svg>') 3 3, auto;
+    }
+    a, button, .project, .lang-switch span {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><filter id="glow"><feGaussianBlur stdDeviation="4" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M9 9h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 13h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 17h4v2h-4z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/></svg>') 12 12, pointer;
+    }
+
     .tagline {
       display: inline-block;
       margin-top: 10px;
@@ -27,7 +35,6 @@
       background: linear-gradient(180deg,#4f6fa8 0%,#1a2a4f 100%);
       position: relative;
       transition: background 0.3s;
-      cursor: none;
     }
 
     body::before {
@@ -45,28 +52,13 @@
       100% { transform: translate(-30px,20px) scale(1.1); }
     }
 
-    /* 光标光点 */
+    /* 光标光点 - 移除跟随效果 */
     .cursor-glow {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 40%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.1s ease-out;
-      box-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3);
+      display: none;
     }
 
     .cursor-trail {
-      position: fixed;
-      width: 6px;
-      height: 6px;
-      background: rgba(255,255,255,0.6);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transition: all 0.3s ease-out;
+      display: none;
     }
 
     canvas.bg-canvas {
@@ -138,12 +130,25 @@
     img, table { max-width:100%; height:auto; }
 
     @media (max-width: 768px) {
-      body { font-size: 13px; line-height: 1.5; cursor: auto; }
-      .cursor-glow, .cursor-trail { display: none; }
+      * {
+        cursor: auto;
+      }
+      a, button, .project, .lang-switch span {
+        cursor: pointer;
+      }
+      body { font-size: 13px; line-height: 1.5; }
       header h1 { font-size: 1.4rem; line-height:1.2; }
       header p { font-size:0.9rem; }
       section { margin:16px 14px; padding:12px; }
       h2 { font-size:1rem; margin-bottom:8px; }
+      .lang-switch { 
+        font-size: 0.7rem;
+        padding: 4px 8px;
+      }
+      .lang-switch span {
+        font-size: 0.7rem;
+        padding: 2px 4px;
+      }
     }
     @media (max-width:480px) {
       header h1 { font-size:1.2rem; }
@@ -156,9 +161,51 @@
     body.lang-zh .lang-zh { display:block; }
     body.lang-en .lang-en { display:block; }
 
-    .lang-switch { position:absolute; top:15px; right:20px; z-index:2; }
-    .lang-switch span { cursor:pointer; padding:0 5px; font-weight:bold; }
-    .lang-switch span.active { text-decoration: underline; }
+    .lang-switch { 
+      position: absolute; 
+      top: 15px; 
+      right: 20px; 
+      z-index: 2;
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 6px 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      font-size: 0.8rem;
+    }
+
+    .lang-switch:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .lang-switch span { 
+      padding: 3px 6px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+      display: inline-block;
+      font-size: 0.8rem;
+    }
+
+    .lang-switch span:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.05);
+    }
+
+    .lang-switch span.active { 
+      background: rgba(255,255,255,0.3);
+      text-shadow: 0 0 8px rgba(255,255,255,0.8);
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.2);
+    }
+
+    .lang-switch .separator {
+      margin: 0 4px;
+      opacity: 0.6;
+    }
   </style>
 </head>
 <body class="lang-zh">
@@ -170,8 +217,7 @@
 
 <header>
   <div class="lang-switch">
-    <span id="btn-zh" class="active">中文</span> | 
-    <span id="btn-en">EN</span>
+    <span id="btn-zh" class="active">中文</span><span class="separator">|</span><span id="btn-en">EN</span>
   </div>
   <h1>
     <span class="lang-text lang-zh">💐择校服务</span>
@@ -341,7 +387,6 @@ function initFloatingLights(canvasSelector, particleCount=60){
 }
 
 // 初始化
-initCursorGlow();
 initFloatingLights('canvas.bg-canvas', 60);
 
 /* ===== 丝滑语言切换 ===== */
