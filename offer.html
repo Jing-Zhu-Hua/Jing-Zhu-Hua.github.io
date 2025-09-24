@@ -5,164 +5,1828 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>🎓 Offer 案例</title>
 <style>
+  /* ===== 光标效果 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" fill="white" filter="url(%23glow)" opacity="0.95" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/></svg>') 3 3, auto;
+}
+a, button, .lang-btn, .faq {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M9 9h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 13h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 17h4v2h-4z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/></svg>') 10 10, pointer;
+}
+  * {
+    box-sizing: border-box;
+  }
+  
   body {
-    margin:0; padding:0;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
+    margin: 0; 
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
     color: #fff;
+    background: linear-gradient(135deg, #364B6B 0%, #3B5A8A 50%, #364B6B 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease-in-out infinite;
+    min-height: 100vh;
     overflow-x: hidden;
-    background: linear-gradient(135deg, #364B6B 0%, #3B5A8A 100%);
     position: relative;
   }
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    pointer-events: none;
-    animation: float 15s linear infinite;
+
+  /* 动态渐变背景 */
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
   }
+
+  /* 动态几何图案背景 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: patternMove 20s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes patternMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(40px, 40px); }
+  }
+
+  /* 浮动装饰元素 */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 40% 40%, rgba(255,255,255,0.02) 0%, transparent 50%);
+    animation: floatingElements 15s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes floatingElements {
+    0%, 100% { 
+      transform: translate(0, 0) scale(1);
+      opacity: 0.3;
+    }
+    33% { 
+      transform: translate(30px, -20px) scale(1.1);
+      opacity: 0.6;
+    }
+    66% { 
+      transform: translate(-20px, 30px) scale(0.9);
+      opacity: 0.4;
+    }
+  }
+
+  /* 语言切换器 */
+  .language-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 5px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .lang-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .lang-btn.active,
+  .lang-btn:hover {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+  }
+
+  /* 增强背景光点效果 */
+  .particle {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    pointer-events: none;
+    animation: float var(--duration, 20s) linear infinite;
+    will-change: transform;
+    z-index: 2;
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  }
+  
   @keyframes float {
-    0% {transform: translateY(0) translateX(0);}
-    50% {transform: translateY(-200px) translateX(100px);}
-    100% {transform: translateY(0) translateX(0);}
+    0%, 100% { 
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg); 
+      opacity: 0.4; 
+    }
+    25% { 
+      transform: translate3d(50px, -100px, 0) scale(1.3) rotate(90deg); 
+      opacity: 0.8; 
+    }
+    50% { 
+      transform: translate3d(-30px, -200px, 0) scale(0.7) rotate(180deg); 
+      opacity: 1; 
+    }
+    75% { 
+      transform: translate3d(80px, -150px, 0) scale(1.1) rotate(270deg); 
+      opacity: 0.6; 
+    }
   }
 
   header, footer {
     text-align: center;
-    padding: 20px;
+    padding: 15px;
     position: relative;
     z-index: 10;
-    background: transparent;
   }
 
-  header h1 { margin:0; font-size:1.8rem; }
+  header {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* 为header添加动态背景 */
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(255,255,255,0.05), 
+      transparent
+    );
+    animation: headerShine 4s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  @keyframes headerShine {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: -100%; }
+  }
+
+  header h1 { 
+    margin: 0; 
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #e0e6f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(255,255,255,0.3);
+  }
+  
   .slogan {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 6px 14px;
     margin: 10px 0;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.2);
-    color:#fff;
+    border-radius: 20px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+    color: #fff;
     font-style: italic;
-    text-shadow: 0 0 8px rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
-  .tag { display:block; margin-top: 10px; font-weight: bold; }
+
+  .slogan::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg) translate(-100%, -100%);
+    transition: transform 0.6s ease;
+  }
+
+  .slogan:hover::before {
+    transform: rotate(45deg) translate(100%, 100%);
+  }
+
+  .slogan:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+  
+  .tag { 
+    display: block; 
+    margin-top: 8px; 
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.9);
+  }
 
   .home-btn {
-    display: block;
-    margin: 6px auto 0 auto;
+    display: inline-block;
+    margin-top: 10px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+  }
+  
+  .home-btn:hover {
+    background: rgba(255,255,255,0.15);
     color: #fff;
-    text-decoration: underline;
-    font-size: 0.85rem;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   }
 
   section {
-    max-width: 800px; /* 原来 1200px -> 小一点 */
-    margin: 20px auto;  /* 上下 margin 减小 */
-    padding: 15px;      /* padding 减小 */
-    background: rgba(42,70,108,0.7);
-    border-radius: 12px;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-    transform: translateY(0);
-    transition: transform 0.5s, box-shadow 0.5s;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 5;
+  }
+
+  /* 给section添加动态光晕效果 */
+  section::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+      rgba(255,255,255,0.1), 
+      transparent, 
+      rgba(255,255,255,0.1), 
+      transparent,
+      rgba(255,255,255,0.05)
+    );
+    background-size: 400% 400%;
+    border-radius: 16px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: borderGlow 6s ease-in-out infinite;
+  }
+
+  @keyframes borderGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  section:hover::before {
+    opacity: 1;
   }
 
   h2 {
-    border-bottom:2px solid #fff;
-    padding-bottom:6px; margin-top:0;
-    font-size:1.1rem;
+    border-bottom: 2px solid rgba(255,255,255,0.8);
+    padding-bottom: 8px; 
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #e0e6f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+
+  h2::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #fff, rgba(255,255,255,0.5));
+    transition: width 0.8s ease;
+  }
+
+  section:hover h2::after {
+    width: 100%;
   }
 
   .cases {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px; /* 缩小 gap 让浮块更紧凑 */
-    margin-top: 10px;
+    gap: 15px;
+    margin-top: 15px;
   }
-  @media screen and (max-width: 768px) {
+
+  @media (max-width: 768px) {
     .cases {
       grid-template-columns: 1fr;
+      gap: 12px;
     }
   }
 
   .case {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+    border-radius: 12px;
     padding: 14px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
-    transition: transform 0.3s, box-shadow 0.3s, background 0.3s, opacity 1s;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
-    animation: fadeIn 0.8s forwards;
+    animation: fadeInUp 0.8s ease forwards;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
   }
-  .case:nth-child(1) { animation-delay: 0.1s; }
-  .case:nth-child(2) { animation-delay: 0.2s; }
-  .case:nth-child(3) { animation-delay: 0.3s; }
-  .case:nth-child(4) { animation-delay: 0.4s; }
-  @keyframes fadeIn {
-    to {opacity:1;}
+
+  /* 卡片光晕效果 */
+  .case::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s ease;
   }
+
+  .case:hover::before {
+    left: 100%;
+  }
+
+  .case::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .case:hover::after {
+    opacity: 1;
+  }
+  
+  .case:nth-child(n) { 
+    animation-delay: calc(var(--index, 0) * 100ms); 
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
   .case:hover {
     transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.45);
-    background: rgba(255,255,255,0.15);
+    box-shadow: 
+      0 15px 35px rgba(0,0,0,0.4),
+      0 0 0 1px rgba(255,255,255,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   }
+  
   .case h3 {
-    margin: 6px 0 4px 0;
-    font-size: 0.9rem;
-    color: #fff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-  }
-  .case p {
+    margin: 0 0 6px 0;
     font-size: 0.8rem;
-    color: #e0e6f6;
-    margin: 2px 0;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: color 0.3s ease;
+    position: relative;
+    z-index: 2;
   }
+
+  .case:hover h3 {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255,255,255,0.3);
+  }
+  
+  .case p {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.85);
+    margin: 3px 0;
+    line-height: 1.3;
+    transition: color 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+
+  .case:hover p {
+    color: rgba(255,255,255,0.95);
+  }
+  
+  /* 调整图片尺寸为350px */
   .case img {
     width: 100%;
+    height: 350px;
+    object-fit: cover;
+    object-position: top;
     border-radius: 8px;
-    margin-bottom: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+    margin-bottom: 10px;
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  
+  .case img[data-src] {
+    opacity: 0.6;
+    filter: blur(3px);
+  }
+  
+  .case img.loaded {
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  .case:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+
+  /* 加载动画 */
+  .loading-shimmer {
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0.1) 25%,
+      rgba(255,255,255,0.2) 50%,
+      rgba(255,255,255,0.1) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 
   footer {
     text-align: center;
-    padding: 20px;
+    padding: 25px;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.1);
     position: relative;
     z-index: 10;
-    background: transparent;
-    font-size: 0.85rem;
+  }
+
+  /* 响应式优化 */
+  @media (max-width: 768px) {    
+    section {
+      margin: 10px;
+      padding: 15px;
+    }
+    
+    header, footer {
+      padding: 15px 10px;
+    }
+
+    .case {
+      padding: 12px;
+    }
+
+    .language-switcher {
+      top: 10px;
+      right: 10px;
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+    }
+  }
+
+  /* 性能优化 */
+  .case img, .case {
+    will-change: transform;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* 缩小光标发光范围 */
+  .cursor-glow {
+    position: fixed;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(
+      circle, 
+      rgba(255,255,255,0.08) 0%, 
+      rgba(255,255,255,0.04) 40%, 
+      transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* 隐藏内容类 */
+  .content {
+    display: block;
+  }
+  
+  .content.hidden {
+    display: none;
   }
 </style>
 </head>
 <body>
-  
 
-<!-- 光点 -->
+<!-- 语言切换器 -->
+<div class="language-switcher">
+  <a href="#" class="lang-btn active" data-lang="zh">中文</a>
+  <a href="#" class="lang-btn" data-lang="en">EN</a>
+</div>
+
+<div class="cursor-glow"></div>
+
 <script>
-  const totalParticles = 100; // 光点数量
-  for(let i=0; i<totalParticles; i++){
+// 语言数据
+const languageData = {
+  zh: {
+    title: '🎓 Offer案例展示',
+    slogan: 'Desire is the prophet of destiny.',
+    tag: '1v1 全陪伴式辅导',
+    homeBtn: '返回首页',
+    sectionTitle: '最新录取案例 - Latest Offer Cases',
+    footer: '&copy; 2025 Littlepo_offcial Web | Designed by Jing.',
+    cases: [
+      {
+        img: 'offer1.jpg',
+        alt: '香港理工大学案例',
+        title1: '香港理工大学 · 商业分析理学硕士',
+        title2: 'PolyU · MSc in Business Analytics',
+        desc: '本科背景：一本 / 电子商务 / 81.33 / 6.5 / 2段工作'
+      },
+      {
+        img: 'offer2.jpg',
+        alt: '香港教育大学案例',
+        title1: '香港教育大学 · 人工智能与教育技术理学硕士',
+        title2: 'EdUHK · MSc in AI and Educational Technology',
+        desc: '本科背景：专升本 / 计算机科学与技术 / 2.72(5.0) / CET6-436 / 3段实习'
+      },
+      {
+        img: 'offer3.jpg',
+        alt: '伦敦国王大学案例',
+        title1: '伦敦国王大学 · 数字资产与媒体管理文学硕士',
+        title2: 'KCL · MA Digital Asset and Media Management',
+        desc: '本科背景：双非一本 / 广播电视 / 88 / 7.0 / 4段实习'
+      },
+      {
+        img: 'offer4.jpg',
+        alt: '伦敦政治经济学院案例',
+        title1: '伦敦政治经济学院 · 人权与政治理学硕士',
+        title2: 'LSE · MSc Human Rights and Politics',
+        desc: '本科背景：211 / 国际关系 / 4.11(5.0) / 7.5 / 2段实习 / 1篇刊物'
+      },
+      {
+        img: 'offer5.jpg',
+        alt: '香港科技大学案例',
+        title1: '香港科技大学 · 全球中国研究理学硕士',
+        title2: 'HKUST · MSc in Global China Studies',
+        desc: '本科背景：211 / 行政管理 / 3.88(5.0) / 7.0 / 3段实习'
+      },
+      {
+        img: 'offer6.jpg',
+        alt: '香港中文大学案例',
+        title1: '香港中文大学 · 企业传播学社会科学硕士',
+        title2: 'CUHK · MSSc in Corporate Communication',
+        desc: '本科背景：211 / 传播学 / 3.94(5.0) / 7.0 / 3段实习 / 1篇刊物'
+      },
+      {
+        img: 'offer7.jpg',
+        alt: '隆德大学案例',
+        title1: '隆德大学 · 法学硕士',
+        title2: 'Lund University · Master of Laws',
+        desc: '本科背景：985 / 法学 / 3.46(4.0) / 7.0 / 2段实习 / 2篇刊物'
+      },
+      {
+        img: 'offer8.jpg',
+        alt: '悉尼大学案例',
+        title1: '悉尼大学 · 电影与影像艺术硕士',
+        title2: 'USYD · Master of Film and Screen Arts',
+        desc: '本科背景：双非一本 / 视觉传达 / 82.62 / 6.5 / 2年工作经验 / 含作品集'
+      },
+      {
+        img: 'offer9.jpg',
+        alt: '新南威尔士大学案例',
+        title1: '新南威尔士大学 · 信息技术硕士',
+        title2: 'UNSW · Master of Information Technology',
+        desc: '本科背景：双非一本 / 计算机科学 / 85.2 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer10.jpg',
+        alt: '昆士兰大学案例',
+        title1: '昆士兰大学 · 计算机科学硕士',
+        title2: 'UQ · Master of Computer Science',
+        desc: '本科背景：4+0 / 信息技术 / 5.0(7.0) / 1段实习'
+      },
+      {
+        img: 'offer11.jpg',
+        alt: '布里斯托大学案例',
+        title1: '布里斯托大学 · 数字媒体创新文学硕士',
+        title2: 'University of Bristol · MA Digital Media Innovation',
+        desc: '本科背景：海本 / 时尚管理 / 2:1 / 2段实习'
+      },
+      {
+        img: 'offer12.jpg',
+        alt: '南安普顿大学案例',
+        title1: '南安普顿大学 · 英语教学文学硕士（TESOL研究）',
+        title2: 'Soton · MA English Language Teaching (TESOL Studies)',
+        desc: '本科背景：双非二本 / 英语 / 84.39 / 7.0 / 2段实习'
+      },
+      {
+        img: 'offer13.jpg',
+        alt: '杜伦大学案例',
+        title1: '杜伦大学 · 教育学文学硕士',
+        title2: 'Durham University · MA Education',
+        desc: '本科背景：双非一本 / 交通工程 / 85.9 / 6.5 / 9年工作经验'
+      },
+      {
+        img: 'offer14.jpg',
+        alt: '曼彻斯特大学案例',
+        title1: '曼彻斯特大学 · 市场营销理学硕士',
+        title2: 'Manchester University · MSc Marketing',
+        desc: '本科背景：双非一本 / 市场营销 / 84.9 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer15.jpg',
+        alt: '曼彻斯特大学案例',
+        title1: '曼彻斯特大学 · 金融理学硕士',
+        title2: 'Manchester University · MSc Finance',
+        desc: '本科背景：211 / 国际经济与贸易 / 83.6 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer16.jpg',
+        alt: '华威大学案例',
+        title1: '华威大学 · 金融理学硕士',
+        title2: 'Warwick University · MSc Finance',
+        desc: '本科背景：211 / 会计学 / 86.3 / 7.0 / 2段实习'
+      },
+      {
+        img: 'offer17.jpg',
+        alt: '华威大学案例',
+        title1: '华威大学 · 市场营销与战略理学硕士',
+        title2: 'Warwick University · MSc Marketing and Strategy',
+        desc: '本科背景：211 / 市场营销 / 83.8 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer18.jpg',
+        alt: '华威大学案例',
+        title1: '华威大学 · 商业分析理学硕士',
+        title2: 'Warwick University · MSc Business Analytics',
+        desc: '本科背景：双非一本 / 信息管理与信息系统 / 86.6 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer19.jpg',
+        alt: '格拉斯哥大学案例',
+        title1: '格拉斯哥大学 · 教育学硕士',
+        title2: 'Glasgow University · MSc Education',
+        desc: '本科背景：双非一本 / 教育学 / 85.4 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer20.jpg',
+        alt: '格拉斯哥大学案例',
+        title1: '格拉斯哥大学 · 金融管理理学硕士',
+        title2: 'Glasgow University · MSc Financial Management',
+        desc: '本科背景：双非一本 / 财务管理 / 85.7 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer21.jpg',
+        alt: '爱丁堡大学案例',
+        title1: '爱丁堡大学 · 教育学硕士',
+        title2: 'Edinburgh University · MSc Education',
+        desc: '本科背景：双非一本 / 教育学 / 85.9 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer22.jpg',
+        alt: '爱丁堡大学案例',
+        title1: '爱丁堡大学 · 市场营销硕士',
+        title2: 'Edinburgh University · MSc Marketing',
+        desc: '本科背景：211 / 工商管理 / 86.1 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer23.jpg',
+        alt: '爱丁堡大学案例',
+        title1: '爱丁堡大学 · 金融管理硕士',
+        title2: 'Edinburgh University · MSc Financial Management',
+        desc: '本科背景：211 / 金融学 / 85.3 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer24.jpg',
+        alt: '布里斯托大学案例',
+        title1: '布里斯托大学 · 会计与金融理学硕士',
+        title2: 'Bristol University · MSc Accounting and Finance',
+        desc: '本科背景：双非一本 / 会计学 / 83.2 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer25.jpg',
+        alt: '布里斯托大学案例',
+        title1: '布里斯托大学 · 市场营销理学硕士',
+        title2: 'Bristol University · MSc Marketing',
+        desc: '本科背景：双非一本 / 市场营销 / 84.7 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer26.jpg',
+        alt: '布里斯托大学案例',
+        title1: '布里斯托大学 · 金融科技理学硕士',
+        title2: 'Bristol University · MSc Financial Technology',
+        desc: '本科背景：211 / 金融学 / 86.0 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer27.jpg',
+        alt: '布里斯托大学案例',
+        title1: '布里斯托大学 · 国际商务与管理理学硕士',
+        title2: 'Bristol University · MSc International Business and Management',
+        desc: '本科背景：双非一本 / 国际经济与贸易 / 83.9 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer28.jpg',
+        alt: '南安普顿大学案例',
+        title1: '南安普顿大学 · 市场营销分析理学硕士',
+        title2: 'Southampton University · MSc Marketing Analytics',
+        desc: '本科背景：双非一本 / 市场营销 / 85.0 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer29.jpg',
+        alt: '南安普顿大学案例',
+        title1: '南安普顿大学 · 金融管理理学硕士',
+        title2: 'Southampton University · MSc Financial Management',
+        desc: '本科背景：双非一本 / 金融学 / 84.5 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer30.jpg',
+        alt: '南安普顿大学案例',
+        title1: '南安普顿大学 · 国际商务与战略管理理学硕士',
+        title2: 'Southampton University · MSc International Business and Strategy Management',
+        desc: '本科背景：双非一本 / 国际商务 / 85.8 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer31.jpg',
+        alt: '南安普顿大学案例',
+        title1: '南安普顿大学 · 会计与金融理学硕士',
+        title2: 'Southampton University · MSc Accounting and Finance',
+        desc: '本科背景：双非一本 / 会计学 / 83.6 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer32.jpg',
+        alt: '格拉斯哥大学案例',
+        title1: '格拉斯哥大学 · 市场营销理学硕士',
+        title2: 'Glasgow University · MSc Marketing',
+        desc: '本科背景：双非一本 / 市场营销 / 84.1 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer33.jpg',
+        alt: '曼彻斯特大学案例',
+        title1: '曼彻斯特大学 · 金融理学硕士',
+        title2: 'Manchester University · MSc Finance',
+        desc: '本科背景：211 / 金融学 / 85.4 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer34.jpg',
+        alt: '曼彻斯特大学案例',
+        title1: '曼彻斯特大学 · 国际商务与管理理学硕士',
+        title2: 'Manchester University · MSc International Business and Management',
+        desc: '本科背景：211 / 国际商务 / 85.1 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer35.jpg',
+        alt: '曼彻斯特大学案例',
+        title1: '曼彻斯特大学 · 会计与金融理学硕士',
+        title2: 'Manchester University · MSc Accounting and Finance',
+        desc: '本科背景：双非一本 / 会计学 / 83.7 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer36.jpg',
+        alt: '华威大学案例',
+        title1: '华威大学 · 会计与金融理学硕士',
+        title2: 'Warwick University · MSc Accounting and Finance',
+        desc: '本科背景：211 / 会计学 / 86.4 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer37.jpg',
+        alt: '华威大学案例',
+        title1: '华威大学 · 国际商务理学硕士',
+        title2: 'Warwick University · MSc International Business',
+        desc: '本科背景：211 / 国际商务 / 85.6 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer38.jpg',
+        alt: '华威大学案例',
+        title1: '华威大学 · 金融理学硕士',
+        title2: 'Warwick University · MSc Finance',
+        desc: '本科背景：211 / 金融学 / 85.9 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer39.jpg',
+        alt: '格拉斯哥大学案例',
+        title1: '格拉斯哥大学 · 会计与金融理学硕士',
+        title2: 'Glasgow University · MSc Accounting and Finance',
+        desc: '本科背景：双非一本 / 会计学 / 84.8 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer40.jpg',
+        alt: '格拉斯哥大学案例',
+        title1: '格拉斯哥大学 · 国际商务理学硕士',
+        title2: 'Glasgow University · MSc International Business',
+        desc: '本科背景：双非一本 / 国际经济与贸易 / 83.5 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer41.jpg',
+        alt: '格拉斯哥大学案例',
+        title1: '格拉斯哥大学 · 金融科技理学硕士',
+        title2: 'Glasgow University · MSc Financial Technology',
+        desc: '本科背景：211 / 金融学 / 85.2 / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer42.jpg',
+        alt: '蒙纳士大学案例',
+        title1: '蒙纳士大学 · 高级金融硕士',
+        title2: 'Monash University · Master of Advanced Finance',
+        desc: '本科背景：双非一本 / 会计学 / 82.03 / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer43.jpg',
+        alt: '昆士兰大学案例',
+        title1: '昆士兰大学 · 金融硕士',
+        title2: 'University of Queensland · Master of Finance',
+        desc: '本科背景：211 / 金融学 / 84.6 / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer44.jpg',
+        alt: '墨尔本大学案例',
+        title1: '墨尔本大学 · 管理学硕士（会计与金融）',
+        title2: 'University of Melbourne · Master of Management (Accounting and Finance)',
+        desc: '本科背景：211 / 会计学 / 83.9 / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer45.jpg',
+        alt: '墨尔本大学案例',
+        title1: '墨尔本大学 · 金融硕士',
+        title2: 'University of Melbourne · Master of Finance',
+        desc: '本科背景：211 / 金融学 / 85.7 / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer46.jpg',
+        alt: '新南威尔士大学案例',
+        title1: '新南威尔士大学 · 金融硕士',
+        title2: 'University of New South Wales · Master of Finance',
+        desc: '本科背景：双非一本 / 金融学 / 83.4 / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer47.jpg',
+        alt: '新南威尔士大学案例',
+        title1: '新南威尔士大学 · 专业会计硕士',
+        title2: 'University of New South Wales · Master of Professional Accounting',
+        desc: '本科背景：双非一本 / 会计学 / 82.8 / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer48.jpg',
+        alt: '悉尼大学案例',
+        title1: '悉尼大学 · 金融硕士',
+        title2: 'University of Sydney · Master of Finance',
+        desc: '本科背景：211 / 金融学 / 84.5 / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer49.jpg',
+        alt: '悉尼大学案例',
+        title1: '悉尼大学 · 商业分析硕士',
+        title2: 'University of Sydney · Master of Business Analytics',
+        desc: '本科背景：211 / 信息管理与信息系统 / 85.6 / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer50.jpg',
+        alt: '曼彻斯特大学案例',
+        title1: '曼彻斯特大学 · 国际时尚零售硕士（创业与创新）',
+        title2: 'Manchester University · MSc International Fashion Retailing (Entrepreneurship and Innovation)',
+        desc: '本科背景：海外本科 / 市场营销 / 3.73(4.0) / 3段实习'
+      },
+      {
+        img: 'offer51.jpg',
+        alt: '香港大学案例',
+        title1: '香港大学 · 传媒、文化与创意城市理学硕士',
+        title2: 'HKU · MSocSc Media, Culture and Creative Cities',
+        desc: '本科背景：211 / 广告学 / 3.78(4.0) / 7.0 / 3段实习'
+      },
+      {
+        img: 'offer52.jpg',
+        alt: '香港中文大学案例',
+        title1: '香港中文大学 · 中医硕士',
+        title2: 'CUHK · Master of Chinese Medicine',
+        desc: '本科背景：PolyU一硕 / 酒店管理 / 3.48(4.0) / 2段工作+自考中医证书'
+      },
+      {
+        img: 'offer53.jpg',
+        alt: '香港理工大学案例',
+        title1: '香港理工大学 · 环境、社会和治理及可持续性理学硕士',
+        title2: 'PolyU · MSc ESG and Sustainability',
+        desc: '本科背景：2+2 / 会计金融 / 84.11 / 7.0 / 3段实习'
+      },
+      {
+        img: 'offer54.jpg',
+        alt: '爱丁堡大学案例',
+        title1: '爱丁堡大学 · 金融计算高级技术硕士',
+        title2: 'Edinburgh University · MSc Advanced Technology for Financial Computing',
+        desc: '本科背景：211 / 会计学 / 86.9 / 7.0 / 2段实习 / 国金一枚'
+      },
+      {
+        img: 'offer55.jpg',
+        alt: '澳洲国立大学案例',
+        title1: '澳洲国立大学 · 国际管理硕士',
+        title2: 'ANU · Master of International Management',
+        desc: '本科背景：双非二本 / 财务管理 / 86.2 / 6.5 / 4段实习'
+      },
+      {
+        img: 'offer56.jpg',
+        alt: '香港大学案例',
+        title1: '香港大学 · 私人银行与资产管理学士',
+        title2: 'HKU · Bachelor of Finance in Asset Management and Private Banking',
+        desc: '本科背景：香港高中 / 其余未透露'
+      },
+      {
+        img: 'offer57.jpg',
+        alt: '香港中文大学案例',
+        title1: '香港中文大学 · 跨文化研究文学硕士',
+        title2: 'CUHK · MA Intercultural Studies',
+        desc: '本科背景：985 / 新闻学 / 3.4(4.0) / 6.5 / 2段实习'
+      },
+      {
+        img: 'offer58.jpg',
+        alt: '奥胡斯大学案例',
+        title1: '奥胡斯大学 · 文化研究文学硕士',
+        title2: 'Aarhus University · MA Cultural Studies',
+        desc: '本科背景：双非二本 / 文化产业管理 / 87.9 / 6.0 / 3段实习'
+      },
+      {
+        img: 'offer59.jpg',
+        alt: '杜伦大学案例',
+        title1: '杜伦大学 · 市场营销理学硕士',
+        title2: 'Durham University · MSc Marketing',
+        desc: '本科背景：双非一本 / 电子商务 / 3.48(4.0) / 3段实习'
+      },
+      {
+        img: 'offer60.jpg',
+        alt: '香港中文大学案例',
+        title1: '香港中文大学 · 社会服务管理文学硕士',
+        title2: 'CUHK · MA Social Service Management',
+        desc: '本科背景：双非一本 / 广告学 / 3.6(4.0) / 6.5 / 3段实习'
+      },
+      {
+        img: 'offer61.jpg',
+        alt: '香港浸会大学案例',
+        title1: '香港浸会大学 · 中国文学、语言与文化文学硕士',
+        title2: 'HKBU · MA Chinese Literature, Language and Culture',
+        desc: '本科背景：双非一本 / 媒体与传播 / 82.63 / 无语言 / 2段实习'
+       },
+       {
+         img: 'offer62.jpg',
+         alt: '谢菲尔德大学案例',
+         title1: '谢菲尔德大学 · 战略市场营销与品牌理学硕士',
+         title2: 'Sheffield Uni · MSc Strategic Marketing and Branding',
+         desc: '本科背景：海外本科 / 数字营销和商业传播 / 4.2(7.0) / 4段实习'
+       },
+       {
+         img: 'offer63.jpg',
+         alt: '新加坡国立大学案例',
+         title1: '新加坡国立大学 · 国际事务硕士',
+         title2: 'NUS · Master of International Affairs',
+         desc: '本科背景：985 / 国际关系 / 3.8（4.0）/ 7.5 / 4段实习 / 科研刊文1篇'
+       },
+       {
+         img: 'offer64.jpg',
+         alt: '香港浸会大学案例',
+         title1: '香港浸会大学 · 咨询学社会科学硕士',
+         title2: 'HKBU · Master of Social Sciences in Counselling',
+         desc: '本科背景：双非二本 / 应用心理学 / 88.13 / 6.0 / 3段实习'
+       },
+       {
+         img: 'offer65.jpg',
+         alt: '香港教育大学案例',
+         title1: '香港教育大学 · 音乐教育文学硕士',
+         title2: 'EdUHK · Master of Arts in Music Education',
+         desc: '本科背景：双非一本 / 音乐学（钢琴专业）/ 85.5 / 6.0 / 2段工作'
+       },
+       {
+         img: 'offer66.jpg',
+         alt: '香港浸会大学案例',
+         title1: '香港浸会大学 · 音乐学文学硕士',
+         title2: 'HKBU · Master of Arts in Musicology',
+         desc: '本科背景：双非一本 / 音乐学（钢琴专业）/ 85.5 / 6.0 / 2段工作'
+       },
+       {
+         img: 'offer67.jpg',
+         alt: '澳门科技大学案例',
+         title1: '澳门科技大学 · 国际仲裁硕士',
+         title2: 'MUST · Master of International Arbitration',
+         desc: '本科背景：双非二本 / 法学 / 81.43 / CET4：482 / 3段实习'
+       },
+       {
+         img: 'offer68.jpg',
+         alt: '澳门大学案例',
+         title1: '澳门大学 · 历史学文学硕士',
+         title2: 'University of Macau · Master of Arts in History',
+         desc: '本科背景：海外本科 / 西班牙语 / 82 / 6.5 / 2段实习'
+       }
+    ]
+  },
+  en: {
+    title: '🎓 Offer Cases',
+    slogan: 'Desire is the prophet of destiny.',
+    tag: '1v1 Comprehensive Tutoring',
+    homeBtn: 'Back to Home',
+    sectionTitle: 'Latest Admission Cases',
+    footer: '&copy; 2025 Littlepo_offcial Web | Designed by Jing.',
+    cases: [
+      {
+        img: 'offer1.jpg',
+        alt: 'PolyU Case',
+        title1: 'The Hong Kong Polytechnic University',
+        title2: 'MSc in Business Analytics',
+        desc: 'Background: First-tier / E-commerce / 81.33 / IELTS 6.5 / 2 work experiences'
+      },
+      {
+        img: 'offer2.jpg',
+        alt: 'EdUHK Case',
+        title1: 'The Education University of Hong Kong',
+        title2: 'MSc in AI and Educational Technology',
+        desc: 'Background: Associate-Bachelor / Computer Science / 2.72(5.0) / CET6-436 / 3 internships'
+      },
+      {
+        img: 'offer3.jpg',
+        alt: 'KCL Case',
+        title1: 'King\'s College London',
+        title2: 'MA Digital Asset and Media Management',
+        desc: 'Background: Non-211 First-tier / Broadcasting / 88 / IELTS 7.0 / 4 internships'
+      },
+      {
+        img: 'offer4.jpg',
+        alt: 'LSE Case',
+        title1: 'London School of Economics and Political Science',
+        title2: 'MSc Human Rights and Politics',
+        desc: 'Background: 211 / International Relations / 4.11(5.0) / IELTS 7.5 / 2 internships / 1 publication'
+      },
+      {
+        img: 'offer5.jpg',
+        alt: 'HKUST Case',
+        title1: 'Hong Kong University of Science and Technology',
+        title2: 'MSc in Global China Studies',
+        desc: 'Background: 211 / Public Administration / 3.88(5.0) / IELTS 7.0 / 3 internships'
+      },
+      {
+        img: 'offer6.jpg',
+        alt: 'CUHK Case',
+        title1: 'The Chinese University of Hong Kong',
+        title2: 'MSSc in Corporate Communication',
+        desc: 'Background: 211 / Communication / 3.94(5.0) / IELTS 7.0 / 3 internships / 1 publication'
+      },
+      {
+        img: 'offer7.jpg',
+        alt: 'Lund University Case',
+        title1: 'Lund University',
+        title2: 'Master of Laws',
+        desc: 'Background: 985 / Law / 3.46(4.0) / IELTS 7.0 / 2 internships / 2 publications'
+      },
+      {
+        img: 'offer8.jpg',
+        alt: 'USYD Case',
+        title1: 'University of Sydney',
+        title2: 'Master of Film and Screen Arts',
+        desc: 'Background: Non-211 First-tier / Visual Communication / 82.62 / IELTS 6.5 / 2 years work / Portfolio'
+      },
+      {
+        img: 'offer9.jpg',
+        alt: 'UNSW Case',
+        title1: 'University of New South Wales',
+        title2: 'Master of Information Technology',
+        desc: 'Background: Non-211 First-tier / Computer Science / 85.2 / IELTS 6.5 / 2 internships'
+      },
+      {
+        img: 'offer10.jpg',
+        alt: 'UQ Case',
+        title1: 'University of Queensland',
+        title2: 'Master of Computer Science',
+        desc: 'Background: 4+0 Program / Information Technology / 5.0(7.0) / 1 internship'
+      },
+      {
+        img: 'offer11.jpg',
+        alt: 'Bristol Case',
+        title1: 'University of Bristol',
+        title2: 'MA Digital Media Innovation',
+        desc: 'Background: Overseas Bachelor / Fashion Management / 2:1 / 2 internships'
+      },
+      {
+        img: 'offer12.jpg',
+        alt: 'Southampton Case',
+        title1: 'University of Southampton',
+        title2: 'MA English Language Teaching (TESOL Studies)',
+        desc: 'Background: Non-211 Second-tier / English / 84.39 / IELTS 7.0 / 2 internships'
+      }，
+      // 案例13
+      {
+        img: 'offer13.jpg',
+        alt: 'Durham Case',
+        title1: 'Durham University',
+        title2: 'MA Education',
+        desc: 'Background: Non-211 First-tier / Transportation Engineering / 85.9 / IELTS 6.5 / 9 years work experience'
+      },
+
+// 案例14
+      {
+        img: 'offer14.jpg',
+        alt: 'UCL Case',
+        title1: 'University College London (UCL)',
+        title2: 'MA Intercultural Communication',
+        desc: 'Background: 211 / Public Relations / 4.0 (5.0) / IELTS 7.0 / 4 internships'
+      },
+
+// 案例15
+      {
+        img: 'offer15.jpg',
+        alt: 'PolyU Case',
+        title1: 'The Hong Kong Polytechnic University',
+        title2: 'MA Social Policy & Social Development',
+        desc: 'Background: Double First-class / Social Work / 88.81 / IELTS 6.5 / 2 internships'
+      },
+
+// 案例16
+      {
+        img: 'offer16.jpg',
+        alt: 'HKU Case',
+        title1: 'The University of Hong Kong',
+        title2: 'Program unspecified',
+        desc: 'Background: xxx / Highlights unspecified'
+      },
+
+// 案例17
+      {
+        img: 'offer17.jpg',
+        alt: 'Birmingham DS Case',
+        title1: 'University of Birmingham',
+        title2: 'MSc Data Science',
+        desc: 'Background: Non-211 First-tier / Information Technology / 88.2 / IELTS 6.5 / 3 internships'
+      },
+
+// 案例18
+      {
+        img: 'offer18.jpg',
+        alt: 'Stockholm Case',
+        title1: 'Stockholm University',
+        title2: 'Master in Strategic Information Systems Management',
+        desc: 'Background: Non-211 Second-tier / Economics and Finance / 81.02 / IELTS 6.5 / 3 internships'
+      },
+
+// 案例19
+      {
+        img: 'offer19.jpg',
+        alt: 'Birmingham Econ Case',
+        title1: 'University of Birmingham',
+        title2: 'MSc Economics',
+        desc: 'Background: Non-211 Second-tier / International Trade / 80.9 / IELTS 6.5 / 4 years work experience'
+      },
+
+// 案例20
+      {
+        img: 'offer20.jpg',
+        alt: 'Goldsmiths Case',
+        title1: 'Goldsmiths, University of London',
+        title2: 'MA Design: Expanded Practice',
+        desc: 'Background: Non-211 First-tier / Fine Arts / GPA 3.15 (5.0) / IELTS 6.5 / 2 internships / Portfolio included'
+      },
+
+// 案例21
+      {
+        img: 'offer21.jpg',
+        alt: 'HKBU Case',
+        title1: 'Hong Kong Baptist University',
+        title2: 'Program unspecified',
+        desc: 'Background: xxx'
+      },
+
+// 案例22
+      {
+        img: 'offer22.jpg',
+        alt: 'Glasgow Case',
+        title1: 'University of Glasgow',
+        title2: 'MSc Data Analytics for Economics and Finance',
+        desc: 'Background: 211 / Economic Statistics / 81.29 / IELTS 6.5 / 2 internships'
+      },
+
+// 案例23
+      {
+        img: 'offer23.jpg',
+        alt: 'CityU Case',
+        title1: 'City University of Hong Kong',
+        title2: 'Program unspecified',
+        desc: 'Background: xxx'
+      },
+
+// 案例24
+      {
+        img: 'offer24.jpg',
+        alt: 'Sheffield Case',
+        title1: 'University of Sheffield',
+        title2: 'MA Journalism',
+        desc: 'Background: Overseas Bachelor / Media Studies / 76 / 2 internships'
+      },
+
+// 案例25
+      {
+        img: 'offer25.jpg',
+        alt: 'USYD Case',
+        title1: 'The University of Sydney',
+        title2: 'Master of Urbanism (Urban and Regional Planning)',
+        desc: 'Background: 211 / Environmental Design / 84.2 / IELTS 7.0 / 2 internships'
+      },
+
+// 案例26
+      {
+        img: 'offer26.jpg',
+        alt: 'Leeds Case',
+        title1: 'University of Leeds',
+        title2: 'MA Society, Culture and Media',
+        desc: 'Background: Non-211 Second-tier / Social Service / 88.89 / IELTS 6.5 / 2 internships'
+      },
+
+// 案例27
+      {
+        img: 'offer27.jpg',
+        alt: 'HKU Museum Case',
+        title1: 'The University of Hong Kong',
+        title2: 'MA Museum Studies',
+        desc: 'Background: Non-211 Second-tier / Cultural Industry Management / 89.78 / IELTS 7.0 / 2 internships'
+      },
+
+// 案例28
+      {
+        img: 'offer28.jpg',
+        alt: 'Lingnan Case',
+        title1: 'Lingnan University',
+        title2: 'Master of Cities and Governance',
+        desc: 'Background: Non-211 Second-tier / Financial Management / GPA 3.07 (5.0) / IELTS 6.5 / 2 years work experience'
+      },
+
+// 案例29
+      {
+        img: 'offer29.jpg',
+        alt: 'Warwick Case',
+        title1: 'University of Warwick',
+        title2: 'MSc Business and Finance',
+        desc: 'Background: 211 / Finance and Accounting / 92.69 / IELTS 7.5 / 3 research experiences'
+      },
+
+// 案例30
+      {
+        img: 'offer30.jpg',
+        alt: 'MUST Case',
+        title1: 'Macau University of Science and Technology',
+        title2: 'MA Foreign Language Studies',
+        desc: 'Background: Private University / English / 85 / IELTS 6.0 / 3 internships'
+      },
+
+// 案例31
+      {
+        img: 'offer31.jpg',
+        alt: 'CityU Applied Soc Case',
+        title1: 'City University of Hong Kong',
+        title2: 'MA Applied Social Sciences',
+        desc: 'Background: 211 / Communication and Journalism / GPA 3.82 (5.0) / IELTS 6.5 / 3 internships'
+      },
+
+// 案例32
+      {
+        img: 'offer32.jpg',
+        alt: 'HKU Global Mgmt Case',
+        title1: 'The University of Hong Kong',
+        title2: 'Master of Global Management',
+        desc: 'Background: 211 / Public Administration / GPA 3.68 (5.0) / IELTS 7.5 / 3 internships'
+      },
+
+// 案例33
+      {
+        img: 'offer33.jpg',
+        alt: 'EdUHK Case',
+        title1: 'The Education University of Hong Kong',
+        title2: 'MA Chinese Studies (Language Education)',
+        desc: 'Background: Non-211 First-tier / Chinese Language & Literature / 79.88 / No IELTS / 4 years work experience'
+      },
+
+// 案例34
+      {
+        img: 'offer34.jpg',
+        alt: 'KCL Case',
+        title1: 'King’s College London',
+        title2: 'MSc Finance Analytics',
+        desc: 'Background: Double First-class / Finance & Accounting / 91.93 / IELTS 7.0 / 4 internships'
+      },
+
+// 案例35
+      {
+        img: 'offer35.jpg',
+        alt: 'Manchester Case',
+        title1: 'University of Manchester',
+        title2: 'MSc Quantitative Finance',
+        desc: 'Background: Double First-class / Finance & Accounting / 91.93 / IELTS 7.0 / 4 internships'
+      },
+
+// 案例36
+      {
+        img: 'offer36.jpg',
+        alt: 'HSU Case',
+        title1: 'The Hang Seng University of Hong Kong',
+        title2: 'MSc Digital Innovation and Technology Management',
+        desc: 'Background: Overseas Bachelor / Marketing / GPA 4.1 (7.0) / 1 internship'
+      },
+
+// 案例37
+      {
+        img: 'offer37.jpg',
+        alt: 'UQ Business Case',
+        title1: 'The University of Queensland',
+        title2: 'Master of Business',
+        desc: 'Background: Non-211 Second-tier / Economics / 83.2 / IELTS 7.0 / 2 internships'
+      },
+
+// 案例38
+      {
+        img: 'offer38.jpg',
+        alt: 'HKU UG Psych Case',
+        title1: 'The University of Hong Kong',
+        title2: 'Bachelor of Psychology',
+        desc: 'Background: International High School / Other details not disclosed'
+      },
+
+// 案例39
+      {
+        img: 'offer39.jpg',
+        alt: 'NTU Media Case',
+        title1: 'Nanyang Technological University',
+        title2: 'Master of Media and Communication',
+        desc: 'Background: 211 / Communication / GPA 4.69 (5.0) / IELTS 7.0 / 2 internships'
+      },
+
+// 案例40
+      {
+        img: 'offer40.jpg',
+        alt: 'Leeds Childhood Case',
+        title1: 'University of Leeds',
+        title2: 'MA Childhood Studies',
+        desc: 'Background: Non-211 Second-tier / Primary Education / 85.93 / IELTS 6.5 / 2 internships'
+      },
+
+// 案例41
+      {
+        img: 'offer41.jpg',
+        alt: 'Lingnan ESG Case',
+        title1: 'Lingnan University',
+        title2: 'MSc Environmental, Social, and Governance Management',
+        desc: 'Background: Non-211 First-tier / International Relations / 78.43 / CET: 431 / 2 internships'
+      },
+
+// 案例42
+      {
+        img: 'offer42.jpg',
+        alt: 'Monash Case',
+        title1: 'Monash University',
+        title2: 'Master of Advanced Finance',
+        desc: 'Background: Non-211 First-tier / Accounting / 82.03 / IELTS 6.5 / 3 internships'
+      },
+
+// 案例43
+      {
+        img: 'offer43.jpg',
+        alt: 'ANU Case',
+        title1: 'Australian National University',
+        title2: 'Master of Management',
+        desc: 'Background: Non-211 Second-tier / Public Administration / 87.6 / IELTS 7.0 / 4 internships'
+      },
+
+// 案例44
+      {
+        img: 'offer44.jpg',
+        alt: 'Southampton Fashion Case',
+        title1: 'University of Southampton',
+        title2: 'MA Fashion Marketing and Branding',
+        desc: 'Background: Non-211 First-tier / Textile Design / 89.9 / IELTS 6.5 / 3 internships'
+      },
+
+// 案例45
+      {
+        img: 'offer45.jpg',
+        alt: 'HKBU Health Case',
+        title1: 'Hong Kong Baptist University',
+        title2: 'MSc Personal Health Management (Chinese Medicine)',
+        desc: 'Background: Double First-class / Health Services & Management / GPA 3.05 (5.0) / CET6: 531 / 2 internships'
+      },
+
+// 案例46
+      {
+        img: 'offer46.jpg',
+        alt: 'CityU Health Case',
+        title1: 'City University of Hong Kong',
+        title2: 'MSc Health Sciences and Management',
+        desc: 'Background: Double First-class / Health Services & Management / GPA 3.05 (5.0) / CET6: 531 / 2 internships'
+      },
+
+// 案例47
+      {
+        img: 'offer47.jpg',
+        alt: 'UQ Writing Case',
+        title1: 'The University of Queensland',
+        title2: 'Master of Writing, Editing and Publishing',
+        desc: 'Background: Non-211 Second-tier / Cultural Studies / 81.9 / IELTS 7.0 / 2 internships'
+      },
+
+// 案例48
+      {
+        img: 'offer48.jpg',
+        alt: 'HKMU Case',
+        title1: 'Hong Kong Metropolitan University',
+        title2: 'MA Creative Writing',
+        desc: 'Background: Non-211 Second-tier / Drama, Film & TV Literature / GPA 4.16 (5.0) / No IELTS / 6 years work experience'
+      },
+
+// 案例49
+      {
+        img: 'offer49.jpg',
+        alt: 'NUS Case',
+        title1: 'National University of Singapore',
+        title2: 'Master of Communication (assumed)',
+        desc: 'Background: 211 / Communication / GPA 4.69 (5.0) / IELTS 7.0 / 2 internships'
+      },
+      {
+        img: 'offer50.jpg',
+        alt: 'Manchester Case',
+        title1: 'University of Manchester',
+        title2: 'MSc International Fashion Retailing (Entrepreneurship and Innovation)',
+        desc: 'Background: Overseas Bachelor / Marketing / GPA 3.73(4.0) / 3 internships',
+      },
+
+      {
+        img: 'offer51.jpg',
+        alt: 'HKU Case',
+        title1: 'The University of Hong Kong',
+        title2: 'MSocSc Media, Culture and Creative Cities',
+        desc: 'Background: 211 / Advertising / GPA 3.78(4.0) / IELTS 7.0 / 3 internships',
+      },
+
+      {
+        img: 'offer52.jpg',
+        alt: 'CUHK Case',
+        title1: 'The Chinese University of Hong Kong',
+        title2: 'Master of Chinese Medicine',
+        desc: 'Background: PolyU Master / Hotel Management / GPA 3.48(4.0) / 2 jobs + Chinese Medicine Certificate',
+      },
+
+      {
+        img: 'offer53.jpg',
+        alt: 'PolyU Case',
+        title1: 'The Hong Kong Polytechnic University',
+        title2: 'MSc in ESG and Sustainability',
+        desc: 'Background: 2+2 Program / Accounting & Finance / 84.11 / IELTS 7.0 / 3 internships',
+      },
+
+      {
+        img: 'offer54.jpg',
+        alt: 'Edinburgh Case',
+        title1: 'The University of Edinburgh',
+        title2: 'MSc Advanced Technology for Financial Computing',
+        desc: 'Background: 211 / Accounting / 86.9 / IELTS 7.0 / 2 internships / 1 national scholarship',
+      },
+
+      {
+        img: 'offer55.jpg',
+        alt: 'ANU Case',
+        title1: 'Australian National University',
+        title2: 'Master of International Management',
+        desc: 'Background: Non-211 Tier 2 / Financial Management / 86.2 / IELTS 6.5 / 4 internships',
+      },
+
+      {
+        img: 'offer56.jpg',
+        alt: 'HKU Case',
+        title1: 'The University of Hong Kong',
+        title2: 'Bachelor of Finance in Asset Management and Private Banking',
+        desc: 'Background: Hong Kong High School / Other details undisclosed',
+      },
+
+      {
+        img: 'offer57.jpg',
+        alt: 'CUHK Case',
+        title1: 'The Chinese University of Hong Kong',
+        title2: 'MA in Intercultural Studies',
+        desc: 'Background: 985 / Journalism / GPA 3.4(4.0) / IELTS 6.5 / 2 internships',
+      },
+
+      {
+        img: 'offer58.jpg',
+        alt: 'Aarhus Case',
+        title1: 'Aarhus University',
+        title2: 'MA in Cultural Studies',
+        desc: 'Background: Non-211 Tier 2 / Cultural Industry Management / 87.9 / IELTS 6.0 / 3 internships',
+      },
+
+      {
+        img: 'offer59.jpg',
+        alt: 'Durham Case',
+        title1: 'Durham University',
+        title2: 'MSc in Marketing',
+        desc: 'Background: Non-211 Tier 1 / E-commerce / GPA 3.48(4.0) / 3 internships',
+      },
+
+      {
+        img: 'offer60.jpg',
+        alt: 'CUHK Case',
+        title1: 'The Chinese University of Hong Kong',
+        title2: 'MA in Social Service Management',
+        desc: 'Background: Non-211 Tier 1 / Advertising / GPA 3.6(4.0) / IELTS 6.5 / 3 internships',
+      },
+
+      {
+        img: 'offer61.jpg',
+        alt: 'HKBU Case',
+        title1: 'Hong Kong Baptist University',
+        title2: 'MA in Chinese Literature, Language and Culture',
+        desc: 'Background: Non-211 Tier 1 / Media & Communication / 82.63 / No language test / 2 internships',
+      },
+
+      {
+        img: 'offer62.jpg',
+        alt: 'Sheffield Case',
+        title1: 'The University of Sheffield',
+        title2: 'MSc Strategic Marketing and Branding',
+        desc: 'Background: Overseas Bachelor / Digital Marketing & Business Communication / GPA 4.2(7.0) / 4 internships',
+      },
+
+      {
+        img: 'offer63.jpg',
+        alt: 'NUS Case',
+        title1: 'National University of Singapore',
+        title2: 'Master of International Affairs',
+        desc: 'Background: 985 / International Relations / GPA 3.8(4.0) / IELTS 7.5 / 4 internships / 1 publication',
+      },
+
+      {
+        img: 'offer64.jpg',
+        alt: 'HKBU Case',
+        title1: 'Hong Kong Baptist University',
+        title2: 'MSocSc in Counselling',
+        desc: 'Background: Non-211 Tier 2 / Applied Psychology / 88.13 / IELTS 6.0 / 3 internships',
+      },
+
+      {
+        img: 'offer65.jpg',
+        alt: 'EdUHK Case',
+        title1: 'The Education University of Hong Kong',
+        title2: 'MA in Music Education',
+        desc: 'Background: Non-211 Tier 1 / Music (Piano) / 85.5 / IELTS 6.0 / 2 jobs',
+      },
+
+      {
+        img: 'offer66.jpg',
+        alt: 'HKBU Case',
+        title1: 'Hong Kong Baptist University',
+        title2: 'MA in Musicology',
+        desc: 'Background: Non-211 Tier 1 / Music (Piano) / 85.5 / IELTS 6.0 / 2 jobs',
+      },
+
+      {
+        img: 'offer67.jpg',
+        alt: 'MUST Case',
+        title1: 'Macau University of Science and Technology',
+        title2: 'Master of International Arbitration',
+        desc: 'Background: Non-211 Tier 2 / Law / 81.43 / CET-4: 482 / 3 internships',
+      },
+
+      {
+        img: 'offer68.jpg',
+        alt: 'UMacau Case',
+        title1: 'University of Macau',
+        title2: 'MA in History',
+        desc: 'Background: Overseas Bachelor / Spanish / 82 / IELTS 6.5 / 2 internships',
+      }
+    ]
+  }
+};
+
+let currentLang = 'zh';
+
+// 语言切换功能
+function switchLanguage(lang) {
+  currentLang = lang;
+  const data = languageData[lang];
+  
+  // 更新页面内容
+  document.title = data.title;
+  document.querySelector('header h1').textContent = data.title;
+  document.querySelector('.slogan').textContent = data.slogan;
+  document.querySelector('.tag').textContent = data.tag;
+  document.querySelector('.home-btn').textContent = data.homeBtn;
+  document.querySelector('h2').textContent = data.sectionTitle;
+  document.querySelector('footer').innerHTML = data.footer;
+  
+  // 更新案例内容
+  const cases = document.querySelectorAll('.case');
+  cases.forEach((caseElement, index) => {
+    if (data.cases[index]) {
+      const caseData = data.cases[index];
+      const img = caseElement.querySelector('img');
+      const h3Elements = caseElement.querySelectorAll('h3');
+      const p = caseElement.querySelector('p');
+      
+      img.alt = caseData.alt;
+      h3Elements[0].textContent = caseData.title1;
+      h3Elements[1].textContent = caseData.title2;
+      p.textContent = caseData.desc;
+    }
+  });
+  
+  // 更新语言按钮状态
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.lang === lang) {
+      btn.classList.add('active');
+    }
+  });
+  
+  // 更新HTML lang属性
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+}
+
+// 调整粒子系统 - 60个光点，尺寸2-8px
+function createParticles() {
+  const particleCount = window.innerWidth < 768 ? 30 : 60;
+  
+  for(let i = 0; i < particleCount; i++){
     const particle = document.createElement('div');
     particle.className = 'particle';
     
-    // 随机大小
-    const size = Math.random() * 7 + 3; // 3px ~ 10px
+    const size = Math.random() * 6 + 2; // 调整粒子尺寸：2-8px
     particle.style.width = size + 'px';
     particle.style.height = size + 'px';
-    
-    // 随机初始位置
     particle.style.top = Math.random() * 100 + '%';
     particle.style.left = Math.random() * 100 + '%';
-    
-    // 随机动画时间
-    particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+    particle.style.setProperty('--duration', (Math.random() * 10 + 15) + 's');
     
     document.body.appendChild(particle);
   }
+}
+
+// 图片懒加载
+function lazyLoadImages() {
+  const images = document.querySelectorAll('img[data-src]');
+  const imageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        
+        const newImg = new Image();
+        newImg.onload = function() {
+          img.src = img.dataset.src;
+          img.classList.add('loaded');
+          img.removeAttribute('data-src');
+        };
+        newImg.src = img.dataset.src;
+        
+        observer.unobserve(img);
+      }
+    });
+  }, {
+    rootMargin: '100px'
+  });
+
+  images.forEach(img => imageObserver.observe(img));
+}
+
+// 为案例添加动画延迟
+function initCaseAnimations() {
+  const cases = document.querySelectorAll('.case');
+  cases.forEach((case_, index) => {
+    case_.style.setProperty('--index', index);
+  });
+}
+
+// 鼠标跟随光效
+function initCursorGlow() {
+  const cursorGlow = document.querySelector('.cursor-glow');
+  let mouseX = 0, mouseY = 0;
+  let glowX = 0, glowY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animateGlow() {
+    glowX += (mouseX - glowX) * 0.1;
+    glowY += (mouseY - glowY) * 0.1;
+    
+    cursorGlow.style.left = (glowX - 75) + 'px';
+    cursorGlow.style.top = (glowY - 75) + 'px';
+    
+    requestAnimationFrame(animateGlow);
+  }
+
+  document.addEventListener('mouseenter', () => {
+    cursorGlow.style.opacity = '1';
+    animateGlow();
+  });
+
+  document.addEventListener('mouseleave', () => {
+    cursorGlow.style.opacity = '0';
+  });
+}
+
+// 页面加载完成后初始化
+document.addEventListener('DOMContentLoaded', function() {
+  createParticles();
+  lazyLoadImages();
+  initCaseAnimations();
+  initCursorGlow();
+  
+  // 语言切换事件监听
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchLanguage(btn.dataset.lang);
+    });
+  });
+});
+
+// 为案例卡片添加额外的交互效果
+document.addEventListener('DOMContentLoaded', function() {
+  const cases = document.querySelectorAll('.case');
+  
+  cases.forEach(case_ => {
+    case_.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-6px) scale(1.02) rotateX(3deg)';
+    });
+    
+    case_.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
+    });
+  });
+});
 </script>
-
-
 
 <header>
   <h1>🎓 Offer案例展示</h1>
@@ -175,97 +1839,88 @@
   <h2>最新录取案例 - Latest Offer Cases</h2>
   <div class="cases">
     <div class="case">
-      <img src="offer1.jpg" alt="案例1">
+      <img src="offer1.jpg" alt="香港理工大学案例" loading="lazy">
       <h3>香港理工大学 · 商业分析理学硕士</h3>
       <h3>PolyU · MSc in Business Analytics</h3>
       <p>本科背景：一本 / 电子商务 / 81.33 / 6.5 / 2段工作</p>
     </div>
 
     <div class="case">
-      <img src="offer2.jpg" alt="案例2">
+      <img src="offer2.jpg" alt="香港教育大学案例" loading="lazy">
       <h3>香港教育大学 · 人工智能与教育技术理学硕士</h3>
       <h3>EdUHK · MSc in AI and Educational Technology</h3>
       <p>本科背景：专升本 / 计算机科学与技术 / 2.72(5.0) / CET6-436 / 3段实习</p>
     </div>
 
-      <div class="case">
-        <img src="offer3.jpg" alt="案例3">
-        <h3>伦敦国王大学 · 数字资产与媒体管理文学硕士</h3>
-        <h3>KCL · MA Digital Asset and Media Management</h3>
-        <p>本科背景：双非一本 / 广播电视 / 88 / 7.0 / 4段实习</p>
-      </div>
+    <div class="case">
+      <img src="offer3.jpg" alt="伦敦国王大学案例" loading="lazy">
+      <h3>伦敦国王大学 · 数字资产与媒体管理文学硕士</h3>
+      <h3>KCL · MA Digital Asset and Media Management</h3>
+      <p>本科背景：双非一本 / 广播电视 / 88 / 7.0 / 4段实习</p>
+    </div>
 
-   <!-- 案例 4 -->
-      <div class="case">
-        <img src="offer4.jpg" alt="案例4">
-        <h3>伦敦政治经济学院 · 人权与政治理学硕士</h3>
-        <h3>LSE · MSc Human Rights and Politics</h3>
-        <p>本科背景：211 / 国际关系 / 4.11(5.0) / 7.5 / 2段实习 / 1篇刊物</p>
-      </div>
+    <div class="case">
+      <img src="offer4.jpg" alt="伦敦政治经济学院案例" loading="lazy">
+      <h3>伦敦政治经济学院 · 人权与政治理学硕士</h3>
+      <h3>LSE · MSc Human Rights and Politics</h3>
+      <p>本科背景：211 / 国际关系 / 4.11(5.0) / 7.5 / 2段实习 / 1篇刊物</p>
+    </div>
 
-      <!-- 案例 5 -->
-      <div class="case">
-        <img src="offer5.jpg" alt="案例5">
-        <h3>香港科技大学 · 全球中国研究理学硕士</h3>
-        <h3>HKUST · MSc in Global China Studies</h3>
-        <p>本科背景：211 / 行政管理 / 3.88(5.0) / 7.0 / 3段实习</p>
-      </div>
+    <div class="case">
+      <img src="offer5.jpg" alt="香港科技大学案例" loading="lazy">
+      <h3>香港科技大学 · 全球中国研究理学硕士</h3>
+      <h3>HKUST · MSc in Global China Studies</h3>
+      <p>本科背景：211 / 行政管理 / 3.88(5.0) / 7.0 / 3段实习</p>
+    </div>
 
-      <!-- 案例 6 -->
-      <div class="case">
-        <img src="offer6.jpg" alt="案例6">
-        <h3>香港中文大学 · 企业传播学社会科学硕士</h3>
-        <h3>CUHK · MSSc in Corporate Communication</h3>
-        <p>本科背景：211 / 传播学 / 3.94(5.0) / 7.0 / 3段实习 / 1篇刊物</p>
-      </div>
+    <div class="case">
+      <img src="offer6.jpg" alt="香港中文大学案例" loading="lazy">
+      <h3>香港中文大学 · 企业传播学社会科学硕士</h3>
+      <h3>CUHK · MSSc in Corporate Communication</h3>
+      <p>本科背景：211 / 传播学 / 3.94(5.0) / 7.0 / 3段实习 / 1篇刊物</p>
+    </div>
 
-      <!-- 案例 7 -->
-      <div class="case">
-        <img src="offer7.jpg" alt="案例7">
-        <h3>隆德大学 · 法学硕士</h3>
-        <h3>Lund University · Master of Laws</h3>
-        <p>本科背景：985 / 法学 / 3.46(4.0) / 7.0 / 2段实习 / 2篇刊物 </p>
-      </div>
+    <div class="case">
+      <img src="offer7.jpg" alt="隆德大学案例" loading="lazy">
+      <h3>隆德大学 · 法学硕士</h3>
+      <h3>Lund University · Master of Laws</h3>
+      <p>本科背景：985 / 法学 / 3.46(4.0) / 7.0 / 2段实习 / 2篇刊物</p>
+    </div>
 
-      <!-- 案例 8 -->
-      <div class="case">
-        <img src="offer8.jpg" alt="案例8">
-        <h3>悉尼大学 · 电影与影像艺术硕士</h3>
-        <h3>USYD · Master of Film and Screen Arts</h3>
-        <p>本科背景：双非一本 / 视觉传达 / 82.62 / 6.5 / 2年工作经验 / 含作品集</p>
-      </div>
+    <div class="case">
+      <img src="offer8.jpg" alt="悉尼大学案例" loading="lazy">
+      <h3>悉尼大学 · 电影与影像艺术硕士</h3>
+      <h3>USYD · Master of Film and Screen Arts</h3>
+      <p>本科背景：双非一本 / 视觉传达 / 82.62 / 6.5 / 2年工作经验 / 含作品集</p>
+    </div>
 
-      <!-- 案例 9 -->
-      <div class="case">
-        <img src="offer9.jpg" alt="案例9">
-        <h3>新南威尔士大学 · 信息技术硕士</h3>
-        <h3>UNSW · Master of Information Technology</h3>
-        <p>本科背景：双非一本 / 计算机科学 / 85.2 / 6.5 / 2段实习</p>
-      </div>
+    <div class="case">
+      <img src="offer9.jpg" alt="新南威尔士大学案例" loading="lazy">
+      <h3>新南威尔士大学 · 信息技术硕士</h3>
+      <h3>UNSW · Master of Information Technology</h3>
+      <p>本科背景：双非一本 / 计算机科学 / 85.2 / 6.5 / 2段实习</p>
+    </div>
 
-      <!-- 案例 10 -->
-      <div class="case">
-        <img src="offer10.jpg" alt="案例10">
-        <h3>昆士兰 · 计算机科学硕士</h3>
-        <h3>UQ · Master of Computer Science</h3>
-        <p>本科背景：4+0 / 信息技术 / 5.0(7.0) / 1段实习</p>
-      </div>
+    <div class="case">
+      <img src="offer10.jpg" alt="昆士兰大学案例" loading="lazy">
+      <h3>昆士兰大学 · 计算机科学硕士</h3>
+      <h3>UQ · Master of Computer Science</h3>
+      <p>本科背景：4+0 / 信息技术 / 5.0(7.0) / 1段实习</p>
+    </div>
 
-      <!-- 案例 11 -->
-      <div class="case">
-        <img src="offer11.jpg" alt="案例11">
-        <h3>布里斯托大学 · 数字媒体创新文学硕士</h3>
-        <h3>University of Bristol · MA Digital Media Innovation</h3>
-        <p>本科背景：海本 / 时尚管理 / 2:1 / 2段实习</p>
-      </div>
+    <div class="case">
+      <img src="offer11.jpg" alt="布里斯托大学案例" loading="lazy">
+      <h3>布里斯托大学 · 数字媒体创新文学硕士</h3>
+      <h3>University of Bristol · MA Digital Media Innovation</h3>
+      <p>本科背景：海本 / 时尚管理 / 2:1 / 2段实习</p>
+    </div>
 
-      <!-- 案例 12 -->
-      <div class="case">
-        <img src="offer12.jpg" alt="案例12">
-        <h3>南安普顿大学 · 英语教学文学硕士（TESOL研究）</h3>
-        <h3>Soton · MA English Language Teching (TESOL Studies)</h3>
-        <p>本科背景：双非二本 / 英语 / 84.39 / 7.0 / 2段实习</p>
-      </div>
+    <div class="case">
+      <img src="offer12.jpg" alt="南安普顿大学案例" loading="lazy">
+      <h3>南安普顿大学 · 英语教学文学硕士（TESOL研究）</h3>
+      <h3>Soton · MA English Language Teaching (TESOL Studies)</h3>
+      <p>本科背景：双非二本 / 英语 / 84.39 / 7.0 / 2段实习</p>
+    </div>
 
             <!-- 案例 13 -->
       <div class="case">
@@ -286,9 +1941,9 @@
             <!-- 案例 15 -->
       <div class="case">
         <img src="offer15.jpg" alt="案例15">
-        <h3>香港大学</h3>
-        <h3>案例12 学校专业</h3>
-        <p>本科背景：xxx</p>
+        <h3>香港理工大学 · 社会政策与发展硕士</h3>
+        <h3>PolyU · MA Social Policy & Social Development</h3>
+        <p>本科背景：双一流 / 社会工作 / 88.81 / 6.5 / 2段实习</p>
       </div>
       
             <!-- 案例 16 -->
@@ -391,17 +2046,17 @@
             <!-- 案例 28 -->
       <div class="case">
         <img src="offer28.jpg" alt="案例28">
-        <h3>香港岭南大学 · 住房政策与管理硕士</h3>
-        <h3>Lingnan University · Master of Housing Policy and Management</h3>
+        <h3>香港岭南大学 · 城市与治理硕士</h3>
+        <h3>Lingnan University · Master of Cities and Governance</h3>
         <p>本科背景：双非二本 / 金融管理 / 3.07(5.0) / 6.5 / 2年工作经验</p>
       </div>
       
             <!-- 案例 29 -->
       <div class="case">
         <img src="offer29.jpg" alt="案例29">
-        <h3>华威大学 · 性别与国际发展硕士</h3>
-        <h3>University of Warwick · MA Gender and International Development</h3>
-        <p>本科背景：双非一本 / 社会学 / 92.69 / 7.5 / 3段研究经历</p>
+        <h3>华威大学 · 商业与金融硕士</h3>
+        <h3>University of Warwick · MSc Business and Finance</h3>
+        <p>本科背景：211 / 金融与会计 / 92.69 / 7.5 / 3段研究经历</p>
       </div>
       
             <!-- 案例 30 -->
@@ -415,17 +2070,17 @@
             <!-- 案例 31 -->
       <div class="case">
         <img src="offer31.jpg" alt="案例31">
-        <h3>香港城市大学 · 社会工作硕士</h3>
-        <h3>CityU · Master of Social Work</h3>
+        <h3>香港城市大学 · 应用社会学硕士</h3>
+        <h3>CityU · MA Applied Social Sciences</h3>
         <p>本科背景：211 / 传播与新闻 / 3.82(5.0) / 6.5 / 3段实习</p>
       </div>
       
             <!-- 案例 32 -->
       <div class="case">
         <img src="offer32.jpg" alt="案例32">
-        <h3>香港大学 · 非盈利管理社会科学硕士</h3>
-        <h3>HKU · MSocSc Nonprofit Management</h3>
-        <p>本科背景：211 / 行政管理 / 3.88(5.0) / 7.0 / 3段实习</p>
+        <h3>香港大学 · 全球管理硕士</h3>
+        <h3>HKU · Master of Global Management</h3>
+        <p>本科背景：211 / 行政管理 / 3.68(5.0) / 7.5 / 3段实习</p>
       </div>
       
             <!-- 案例 33 -->
@@ -455,16 +2110,16 @@
             <!-- 案例 36 -->
       <div class="case">
         <img src="offer36.jpg" alt="案例36">
-        <h3>香港恒生大学 · 戏剧研究文学硕士</h3>
-        <h3>HSU · Master of Arts in Theatre Studies</h3>
+        <h3>香港恒生大学 · 数字化创新与技术管理硕士</h3>
+        <h3>HSU · MSc Digital Innovation and Technology Management</h3>
         <p>本科背景：海本 / 市场营销 / 4.1(7.0) / 1段实习</p>
       </div>
       
             <!-- 案例 37 -->
       <div class="case">
         <img src="offer37.jpg" alt="案例37">
-        <h3>昆士兰大学 · 治理与公共政策硕士</h3>
-        <h3>UQ · Master of Governance and Public Policy</h3>
+        <h3>昆士兰大学 · 商学硕士</h3>
+        <h3>UQ · Master of Business</h3>
         <p>本科背景：双非二本 / 83.2 / 经济学 / 7.0 / 2段实习 </p>
       </div>
       
@@ -495,25 +2150,25 @@
             <!-- 案例 41 -->
       <div class="case">
         <img src="offer41.jpg" alt="案例41">
-        <h3>香港岭南大学 · 比较公共管理（数字和智能治理）社会科学硕士</h3>
-        <h3>Lingnan University · MSocSc Comparative Public Administration (Digital and Smart Governance)</h3>
+        <h3>香港岭南大学 · 环境、社会与治理管理硕士</h3>
+        <h3>Lingnan University · MSc Environmental, Social, and Governance Management</h3>
         <p>本科背景：双非一本 / 国际关系 / 78.43 / CET:431/ 2段实习</p>
       </div>
       
             <!-- 案例 42 -->
       <div class="case">
         <img src="offer42.jpg" alt="案例42">
-        <h3>莫纳什大学 · 银行与金融硕士</h3>
-        <h3>Monash University · Master of Banking and Finance</h3>
+        <h3>莫纳什大学 · 高级金融硕士</h3>
+        <h3>Monash University · Master of Advanced Finance</h3>
         <p>本科背景：双非一本 / 会计学 / 82.03 / 6.5 / 3段实习 </p>
       </div>
       
             <!-- 案例 43 -->
       <div class="case">
         <img src="offer43.jpg" alt="案例43">
-        <h3>澳洲国立大学 · 遗产旅游管理硕士 </h3>
-        <h3>ANU · Master of Heritage Tourism Management</h3>
-        <p>本科背景：双非二本 / 文化产业管理 / 87.6 / 7.0 / 4段实习</p>
+        <h3>澳洲国立大学 · 管理硕士 </h3>
+        <h3>ANU · Master of Management</h3>
+        <p>本科背景：双非二本 / 行政管理 / 87.6 / 7.0 / 4段实习</p>
       </div>
       
             <!-- 案例 44 -->
@@ -568,8 +2223,8 @@
             <!-- 案例 50 -->
       <div class="case">
         <img src="offer50.jpg" alt="案例50">
-        <h3>曼彻斯特大学 · 国际时尚营销理学硕士</h3>
-        <h3>Manchester Uni · MSc International Fashion Marketing</h3>
+        <h3>曼彻斯特大学 · 国际时尚零售硕士（创业与创新）</h3>
+        <h3>Manchester Uni · MSc International Fashion Retailing (Entrepreneurship andInnovation)</h3>
         <p>本科背景：海本 / 市场营销 / 3.73(4.0) / 3段实习</p>
       </div>
       
@@ -600,8 +2255,8 @@
             <!-- 案例 54 -->
       <div class="case">
         <img src="offer54.jpg" alt="案例54">
-        <h3>爱丁堡大学 · 银行创新与风险分析理学硕士</h3>
-        <h3>Edinburgh Uni · MSc Banking Innovation and Risk Analytics
+        <h3>爱丁堡大学 · 金融计算高级技术硕士</h3>
+        <h3>Edinburgh Uni · MSc Advanced Technology for Financial Computing
 </h3>
         <p>本科背景：211 / 会计学 / 86.9 / 7.0 / 2段实习 / 国金一枚</p>
       </div>
@@ -723,5 +2378,6 @@
 <footer>
   &copy; 2025 Littlepo_offcial Web | Designed by Jing.
 </footer>
+
 </body>
 </html>

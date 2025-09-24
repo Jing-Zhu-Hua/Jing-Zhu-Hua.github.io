@@ -13,6 +13,72 @@
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M9 9h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 13h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 17h4v2h-4z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/></svg>') 10 10, pointer;
     }
 
+    /* ===== 羽毛飘落效果 ===== */
+    .feather {
+      position: absolute;
+      width: 4px;
+      height: 24px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));
+      border-radius: 50% 50% 0 0;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .feather:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: -3px;
+      width: 10px;
+      height: 12px;
+      background: linear-gradient(45deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.15));
+      border-radius: 50% 0 50% 0;
+      opacity: 0.8;
+    }
+
+    .feather:after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      right: -3px;
+      width: 8px;
+      height: 10px;
+      background: linear-gradient(-45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+      border-radius: 50% 0 50% 0;
+      opacity: 0.6;
+    }
+
+    /* 羽毛飘落动画 */
+    @keyframes featherFall {
+      0% { 
+        transform: translateY(-80px) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { 
+        transform: translateY(calc(100vh + 100px)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes featherSway {
+      0%, 100% { 
+        transform: translateY(-80px) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.6; }
+      25% { transform: translateY(25vh) translateX(20px) rotate(90deg); }
+      50% { transform: translateY(50vh) translateX(-15px) rotate(180deg); }
+      75% { transform: translateY(75vh) translateX(25px) rotate(270deg); }
+      90% { opacity: 0.6; }
+      100% { 
+        transform: translateY(calc(100vh + 100px)) translateX(-10px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
     /* ===== 原有样式保持不动 ===== */
     .tagline {
       display: inline-block;
@@ -50,13 +116,7 @@
       0%   { transform: translate(0,0) scale(1); }
       100% { transform: translate(-30px,20px) scale(1.1); }
     }
-    canvas.bg-canvas {
-      position: absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      pointer-events:none;
-      z-index:0;
-    }
+
     header {
       text-align: center;
       padding: 40px 20px 20px 20px;
@@ -274,8 +334,6 @@
 </head>
 <body class="lang-zh">
 
-<canvas class="bg-canvas"></canvas>
-
 <header>
   <div class="lang-switch">
     <button id="zh-btn" class="lang-btn active">中文</button>
@@ -403,47 +461,58 @@
 </footer>
 
 <script>
-function initFloatingLights(canvasSelector, particleCount=50){
-  const canvases = document.querySelectorAll(canvasSelector);
-  canvases.forEach(canvas=>{
-    const ctx = canvas.getContext('2d');
-    let w = canvas.width = canvas.offsetWidth;
-    let h = canvas.height = canvas.offsetHeight;
-    
-    const particles = [];
-    for(let i=0;i<particleCount;i++){
-      particles.push({
-        x: Math.random()*w,
-        y: Math.random()*h,
-        r: Math.random()*2+1,
-        dx: (Math.random()-0.5)*0.3,
-        dy: (Math.random()-0.5)*0.3,
-        alpha: Math.random()*0.5+0.1
-      });
+/* ===== 羽毛飘落效果 ===== */
+function createFeather() {
+  const feather = document.createElement('div');
+  feather.className = 'feather';
+  
+  // 随机位置 - 分散一些
+  feather.style.left = Math.random() * window.innerWidth + 'px';
+  feather.style.top = '-80px';
+  
+  // 随机大小 (0.8 到 1.5倍)
+  const scale = Math.random() * 0.7 + 0.8;
+  feather.style.transform = `scale(${scale})`;
+  
+  // 随机透明度
+  feather.style.opacity = Math.random() * 0.4 + 0.3;
+  
+  // 随机选择动画类型
+  const animations = ['featherFall', 'featherSway'];
+  const animation = animations[Math.random() < 0.6 ? 1 : 0]; // 60%概率使用摆动动画
+  
+  // 随机动画时长 (15-25秒，比较慢)
+  const duration = Math.random() * 10 + 15;
+  feather.style.animation = `${animation} ${duration}s linear infinite`;
+  
+  // 随机延迟
+  feather.style.animationDelay = Math.random() * 3 + 's';
+  
+  document.body.appendChild(feather);
+  
+  // 动画结束后删除元素
+  setTimeout(() => {
+    if (feather.parentNode) {
+      feather.parentNode.removeChild(feather);
     }
-
-    function animate(){
-      ctx.clearRect(0,0,w,h);
-      particles.forEach(p=>{
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
-        ctx.fill();
-        p.x += p.dx; p.y += p.dy;
-        if(p.x<0||p.x>w) p.dx*=-1;
-        if(p.y<0||p.y>h) p.dy*=-1;
-      });
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    window.addEventListener('resize',()=>{ 
-      w=canvas.width=canvas.offsetWidth; 
-      h=canvas.height=canvas.offsetHeight; 
-    });
-  });
+  }, (duration + 3) * 1000);
 }
-initFloatingLights('canvas.bg-canvas', 50);
+
+// 初始化羽毛效果 - 增加数量
+function initFeathers() {
+  // 立即创建更多羽毛
+  for (let i = 0; i < 8; i++) {
+    setTimeout(() => createFeather(), i * 800);
+  }
+  
+  // 定时生成新羽毛 - 间隔缩短到2秒，增加密度
+  setInterval(createFeather, 2000);
+}
+
+// 页面加载后启动羽毛效果
+document.addEventListener('DOMContentLoaded', () => {
+  initFeathers();
+});
 
 /* ===== 语言切换 ===== */
 const btnEn = document.getElementById('en-btn');
