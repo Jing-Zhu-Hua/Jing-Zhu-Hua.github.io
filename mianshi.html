@@ -13,68 +13,118 @@
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M9 9h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 13h6v2h-6z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/><path d="M9 17h4v2h-4z" fill="white" filter="url(%23glow)" opacity="0.9" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/></svg>') 10 10, pointer;
     }
 
-    /* ===== 羽毛飘落效果 ===== */
+    /* ===== 逼真羽毛飘落效果 ===== */
     .feather {
       position: absolute;
-      width: 4px;
-      height: 24px;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));
-      border-radius: 50% 50% 0 0;
-      opacity: 0.6;
+      width: 3px;
+      height: 30px;
+      background: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.8) 15%,
+        rgba(250, 250, 250, 0.7) 30%,
+        rgba(245, 245, 245, 0.6) 50%,
+        rgba(240, 240, 240, 0.4) 70%,
+        rgba(230, 230, 230, 0.2) 100%);
+      border-radius: 50% 50% 30% 30%;
+      opacity: 0.7;
       pointer-events: none;
       z-index: 0;
+      box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
     }
 
+    /* 羽毛的左侧羽枝 */
     .feather:before {
       content: '';
       position: absolute;
-      top: 6px;
-      left: -3px;
-      width: 10px;
-      height: 12px;
-      background: linear-gradient(45deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.15));
-      border-radius: 50% 0 50% 0;
+      top: 8px;
+      left: -4px;
+      width: 12px;
+      height: 16px;
+      background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(250, 250, 250, 0.4) 30%,
+        rgba(240, 240, 240, 0.2) 60%,
+        rgba(220, 220, 220, 0.1) 100%);
+      border-radius: 80% 20% 70% 30%;
       opacity: 0.8;
+      transform: rotate(-15deg);
+      box-shadow: inset 1px 0 2px rgba(255, 255, 255, 0.3);
     }
 
+    /* 羽毛的右侧羽枝 */
     .feather:after {
       content: '';
       position: absolute;
-      top: 8px;
+      top: 5px;
       right: -3px;
-      width: 8px;
-      height: 10px;
-      background: linear-gradient(-45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
-      border-radius: 50% 0 50% 0;
+      width: 10px;
+      height: 14px;
+      background: linear-gradient(-45deg, 
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(245, 245, 245, 0.3) 40%,
+        rgba(235, 235, 235, 0.2) 70%,
+        rgba(220, 220, 220, 0.1) 100%);
+      border-radius: 70% 30% 60% 40%;
       opacity: 0.6;
+      transform: rotate(12deg);
+      box-shadow: inset -1px 0 2px rgba(255, 255, 255, 0.2);
     }
 
-    /* 羽毛飘落动画 */
+    /* 添加羽毛的细致纹理 */
+    .feather-detailed {
+      position: relative;
+    }
+
+    .feather-detailed::before {
+      background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0.7) 0%,
+        rgba(250, 250, 250, 0.5) 25%,
+        rgba(240, 240, 240, 0.3) 50%,
+        rgba(220, 220, 220, 0.1) 100%);
+    }
+
+    .feather-detailed::after {
+      background: linear-gradient(-45deg, 
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(245, 245, 245, 0.4) 30%,
+        rgba(235, 235, 235, 0.2) 60%,
+        rgba(220, 220, 220, 0.1) 100%);
+    }
+
+    /* 更逼真的羽毛飘落动画 */
     @keyframes featherFall {
       0% { 
-        transform: translateY(-80px) rotate(0deg);
+        transform: translateY(-100px) rotate(0deg);
         opacity: 0;
       }
-      10% { opacity: 0.6; }
-      90% { opacity: 0.6; }
+      5% { opacity: 0.7; }
+      10% { transform: translateY(-50px) rotate(10deg); }
+      20% { transform: translateY(20vh) rotate(-5deg); }
+      40% { transform: translateY(40vh) rotate(15deg); }
+      60% { transform: translateY(60vh) rotate(-8deg); }
+      80% { transform: translateY(80vh) rotate(12deg); }
+      95% { opacity: 0.7; }
       100% { 
-        transform: translateY(calc(100vh + 100px)) rotate(360deg);
+        transform: translateY(calc(100vh + 150px)) rotate(-5deg);
         opacity: 0;
       }
     }
 
     @keyframes featherSway {
       0%, 100% { 
-        transform: translateY(-80px) translateX(0) rotate(0deg);
+        transform: translateY(-100px) translateX(0) rotate(0deg);
         opacity: 0;
       }
-      10% { opacity: 0.6; }
-      25% { transform: translateY(25vh) translateX(20px) rotate(90deg); }
-      50% { transform: translateY(50vh) translateX(-15px) rotate(180deg); }
-      75% { transform: translateY(75vh) translateX(25px) rotate(270deg); }
-      90% { opacity: 0.6; }
+      5% { opacity: 0.7; }
+      15% { transform: translateY(15vh) translateX(25px) rotate(20deg); }
+      30% { transform: translateY(30vh) translateX(-15px) rotate(-15deg); }
+      45% { transform: translateY(45vh) translateX(35px) rotate(25deg); }
+      60% { transform: translateY(60vh) translateX(-20px) rotate(-10deg); }
+      75% { transform: translateY(75vh) translateX(30px) rotate(18deg); }
+      85% { transform: translateY(85vh) translateX(-10px) rotate(-12deg); }
+      95% { opacity: 0.6; }
       100% { 
-        transform: translateY(calc(100vh + 100px)) translateX(-10px) rotate(360deg);
+        transform: translateY(calc(100vh + 150px)) translateX(15px) rotate(-8deg);
         opacity: 0;
       }
     }
